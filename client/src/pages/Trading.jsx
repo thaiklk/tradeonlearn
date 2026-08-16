@@ -4,6 +4,7 @@ import { api } from '../api.js'
 import { usePolling } from '../hooks.js'
 import { fmtMoney, fmtPct, fmtPrice, fmtCompact } from '../format.js'
 import StockSearch from '../components/StockSearch.jsx'
+import ExplainableValue from '../components/ExplainableValue.jsx'
 
 function WalletCard({ title, emoji, cash, total, profit, profitPct, currency }) {
   const cls = profit >= 0 ? 'up' : 'down'
@@ -11,11 +12,11 @@ function WalletCard({ title, emoji, cash, total, profit, profitPct, currency }) 
     <div className="card">
       <div className="card-title">{emoji} {title}</div>
       <div className="muted" style={{ fontSize: 12 }}>Tổng tài sản</div>
-      <div className="big num">{fmtMoney(total, currency)}</div>
+      <div className="big num"><ExplainableValue metricKey="portfolioValue" value={fmtMoney(total, currency)} ctx={{ symbol: title.includes('USD') ? 'ví USD' : 'ví VND', unit: currency }} /></div>
       <div className={`num ${cls}`} style={{ fontSize: 13.5 }}>
-        Lãi/lỗ: {fmtMoney(profit, currency)} ({fmtPct(profitPct)})
+        Lãi/lỗ: <ExplainableValue metricKey="pnl" value={fmtMoney(profit, currency)} ctx={{ unit: currency }} /> ({fmtPct(profitPct)})
       </div>
-      <div className="muted num" style={{ fontSize: 12.5, marginTop: 4 }}>Tiền mặt: {fmtMoney(cash, currency)}</div>
+      <div className="muted num" style={{ fontSize: 12.5, marginTop: 4 }}>Tiền mặt: <ExplainableValue metricKey="cash" value={fmtMoney(cash, currency)} ctx={{ unit: currency }} /></div>
     </div>
   )
 }

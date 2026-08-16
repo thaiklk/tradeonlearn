@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { api } from '../api.js'
 import { useApi } from '../hooks.js'
+import ExplainableValue from '../components/ExplainableValue.jsx'
 
 export default function Desk() {
   const { data, loading } = useApi(() => api.tasks(), [])
@@ -31,7 +32,9 @@ export default function Desk() {
           </div>
           <div className="center">
             <div className="muted" style={{ fontSize: 12 }}>KINH NGHIỆM</div>
-            <div className="big num">{xp}<span style={{ fontSize: 13, color: 'var(--muted)' }}>/{totalXpAvailable} XP</span></div>
+            <div className="big num">
+              <ExplainableValue metricKey="xp" value={String(xp)} /><span style={{ fontSize: 13, color: 'var(--muted)' }}>/{totalXpAvailable} XP</span>
+            </div>
             <div style={{ width: 140, height: 7, background: '#ffffff12', borderRadius: 99, marginTop: 4, overflow: 'hidden' }}>
               <div style={{ width: `${Math.min(100, (xp / totalXpAvailable) * 100)}%`, height: '100%', background: 'linear-gradient(90deg,var(--accent),var(--green))' }} />
             </div>
@@ -61,7 +64,7 @@ export default function Desk() {
             </span>
             <span className="badge amber" style={{ flexShrink: 0 }}>+{t.xp} XP</span>
             {t.progress.done ? (
-              <span className="badge green">✓ {t.progress.score}/{t.progress.total}</span>
+              <span className="badge green"><ExplainableValue metricKey="taskScore" value={`✓ ${t.progress.score}/${t.progress.total}`} /></span>
             ) : (
               <span className="badge gray">Chưa làm</span>
             )}

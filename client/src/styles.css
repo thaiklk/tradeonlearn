@@ -408,7 +408,39 @@ label.field span { display: block; font-size: 12px; font-weight: 700; color: var
 .chart-box { position: relative; }
 .chart-price { width: 100%; height: 380px; }
 .chart-sub { width: 100%; height: 140px; }
-/* MetricExplainer — bình tĩnh, rõ ràng, không card trong card */
+/* ═══ ExplainableValue — con số bấm được + panel giải thích ═══ */
+.ev {
+  background: none; border: none; padding: 0; color: inherit; font: inherit; font-variant-numeric: inherit;
+  cursor: help; border-bottom: 1px dotted #4f8cff99; border-radius: 0;
+  transition: border-color 0.15s, background 0.15s;
+}
+.ev:hover { border-bottom-color: var(--accent); background: #4f8cff14; }
+.ev:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.ev-missing { border-bottom: 2px dashed var(--red); background: #ef444422; }
+.ev-overlay {
+  position: fixed; inset: 0; z-index: 200; background: #05070bcc; backdrop-filter: blur(3px);
+  display: flex; justify-content: flex-end; align-items: stretch;
+}
+.ev-panel {
+  width: min(480px, 100%); height: 100%; overflow-y: auto;
+  background: linear-gradient(180deg, #141d31, #101726);
+  border-left: 1px solid var(--border); box-shadow: -12px 0 40px #00000066;
+  animation: evSlide 0.18s ease;
+}
+@keyframes evSlide { from { transform: translateX(24px); opacity: 0 } to { transform: none; opacity: 1 } }
+.ev-head {
+  position: sticky; top: 0; z-index: 2; background: #141d31ee; backdrop-filter: blur(8px);
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 14px 18px; border-bottom: 1px solid var(--border-soft);
+}
+.ev-body { padding: 4px 18px 24px }
+.ev-value { font-size: 22px; margin-top: 8px }
+.ev-meta { font-size: 11.5; color: var(--muted); margin-top: 10px; line-height: 1.7 }
+@media (max-width: 640px) {
+  .ev-overlay { justify-content: center; align-items: flex-end; }
+  .ev-panel { width: 100%; height: 88vh; border-left: none; border-top: 1px solid var(--border); border-radius: 16px 16px 0 0; animation: evUp 0.2s ease; }
+  @keyframes evUp { from { transform: translateY(40px) } to { transform: none } }
+}
 .metric-explainer {
   border: 1px solid var(--border-soft);
   border-left: 3px solid var(--accent);
