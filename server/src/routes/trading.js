@@ -1,16 +1,17 @@
 // Giao dịch giả lập (paper trading): ví USD 100.000 + ví VND 500 triệu, giá theo báo giá thật.
 import { Router } from 'express'
-import db from '../db.js'
+import db, { ensureWorkspace } from '../db.js'
 import { getQuote, marketOf, stockName } from '../services/marketService.js'
 
 const router = Router()
 
-function getAccount() {
-  return db.prepare('SELECT * FROM account WHERE id = 1').get()
+function getAccount(userId) {
+  ensureWorkspace(userId)
+  return db.prepare('SELECT * FROM user_accounts WHERE user_id = ?').get(userId)
 }
 
-async function enrichPositions() {
-  const rows = db.prepare('SELECT * FROM positions').all()
+async function enrichPositions(userId) {
+  const rows = db.prepare('SELECT * FROM user_positions WHERE user_id = ?').all(userId)
   const quotes = rows.length ? await Promise.all(rows.map((r) => getQuote(r.symbol))) : []
   return rows.map((r, i) => {
     const q = quotes[i]
@@ -31,9 +32,9 @@ async function enrichPositions() {
   })
 }
 
-async function portfolioSummary() {
-  const account = getAccount()
-  const positions = await enrichPositions()
+async function portfolioSummary(userId) {
+  const account = getAccount(userId)
+  const positions = await enrichPositions(userId)
   const usdValue = positions.filter((p) => p.market === 'US').reduce((s, p) => s + p.marketValue, 0)
   const vndValue = positions.filter((p) => p.market === 'VN').reduce((s, p) => s + p.marketValue, 0)
   const usdProfit = positions.filter((p) => p.market === 'US').reduce((s, p) => s + p.profit, 0)
@@ -59,16 +60,19 @@ async function portfolioSummary() {
   }
 }
 
-router.get('/account', async (_req, res) => {
-  res.json(await portfolioSummary())
+router.get('/account', async (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
+  res.json(await portfolioSummary(userId))
 })
 
-router.get('/history', (_req, res) => {
-  const trades = db.prepare('SELECT * FROM trades ORDER BY id DESC LIMIT 100').all()
+router.get('/history', (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
+  const trades = db.prepare('SELECT * FROM user_trades WHERE user_id = ? ORDER BY id DESC LIMIT 100').all(userId)
   res.json(trades)
 })
 
 router.post('/order', async (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
   const { symbol, side, qty } = req.body || {}
   const sym = String(symbol || '').toUpperCase()
   const quantity = Number(qty)
@@ -85,8 +89,8 @@ router.post('/order', async (req, res) => {
 
   try {
     const result = db.transaction(() => {
-      const account = getAccount()
-      const position = db.prepare('SELECT * FROM positions WHERE symbol = ?').get(sym)
+      const account = getAccount(userId)
+      const position = db.prepare('SELECT * FROM user_positions WHERE user_id = ? AND symbol = ?').get(userId, sym)
 
       if (side === 'BUY') {
         const cash = market === 'VN' ? account.cash_vnd : account.cash_usd
@@ -98,13 +102,15 @@ router.post('/order', async (req, res) => {
         if (position) {
           const newQty = position.qty + quantity
           const newAvg = (position.avg_price * position.qty + total) / newQty
-          db.prepare('UPDATE positions SET qty = ?, avg_price = ?, updated_at = datetime("now") WHERE symbol = ?').run(
+          db.prepare('UPDATE user_positions SET qty = ?, avg_price = ?, updated_at = datetime("now") WHERE user_id = ? AND symbol = ?').run(
             newQty,
             newAvg,
+            userId,
             sym
           )
         } else {
-          db.prepare('INSERT INTO positions (symbol, market, qty, avg_price) VALUES (?, ?, ?, ?)').run(
+          db.prepare('INSERT INTO user_positions (user_id, symbol, market, qty, avg_price) VALUES (?, ?, ?, ?, ?)').run(
+            userId,
             sym,
             market,
             quantity,
@@ -112,11 +118,11 @@ router.post('/order', async (req, res) => {
           )
         }
         const cashAfter = (market === 'VN' ? account.cash_vnd : account.cash_usd) - total
-        if (market === 'VN') db.prepare('UPDATE account SET cash_vnd = ? WHERE id = 1').run(cashAfter)
-        else db.prepare('UPDATE account SET cash_usd = ? WHERE id = 1').run(cashAfter)
+        if (market === 'VN') db.prepare('UPDATE user_accounts SET cash_vnd = ? WHERE user_id = ?').run(cashAfter, userId)
+        else db.prepare('UPDATE user_accounts SET cash_usd = ? WHERE user_id = ?').run(cashAfter, userId)
         db.prepare(
-          'INSERT INTO trades (symbol, market, side, qty, price, total, cash_after) VALUES (?,?,?,?,?,?,?)'
-        ).run(sym, market, side, quantity, price, total, cashAfter)
+          'INSERT INTO user_trades (user_id, symbol, market, side, qty, price, total, cash_after) VALUES (?,?,?,?,?,?,?,?)'
+        ).run(userId, sym, market, side, quantity, price, total, cashAfter)
         return { message: `Đã MUA ${quantity} cp ${sym} @ ${price.toLocaleString('vi-VN')}`, cashAfter }
       }
 
@@ -127,12 +133,13 @@ router.post('/order', async (req, res) => {
         )
       }
       const newQty = position.qty - quantity
-      if (newQty <= 1e-9) db.prepare('DELETE FROM positions WHERE symbol = ?').run(sym)
-      else db.prepare('UPDATE positions SET qty = ?, updated_at = datetime("now") WHERE symbol = ?').run(newQty, sym)
+      if (newQty <= 1e-9) db.prepare('DELETE FROM user_positions WHERE user_id = ? AND symbol = ?').run(userId, sym)
+      else db.prepare('UPDATE user_positions SET qty = ?, updated_at = datetime("now") WHERE user_id = ? AND symbol = ?').run(newQty, userId, sym)
       const cashAfter = (market === 'VN' ? account.cash_vnd : account.cash_usd) + total
-      if (market === 'VN') db.prepare('UPDATE account SET cash_vnd = ? WHERE id = 1').run(cashAfter)
-      else db.prepare('UPDATE account SET cash_usd = ? WHERE id = 1').run(cashAfter)
-      db.prepare('INSERT INTO trades (symbol, market, side, qty, price, total, cash_after) VALUES (?,?,?,?,?,?,?)').run(
+      if (market === 'VN') db.prepare('UPDATE user_accounts SET cash_vnd = ? WHERE user_id = ?').run(cashAfter, userId)
+      else db.prepare('UPDATE user_accounts SET cash_usd = ? WHERE user_id = ?').run(cashAfter, userId)
+      db.prepare('INSERT INTO user_trades (user_id, symbol, market, side, qty, price, total, cash_after) VALUES (?,?,?,?,?,?,?,?)').run(
+        userId,
         sym,
         market,
         side,
@@ -144,18 +151,19 @@ router.post('/order', async (req, res) => {
       return { message: `Đã BÁN ${quantity} cp ${sym} @ ${price.toLocaleString('vi-VN')}`, cashAfter }
     })()
 
-    res.json({ ok: true, ...result, account: await portfolioSummary() })
+    res.json({ ok: true, ...result, account: await portfolioSummary(userId) })
   } catch (err) {
     if (err instanceof OrderError) return res.status(400).json({ error: err.message })
     throw err
   }
 })
 
-router.post('/reset', (_req, res) => {
+router.post('/reset', (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
   db.transaction(() => {
-    db.prepare('DELETE FROM positions').run()
-    db.prepare('DELETE FROM trades').run()
-    db.prepare('UPDATE account SET cash_usd = starting_usd, cash_vnd = starting_vnd WHERE id = 1').run()
+    db.prepare('DELETE FROM user_positions WHERE user_id = ?').run(userId)
+    db.prepare('DELETE FROM user_trades WHERE user_id = ?').run(userId)
+    db.prepare('UPDATE user_accounts SET cash_usd = starting_usd, cash_vnd = starting_vnd WHERE user_id = ?').run(userId)
   })()
   res.json({ ok: true, message: 'Đã reset ví về số dư ban đầu' })
 })

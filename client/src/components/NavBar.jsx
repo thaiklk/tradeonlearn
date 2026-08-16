@@ -14,6 +14,7 @@ export default function NavBar() {
         </NavLink>
         <nav className="nav-links" aria-label="Điều hướng chính">
           <NavLink to="/start">🎯 Bắt đầu</NavLink>
+          <NavLink to="/corporate-finance">💼 Tài chính DN</NavLink>
           <NavLink to="/learn">Học tập</NavLink>
           <NavLink to="/" end>Tổng quan</NavLink>
           <NavLink to="/desk">💼 Phòng phân tích</NavLink>

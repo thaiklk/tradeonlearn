@@ -27,12 +27,13 @@ export default function Guide() {
       <div className="card">
         <h1 style={{ margin: 0, fontSize: 25 }}>📖 Hướng dẫn sử dụng TradeLearn</h1>
         <p className="muted" style={{ margin: '8px 0 0' }}>
-          TradeLearn là web <b>học tài chính & đầu tư chứng khoán</b> bằng dữ liệu gần thời gian thực của thị trường Mỹ
-          & Việt Nam. Bạn sẽ học: đọc biểu đồ → hiểu chỉ báo → <b>phân tích tài chính doanh nghiệp</b> → định giá → ra
-          quyết định mua/bán — tất cả bằng tiền ảo trước khi động đến tiền thật.
+          TradeLearn là web <b>học tài chính doanh nghiệp, phân tích và đầu tư chứng khoán</b> bằng dữ liệu gần thời gian thực
+          của thị trường Mỹ & Việt Nam. Nếu mục tiêu của bạn là đi làm FP&A/corporate finance, hãy bắt đầu ở{' '}
+          <Link to="/corporate-finance">track Tài chính doanh nghiệp</Link>; nhánh biểu đồ và đầu tư là phần thực hành mở rộng.
         </p>
         <div className="guide-toc" style={{ marginTop: 14 }}>
           <a href="#quickstart">⚡ Bắt đầu nhanh trong 5 phút</a>
+          <Link to="/corporate-finance">💼 Track tài chính doanh nghiệp</Link>
           <a href="#pages">🖥️ Hướng dẫn từng trang</a>
           <a href="#signals">💡 Dùng "Gợi ý đầu tư" đúng cách</a>
           <a href="#roadmap">🗺️ Lộ trình học 8 tuần</a>
@@ -176,7 +177,7 @@ export default function Guide() {
           <li><b>Thị trường Mỹ</b>: báo giá gần thời gian thực (thường trễ vài phút), lịch sử nến đầy đủ — nguồn Yahoo Finance.</li>
           <li><b>Thị trường Việt Nam</b>: dữ liệu giá <b>cuối ngày (EOD)</b> từ nguồn công khai VNDirect — đủ để học phân tích, giao dịch giả lập sẽ khớp theo giá đóng cửa gần nhất.</li>
           <li><b>Chế độ mô phỏng</b>: nếu mất kết nối tới nguồn dữ liệu, web tự chuyển sang dữ liệu mô phỏng (có nhãn vàng "DỮ LIỆU MÔ PHỎNG") để bạn vẫn học/học tiếp được.</li>
-          <li><b>Dữ liệu của bạn</b> (watchlist, ví, tiến độ học) lưu trong file SQLite ngay trên máy — không gửi đi đâu cả.</li>
+          <li><b>Dữ liệu học của bạn</b> (watchlist, ví giả lập, tiến độ, ghi chú) được tách theo workspace ẩn danh của từng trình duyệt. Khi chạy local, nó nằm trong SQLite trên máy; bản Render miễn phí dùng bộ nhớ tạm nên sẽ mất khi service khởi động lại hoặc được deploy lại.</li>
           <li><b>Giờ giao dịch</b>: Mỹ mở 21:30–04:00 giờ VN (sáng sớm hôm sau là lúc có biến động mới); VN mở 09:15–14:45 các ngày trong tuần.</li>
         </ul>
       </Section>

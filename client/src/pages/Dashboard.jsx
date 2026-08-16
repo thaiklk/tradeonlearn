@@ -10,7 +10,7 @@ import { ErrorBoundary } from '../App.jsx'
 
 // Đường sparkline SVG nhẹ từ chuỗi giá đóng cửa
 function Sparkline({ symbol, range = '6mo' }) {
-  const { data } = useApi(() => api.history(symbol, range).catch(() => null), [symbol, range])
+  const { data } = useApi(() => api.priceHistory(symbol, range).catch(() => null), [symbol, range])
   if (!data?.candles?.length) return <div style={{ height: 38 }} />
   const closes = data.candles.map((c) => c.close)
   const min = Math.min(...closes)
@@ -271,6 +271,7 @@ export default function Dashboard() {
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 14 }}>
             <Link to="/start" className="btn primary">▶ Bắt đầu phân tích doanh nghiệp (15 phút)</Link>
+            <Link to="/corporate-finance" className="btn">💼 Học tài chính doanh nghiệp để đi làm</Link>
             {nextTask ? (
               <Link to={`/desk/${nextTask.id}`} className="btn">
                 Task tiếp: {nextTask.title.split('·')[1]?.trim() || nextTask.title} (+{nextTask.xp} XP)

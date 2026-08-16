@@ -180,7 +180,7 @@ export default function Trading() {
   const [searchParams] = useSearchParams()
   const [version, setVersion] = useState(0)
   const { data: account } = usePolling(() => api.account(), 20000, [version])
-  const { data: history } = usePolling(() => api.history(), 30000, [version])
+  const { data: history } = usePolling(() => api.tradingHistory(), 30000, [version])
 
   const positions = account?.positions || []
   const refresh = () => setVersion((v) => v + 1)

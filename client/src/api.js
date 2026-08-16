@@ -1,8 +1,29 @@
 // Helper gọi API backend (đã proxy qua Vite đến localhost:4001)
+// Mỗi trình duyệt có một workspace ẩn danh riêng để không dùng chung ví,
+// tiến độ học hay ghi chú với người truy cập khác trên bản public.
+const CLIENT_ID_KEY = 'tradelearn.workspace-id'
+
+function workspaceId() {
+  try {
+    const existing = window.localStorage.getItem(CLIENT_ID_KEY)
+    if (existing) return existing
+    const generated = globalThis.crypto?.randomUUID?.() || `ws-${Date.now()}-${Math.random().toString(36).slice(2)}`
+    window.localStorage.setItem(CLIENT_ID_KEY, generated)
+    return generated
+  } catch {
+    return 'guest-session'
+  }
+}
+
 async function request(path, options = {}) {
+  const { headers: optionHeaders, ...requestOptions } = options
   const res = await fetch(`/api${path}`, {
-    headers: { 'Content-Type': 'application/json' },
-    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      'X-TradeLearn-Workspace': workspaceId(),
+      ...optionHeaders,
+    },
+    ...requestOptions,
   })
   let data = null
   try {
@@ -25,7 +46,7 @@ export const api = {
   quote: (symbol) => request(`/stocks/${encodeURIComponent(symbol)}/quote`),
   analysis: (symbol, range = '6mo') =>
     request(`/stocks/${encodeURIComponent(symbol)}/analysis?range=${range}`),
-  history: (symbol, range = '6mo') =>
+  priceHistory: (symbol, range = '6mo') =>
     request(`/stocks/${encodeURIComponent(symbol)}/history?range=${range}`),
   fundamentals: (symbol) => request(`/stocks/${encodeURIComponent(symbol)}/fundamentals`),
   popular: () => request('/market/lists/popular'),
@@ -38,7 +59,7 @@ export const api = {
   // Giao dịch giả lập
   account: () => request('/trading/account'),
   order: (symbol, side, qty) => request('/trading/order', { method: 'POST', body: JSON.stringify({ symbol, side, qty }) }),
-  history: () => request('/trading/history'),
+  tradingHistory: () => request('/trading/history'),
   resetAccount: () => request('/trading/reset', { method: 'POST' }),
 
   // Học tập

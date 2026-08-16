@@ -1,6 +1,6 @@
 // Phase 6 — Research workspace theo từng mã: lưu/mở/xóa ghi chú nghiên cứu
 import { Router } from 'express'
-import db from '../db.js'
+import db, { ensureWorkspace } from '../db.js'
 
 const router = Router()
 
@@ -13,8 +13,9 @@ function summarize(row) {
 }
 
 // Danh sách workspace
-router.get('/', (_req, res) => {
-  const rows = db.prepare('SELECT * FROM research_notes ORDER BY updated_at DESC').all()
+router.get('/', (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
+  const rows = db.prepare('SELECT * FROM user_research_notes WHERE user_id = ? ORDER BY updated_at DESC').all(userId)
   res.json(
     rows.map((r) => ({
       symbol: r.symbol,
@@ -27,29 +28,32 @@ router.get('/', (_req, res) => {
 
 // Lấy 1 workspace
 router.get('/:symbol', (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
   const symbol = String(req.params.symbol || '').toUpperCase()
-  const row = db.prepare('SELECT * FROM research_notes WHERE symbol = ?').get(symbol)
+  const row = db.prepare('SELECT * FROM user_research_notes WHERE user_id = ? AND symbol = ?').get(userId, symbol)
   res.json({ symbol, ...(row || {}), summary: summarize(row) })
 })
 
 // Lưu (upsert)
 router.put('/:symbol', (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
   const symbol = String(req.params.symbol || '').toUpperCase().slice(0, 10)
   if (!/^[A-Z0-9^.-]{1,10}$/.test(symbol)) return res.status(400).json({ error: 'Mã không hợp lệ' })
   const body = req.body || {}
   const vals = FIELDS.map((f) => (body[f] != null ? String(body[f]).slice(0, 8000) : ''))
   db.prepare(
-    `INSERT INTO research_notes (symbol, ${FIELDS.join(', ')}, updated_at)
-     VALUES (?, ${FIELDS.map(() => '?').join(', ')}, datetime('now'))
-     ON CONFLICT(symbol) DO UPDATE SET ${FIELDS.map((f) => `${f} = excluded.${f}`).join(', ')}, updated_at = datetime('now')`
-  ).run(symbol, ...vals)
-  const row = db.prepare('SELECT * FROM research_notes WHERE symbol = ?').get(symbol)
+    `INSERT INTO user_research_notes (user_id, symbol, ${FIELDS.join(', ')}, updated_at)
+     VALUES (?, ?, ${FIELDS.map(() => '?').join(', ')}, datetime('now'))
+     ON CONFLICT(user_id, symbol) DO UPDATE SET ${FIELDS.map((f) => `${f} = excluded.${f}`).join(', ')}, updated_at = datetime('now')`
+  ).run(userId, symbol, ...vals)
+  const row = db.prepare('SELECT * FROM user_research_notes WHERE user_id = ? AND symbol = ?').get(userId, symbol)
   res.json({ ok: true, symbol, summary: summarize(row) })
 })
 
 // Xóa
 router.delete('/:symbol', (req, res) => {
-  db.prepare('DELETE FROM research_notes WHERE symbol = ?').run(String(req.params.symbol || '').toUpperCase())
+  const userId = ensureWorkspace(req.workspaceId)
+  db.prepare('DELETE FROM user_research_notes WHERE user_id = ? AND symbol = ?').run(userId, String(req.params.symbol || '').toUpperCase())
   res.json({ ok: true })
 })
 

@@ -3,7 +3,7 @@
 Web đã được chuẩn bị ở **chế độ production 1 dịch vụ duy nhất**: Express vừa chạy API vừa phục vụ giao diện
 (`client/dist`), nên chỉ cần **1 service free** là đủ — không cần thuê 2 chỗ riêng cho frontend/backend.
 
-> Web chỉ cần Node.js, **không cần API key**, **không cần database riêng** (dùng SQLite file).
+> Web chỉ cần Node.js, **không cần API key**, **không cần database riêng** để chạy thử (dùng SQLite file). Mỗi trình duyệt có workspace ẩn danh riêng, nên không dùng chung ví, tiến độ hay ghi chú với người khác.
 
 ---
 
@@ -53,7 +53,7 @@ Cloudflare sẽ in ra một địa chỉ `https://xxx.trycloudflare.com` — m�
 | Đặc điểm | Giải thích |
 |---|---|
 | **Ngủ sau 15 phút không dùng** | Lần mở sau đó mất ~30-60 giây để "đánh thức". Vào trang chủ mình 1 lần là server tỉnh lại |
-| **SQLite là bộ nhớ tạm** | Watchlist/ví/tiến độ học **reset khi Render khởi động lại service** (vài ngày/lần hoặc khi bạn deploy lại). Với web học tập thì chấp nhận được; muốn giữ dữ liệu lâu dài → dùng Cách 0 hoặc nâng cấp có disk |
+| **SQLite là bộ nhớ tạm** | Watchlist/ví/tiến độ học **reset khi Render khởi động lại service** (vài ngày/lần hoặc khi bạn deploy lại). Với web học tập thì chấp nhận được; muốn giữ dữ liệu lâu dài → dùng Cách 0, Render paid disk hoặc Postgres |
 | **IP server có thể bị Yahoo giới hạn** | Nếu giá Mỹ không tải được trên server Render, web tự chuyển sang **chế độ mô phỏng** vẫn dùng tốt. Giải pháp triệt để: chạy Cách 0 trên máy bạn |
 
 ---
@@ -89,6 +89,7 @@ fly volumes create tradelearn_data --size 1
 - [ ] Chạy `npm run build` trong `client` không lỗi (đã kiểm tra khi phát triển)
 - [ ] Truy cập `/api/health` trả `{"ok":true}`
 - [ ] Mở trang chủ thấy biểu đồ + dashboard (nếu thấy nhãn "DỮ LIỆU MÔ PHỎNG" → server đó bị nguồn dữ liệu ngoài chặn, web vẫn dùng được để học)
+- [ ] Mở `/corporate-finance` và thử 3 lab P&L, vốn lưu động, NPV
 
 ## 🔧 Sau khi deploy xong
 

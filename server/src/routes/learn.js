@@ -3,7 +3,7 @@ import { Router } from 'express'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import db from '../db.js'
+import db, { ensureWorkspace } from '../db.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const readContent = (f) => JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'content', f), 'utf8'))
@@ -11,16 +11,17 @@ const LESSONS = [...readContent('lessons-1.json'), ...readContent('lessons-2.jso
 
 const router = Router()
 
-function progressOf(lessonId) {
-  const quiz = db.prepare('SELECT * FROM quiz_progress WHERE lesson_id = ?').get(lessonId) || null
-  const read = db.prepare('SELECT 1 FROM read_progress WHERE lesson_id = ?').get(lessonId) || null
+function progressOf(lessonId, userId) {
+  const quiz = db.prepare('SELECT * FROM user_quiz_progress WHERE user_id = ? AND lesson_id = ?').get(userId, lessonId) || null
+  const read = db.prepare('SELECT 1 FROM user_read_progress WHERE user_id = ? AND lesson_id = ?').get(userId, lessonId) || null
   return { read: !!read, quizScore: quiz ? quiz.score : null, quizTotal: quiz ? quiz.total : null }
 }
 
 // Tổng quan tiến độ học
-router.get('/progress', (_req, res) => {
-  const quizzes = db.prepare('SELECT * FROM quiz_progress').all()
-  const reads = db.prepare('SELECT lesson_id FROM read_progress').all()
+router.get('/progress', (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
+  const quizzes = db.prepare('SELECT * FROM user_quiz_progress WHERE user_id = ?').all(userId)
+  const reads = db.prepare('SELECT lesson_id FROM user_read_progress WHERE user_id = ?').all(userId)
   const readSet = new Set(reads.map((r) => r.lesson_id))
   const totalScore = quizzes.reduce((s, q) => s + q.score, 0)
   const totalQ = quizzes.reduce((s, q) => s + q.total, 0)
@@ -34,7 +35,8 @@ router.get('/progress', (_req, res) => {
 })
 
 // Danh sách bài học + tiến độ
-router.get('/', (_req, res) => {
+router.get('/', (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
   res.json(
     LESSONS.map((l, idx) => ({
       id: l.id,
@@ -46,20 +48,21 @@ router.get('/', (_req, res) => {
       sectionCount: l.sections.length,
       quizCount: l.quiz.length,
       relatedTerms: l.relatedTerms,
-      progress: progressOf(l.id),
+      progress: progressOf(l.id, userId),
     }))
   )
 })
 
 // Chi tiết 1 bài học (BỎ answer để không lộ đáp án)
 router.get('/:id', (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
   const lesson = LESSONS.find((l) => l.id === req.params.id)
   if (!lesson) return res.status(404).json({ error: 'Không tìm thấy bài học' })
   const { quiz, ...rest } = lesson
   res.json({
     ...rest,
     quiz: quiz.map((q) => ({ q: q.q, options: q.options })),
-    progress: progressOf(lesson.id),
+    progress: progressOf(lesson.id, userId),
     prev: LESSONS[LESSONS.indexOf(lesson) - 1]?.id || null,
     next: LESSONS[LESSONS.indexOf(lesson) + 1]?.id || null,
   })
@@ -67,14 +70,16 @@ router.get('/:id', (req, res) => {
 
 // Đánh dấu đã đọc
 router.post('/:id/read', (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
   const lesson = LESSONS.find((l) => l.id === req.params.id)
   if (!lesson) return res.status(404).json({ error: 'Không tìm thấy bài học' })
-  db.prepare('INSERT OR REPLACE INTO read_progress (lesson_id) VALUES (?)').run(lesson.id)
+  db.prepare('INSERT OR REPLACE INTO user_read_progress (user_id, lesson_id) VALUES (?, ?)').run(userId, lesson.id)
   res.json({ ok: true })
 })
 
 // Nộp bài trắc nghiệm — chấm trên server
 router.post('/:id/quiz', (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
   const lesson = LESSONS.find((l) => l.id === req.params.id)
   if (!lesson) return res.status(404).json({ error: 'Không tìm thấy bài học' })
   const answers = Array.isArray(req.body?.answers) ? req.body.answers : []
@@ -86,11 +91,11 @@ router.post('/:id/quiz', (req, res) => {
   }))
   const score = results.filter((r) => r.correct).length
   const total = lesson.quiz.length
-  const existing = db.prepare('SELECT score FROM quiz_progress WHERE lesson_id = ?').get(lesson.id)
+  const existing = db.prepare('SELECT score FROM user_quiz_progress WHERE user_id = ? AND lesson_id = ?').get(userId, lesson.id)
   if (!existing || score > existing.score) {
-    db.prepare('INSERT OR REPLACE INTO quiz_progress (lesson_id, score, total) VALUES (?, ?, ?)').run(lesson.id, score, total)
+    db.prepare('INSERT OR REPLACE INTO user_quiz_progress (user_id, lesson_id, score, total) VALUES (?, ?, ?, ?)').run(userId, lesson.id, score, total)
   }
-  const best = db.prepare('SELECT * FROM quiz_progress WHERE lesson_id = ?').get(lesson.id)
+  const best = db.prepare('SELECT * FROM user_quiz_progress WHERE user_id = ? AND lesson_id = ?').get(userId, lesson.id)
   res.json({ score, total, results, best: { score: best.score, total: best.total }, passed: score / total >= 0.6 })
 })
 

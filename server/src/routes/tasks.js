@@ -3,7 +3,7 @@ import { Router } from 'express'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import db from '../db.js'
+import db, { ensureWorkspace } from '../db.js'
 import { marketOf, getQuote } from '../services/marketService.js'
 import { usFundamentals } from '../services/usMarket.js'
 import { analyzeCandles } from '../services/signals.js'
@@ -14,13 +14,13 @@ const TASKS = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'content', '
 
 const router = Router()
 
-function progressOf(taskId) {
-  const row = db.prepare('SELECT * FROM task_progress WHERE task_id = ?').get(taskId)
+function progressOf(taskId, userId) {
+  const row = db.prepare('SELECT * FROM user_task_progress WHERE user_id = ? AND task_id = ?').get(userId, taskId)
   return row ? { done: true, score: row.score, total: row.total, xp: row.xp, submittedAt: row.submitted_at } : { done: false }
 }
 
-function totalXp() {
-  const rows = db.prepare('SELECT xp FROM task_progress').all()
+function totalXp(userId) {
+  const rows = db.prepare('SELECT xp FROM user_task_progress WHERE user_id = ?').all(userId)
   return rows.reduce((s, r) => s + (r.xp || 0), 0)
 }
 
@@ -111,8 +111,9 @@ function checkKeywords(text, keywordGroups) {
   return true
 }
 
-router.get('/', (_req, res) => {
-  const xp = totalXp()
+router.get('/', (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
+  const xp = totalXp(userId)
   res.json({
     xp,
     rank: analystRank(xp),
@@ -125,13 +126,14 @@ router.get('/', (_req, res) => {
       minutes: t.minutes,
       xp: t.xp,
       fieldCount: t.fields.length,
-      progress: progressOf(t.id),
+      progress: progressOf(t.id, userId),
     })),
   })
 })
 
 // Chi tiết task (bỏ các thông tin chấm điểm nhạy cảm)
 router.get('/:id', (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
   const task = TASKS.find((t) => t.id === req.params.id)
   if (!task) return res.status(404).json({ error: 'Không tìm thấy task' })
   const { fields, ...rest } = task
@@ -147,7 +149,7 @@ router.get('/:id', (req, res) => {
       min: f.min ?? null,
       max: f.max ?? null,
     })),
-    progress: progressOf(task.id),
+    progress: progressOf(task.id, userId),
     prev: TASKS[TASKS.indexOf(task) - 1]?.id || null,
     next: TASKS[TASKS.indexOf(task) + 1]?.id || null,
   })
@@ -155,6 +157,7 @@ router.get('/:id', (req, res) => {
 
 // Nộp task — chấm bằng dữ liệu live
 router.post('/:id/submit', async (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
   const task = TASKS.find((t) => t.id === req.params.id)
   if (!task) return res.status(404).json({ error: 'Không tìm thấy task' })
   const submitted = { ...(req.body?.answers || {}) }
@@ -162,7 +165,7 @@ router.post('/:id/submit', async (req, res) => {
   // dữ liệu ví giả lập cho rule account:*
   let accountInvested = null
   if (task.fields.some((f) => (f.source || '').startsWith('account:'))) {
-    const positions = db.prepare('SELECT qty, avg_price FROM positions WHERE market = ?').all('US')
+    const positions = db.prepare('SELECT qty, avg_price FROM user_positions WHERE user_id = ? AND market = ?').all(userId, 'US')
     accountInvested = positions.reduce((s, p) => s + p.qty * p.avg_price, 0)
   }
 
@@ -278,13 +281,13 @@ router.post('/:id/submit', async (req, res) => {
   const passed = total > 0 && score / total >= 0.6
   const earnedXp = passed ? Math.round(task.xp * Math.min(1, score / total)) : 0
 
-  const existing = db.prepare('SELECT score FROM task_progress WHERE task_id = ?').get(task.id)
+  const existing = db.prepare('SELECT score FROM user_task_progress WHERE user_id = ? AND task_id = ?').get(userId, task.id)
   if (!existing || score > existing.score) {
     db.prepare(
-      `INSERT OR REPLACE INTO task_progress (task_id, score, total, xp, submitted_at) VALUES (?, ?, ?, ?, datetime('now'))`
-    ).run(task.id, score, total, earnedXp)
+      `INSERT OR REPLACE INTO user_task_progress (user_id, task_id, score, total, xp, submitted_at) VALUES (?, ?, ?, ?, ?, datetime('now'))`
+    ).run(userId, task.id, score, total, earnedXp)
   }
-  const xp = totalXp()
+  const xp = totalXp(userId)
 
   // Phản hồi của "mentor"
   const wrongOnes = results.filter((r) => !r.ok)

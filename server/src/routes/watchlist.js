@@ -1,11 +1,12 @@
 import { Router } from 'express'
-import db from '../db.js'
+import db, { ensureWorkspace } from '../db.js'
 import { getQuotes, marketOf } from '../services/marketService.js'
 
 const router = Router()
 
-router.get('/', async (_req, res) => {
-  const rows = db.prepare('SELECT * FROM watchlist ORDER BY added_at DESC').all()
+router.get('/', async (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
+  const rows = db.prepare('SELECT * FROM user_watchlist WHERE user_id = ? ORDER BY added_at DESC').all(userId)
   if (!rows.length) return res.json([])
   const quotes = await getQuotes(rows.map((r) => r.symbol))
   const bySymbol = new Map(quotes.map((q) => [q.symbol.toUpperCase(), q]))
@@ -25,18 +26,20 @@ router.get('/', async (_req, res) => {
 })
 
 router.post('/', async (req, res) => {
+  const userId = ensureWorkspace(req.workspaceId)
   const symbol = String(req.body?.symbol || '').toUpperCase().trim()
   if (!symbol) return res.status(400).json({ error: 'Thiếu mã cổ phiếu' })
   const market = marketOf(symbol)
-  const exists = db.prepare('SELECT 1 FROM watchlist WHERE symbol = ?').get(symbol)
+  const exists = db.prepare('SELECT 1 FROM user_watchlist WHERE user_id = ? AND symbol = ?').get(userId, symbol)
   if (!exists) {
-    db.prepare('INSERT INTO watchlist (symbol, market, name) VALUES (?, ?, ?)').run(symbol, market, req.body?.name || null)
+    db.prepare('INSERT INTO user_watchlist (user_id, symbol, market, name) VALUES (?, ?, ?, ?)').run(userId, symbol, market, req.body?.name || null)
   }
   res.json({ ok: true, symbol, market })
 })
 
 router.delete('/:symbol', (req, res) => {
-  db.prepare('DELETE FROM watchlist WHERE symbol = ?').run(String(req.params.symbol).toUpperCase())
+  const userId = ensureWorkspace(req.workspaceId)
+  db.prepare('DELETE FROM user_watchlist WHERE user_id = ? AND symbol = ?').run(userId, String(req.params.symbol).toUpperCase())
   res.json({ ok: true })
 })
 

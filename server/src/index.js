@@ -3,7 +3,7 @@ import cors from 'cors'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { initDb } from './db.js'
+import { initDb, workspaceId } from './db.js'
 import marketRoutes from './routes/market.js'
 import tradingRoutes from './routes/trading.js'
 import learnRoutes from './routes/learn.js'
@@ -17,8 +17,24 @@ import manualRoutes from './routes/manual.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
-app.use(cors())
+const allowedOrigins = new Set(
+  (process.env.CORS_ORIGINS || 'http://localhost:5173,https://tradeonlearn.onrender.com')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean)
+)
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.has(origin)) return callback(null, true)
+    return callback(null, false)
+  },
+  allowedHeaders: ['Content-Type', 'X-TradeLearn-Workspace'],
+}))
 app.use(express.json())
+app.use((req, _res, next) => {
+  req.workspaceId = workspaceId(req.get('X-TradeLearn-Workspace'))
+  next()
+})
 
 initDb()
 
@@ -50,7 +66,9 @@ if (fs.existsSync(path.join(clientDist, 'index.html'))) {
 app.use((_req, res) => res.status(404).json({ error: 'Không tìm thấy endpoint' }))
 app.use((err, _req, res, _next) => {
   console.error('[API error]', err)
-  res.status(500).json({ error: 'Lỗi máy chủ nội bộ', detail: String(err?.message || err) })
+  const payload = { error: 'Lỗi máy chủ nội bộ' }
+  if (process.env.NODE_ENV !== 'production') payload.detail = String(err?.message || err)
+  res.status(500).json(payload)
 })
 
 const PORT = process.env.PORT || 4001
