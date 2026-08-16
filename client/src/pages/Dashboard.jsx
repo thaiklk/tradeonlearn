@@ -108,6 +108,7 @@ function QuickChart() {
             market={data.market}
             currency={data.currency}
             compact
+            live={q}
           />
         </ErrorBoundary>
       ) : (

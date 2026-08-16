@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { ColorType, CrosshairMode, LineStyle, createChart } from 'lightweight-charts'
 import ChartGuideModal from './ChartGuideModal.jsx'
+import { fmtPrice } from '../format.js'
 
 const BASE_OPTIONS = {
   layout: {
@@ -42,11 +43,16 @@ export default function AnalysisCharts({
   toggles,
   ranges,
   compact = false,
+  live = null, // quote realtime — cập nhật cây nến cuối từng tick
 }) {
   const priceRef = useRef(null)
   const rsiRef = useRef(null)
   const macdRef = useRef(null)
   const [guide, setGuide] = useState(null) // {kind, idx|null}
+  const candleSeriesRef = useRef(null)
+  const priceLineRef = useRef(null)
+  const lastBarRef = useRef(null)
+  const intradayRef = useRef(false)
 
   const priceH = compact ? 300 : 380
   const subH = compact ? 110 : 140
@@ -71,6 +77,16 @@ export default function AnalysisCharts({
       wickDownColor: '#ef4444aa',
     })
     candleSeries.setData(candles)
+
+    // Cập nhật realtime: lưu series + nến cuối + vẽ đường giá live
+    candleSeriesRef.current = candleSeries
+    const lastBar = candles[candles.length - 1]
+    lastBarRef.current = { ...lastBar }
+    intradayRef.current = ranges?.intraday === true
+    priceLineRef.current = candleSeries.createPriceLine({
+      price: lastBar.close, color: '#4f8cff', lineWidth: 1, lineStyle: LineStyle.Dotted,
+      axisLabelVisible: true, title: 'Live',
+    })
 
     const volumeSeries = priceChart.addHistogramSeries({
       priceScaleId: 'vol',
@@ -191,6 +207,9 @@ export default function AnalysisCharts({
     })
 
     return () => {
+      candleSeriesRef.current = null
+      priceLineRef.current = null
+      lastBarRef.current = null
       priceChart.unsubscribeClick(clickPrice)
       rsiChart.unsubscribeClick(clickSub('rsi'))
       macdChart.unsubscribeClick(clickSub('macd'))
@@ -199,6 +218,28 @@ export default function AnalysisCharts({
       charts.forEach((c) => c.remove())
     }
   }, [candles, series, toggles])
+
+  // 📡 LIVE: mỗi tick giá (~5s qua SSE) → cập nhật cây nến cuối / lăn sang nến mới (khung 1 ngày)
+  useEffect(() => {
+    const cs = candleSeriesRef.current
+    const lb = lastBarRef.current
+    if (!live?.price || !cs || !lb) return
+    const p = live.price
+    let bar
+    if (intradayRef.current) {
+      const bucket = Math.floor(Date.now() / 1000 / 300) * 300 // bar 5 phút hiện tại
+      if (bucket > lb.time) {
+        bar = { time: bucket, open: p, high: p, low: p, close: p, volume: 0 }
+      } else {
+        bar = { time: lb.time, open: lb.open, high: Math.max(lb.high, p), low: Math.min(lb.low, p), close: p, volume: lb.volume }
+      }
+    } else {
+      bar = { time: lb.time, open: lb.open, high: Math.max(lb.high, p), low: Math.min(lb.low, p), close: p, volume: lb.volume }
+    }
+    lastBarRef.current = { ...bar }
+    cs.update(bar)
+    priceLineRef.current?.applyOptions({ price: p })
+  }, [live])
 
   const labelBtn = (kind) => (
     <button
@@ -215,6 +256,11 @@ export default function AnalysisCharts({
       <div className="chart-box">
         <span className="chart-label" style={{ display: 'flex', alignItems: 'center' }}>
           NẾN GIÁ · KHỐI LƯỢNG {labelBtn('candle')}
+          {live?.price != null && (
+            <span className={`badge ${live.changePercent >= 0 ? 'green' : 'red'}`} style={{ marginLeft: 6 }}>
+              ● {fmtPrice(live.price, currency)}
+            </span>
+          )}
         </span>
         <div ref={priceRef} className="chart-price" style={{ height: priceH }} />
       </div>

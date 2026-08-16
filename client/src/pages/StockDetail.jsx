@@ -369,6 +369,7 @@ export default function StockDetail() {
                 symbol={symbol.toUpperCase()}
                 market={data.market}
                 currency={currency}
+                live={live2}
               />
             </ErrorBoundary>
           ) : (
