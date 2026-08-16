@@ -80,6 +80,7 @@ function StatsCard({ data }) {
 
 function FinancialsCard({ symbol }) {
   const { data: fin } = useApi(() => api.get(`/stocks/${encodeURIComponent(symbol)}/financials`), [symbol])
+  const [basic, setBasic] = useState(true) // Phase 3: Cơ bản (5 chỉ số + câu hỏi) / Nâng cao (đủ bảng)
   if (!fin || fin.status === 'no-data' || !fin.years?.length) return null
   const isDemo = fin.status === 'demo'
   const fmt = (v) => (v == null ? '—' : Number.isFinite(v) ? v.toLocaleString('vi-VN') : '—')
@@ -90,15 +91,22 @@ function FinancialsCard({ symbol }) {
     ['CAPEX', fin.rows.capex], ['FCF', fin.rows.fcf],
   ]
   const qRows = [
-    ['Tăng trưởng DT %', fin.ratios.revenueGrowth], ['Tăng trưởng LN %', fin.ratios.netIncomeGrowth],
-    ['Biên gộp %', fin.ratios.grossMargin], ['Biên hoạt động %', fin.ratios.operatingMargin], ['Biên ròng %', fin.ratios.netMargin],
-    ['ROE %', fin.ratios.roe], ['ROA %', fin.ratios.roa], ['Nợ/Vốn %', fin.ratios.debtToEquity], ['OCF/LN %', fin.ratios.ocfToNi],
+    ['Tăng trưởng DT %', fin.ratios.revenueGrowth, 'Doanh thu đang tăng hay giảm?'], ['Tăng trưởng LN %', fin.ratios.netIncomeGrowth, 'Lợi nhuận cùng chiều doanh thu không?'],
+    ['Biên gộp %', fin.ratios.grossMargin, 'Sản phẩm định giá mạnh không?'], ['Biên hoạt động %', fin.ratios.operatingMargin, 'Vận hành hiệu quả không?'], ['Biên ròng %', fin.ratios.netMargin, 'Mỗi 100đ doanh thu giữ lại mấy đồng? (≥10% khá)'],
+    ['ROE %', fin.ratios.roe, '1đ vốn chủ sinh mấy đ lợi nhuận? ≥15% tốt — cạm bẫy: ROE cao có thể do NỢ cao (DuPont, Task 9)'],
+    ['ROA %', fin.ratios.roa, 'Máy kiếm tiền tính trên TOÀN BỘ tài sản — ≥5% khá'], ['Nợ/Vốn %', fin.ratios.debtToEquity, '≤100% thoải mái; cao thì xem lãi vay (cạm bẫy: ngân hàng nợ cao là bản chất)'],
+    ['OCF/LN %', fin.ratios.ocfToNi, '≥80% = lợi nhuận thành TIỀN thật; thấp = cảnh báo "giấy" (Bài 11)'],
   ]
+  const shownQ = basic ? qRows.filter((_, i) => [4, 5, 7, 8, 0].includes(i)) : qRows
   return (
     <div className="card">
       <div className="card-title">
         <span>📗 Báo cáo tài chính 4 năm (chuẩn hóa)</span>
-        <span className={`badge ${isDemo ? 'demo' : 'green'}`}>{isDemo ? 'DEMO DATA' : 'LIVE'}</span>
+        <span style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <button className={`btn sm ${basic ? 'active' : ''}`} onClick={() => setBasic(true)}>🌱 Cơ bản</button>
+          <button className={`btn sm ${!basic ? 'active' : ''}`} onClick={() => setBasic(false)}>📚 Nâng cao</button>
+          <span className={`badge ${isDemo ? 'demo' : 'green'}`}>{isDemo ? 'DEMO DATA' : 'LIVE'}</span>
+        </span>
       </div>
       <div className="muted" style={{ fontSize: 12, marginBottom: 10 }}>
         Nguồn: {fin.source} · Kỳ: {fin.periodEnd} · Đơn vị: {fin.unit} · Cập nhật: {new Date(fin.fetchedAt).toLocaleString('vi-VN')} —{' '}
@@ -111,11 +119,11 @@ function FinancialsCard({ symbol }) {
             {rRows.map(([n, arr]) => (
               <tr key={n}><td className="muted">{n}</td>{(arr || []).map((v, i) => <td key={i} className="right num">{fmt(v)}</td>)}</tr>
             ))}
-            {qRows.map(([n, arr]) => (
-              <tr key={n} style={{ borderTop: '2px solid var(--border)' }}><td className="muted">{n}</td>{(arr || []).map((v, i) => (
-                <td key={i} className={`right num ${v != null && n.includes('Tăng trưởng') || n.includes('ROE') || n.includes('OCF') ? (v >= 0 ? 'up' : 'down') : ''}`}>{fmt(v)}</td>
+            {qRows.map(([n, arr], i) => (
+              <tr key={n} style={{ borderTop: '2px solid var(--border)' }}><td className="muted">{n}</td>{(arr || []).map((v, j) => (
+                <td key={j} className={`right num ${v != null && (n.includes('Tăng trưởng') || n.includes('ROE') || n.includes('OCF')) ? (v >= 0 ? 'up' : 'down') : ''}`}>{fmt(v)}</td>
               ))}</tr>
-            ))}
+            )).filter((_, i) => shownQ.includes(qRows[i]))}
           </tbody>
         </table>
       </div>
