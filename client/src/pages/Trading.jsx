@@ -210,6 +210,13 @@ export default function Trading() {
 
   return (
     <div className="grid" style={{ gap: 16 }}>
+      <div className="card" style={{ padding: '12px 16px' }}>
+        <div className="muted" style={{ fontSize: 13 }}>
+          🎓 <b>Đây là sàn luyện bằng tiền ẢO</b> — bạn được tặng $100.000 + 500 triệu ₫ để mua/bán theo giá thật,
+          tự tính lãi/lỗ mà <b>không mất một đồng thật nào</b>. Lỗi ở đây rẻ nhất: mất tiền ảo, giữ lại kinh nghiệm.
+          Quy trình đúng: viết 3 dòng luận điểm + giá cắt lỗ TRƯỚC, rồi mới bấm lệnh (<Link to="/learn/quy-trinh-ra-quyet-dinh">Bài 13</Link>).
+        </div>
+      </div>
       <div className="grid cols-2">
         <WalletCard
           title="VÍ USD — Thị trường Mỹ"

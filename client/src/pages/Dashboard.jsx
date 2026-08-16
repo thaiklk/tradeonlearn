@@ -28,19 +28,39 @@ function Sparkline({ symbol, range = '6mo' }) {
   )
 }
 
+// "Chỉ số này là gì?" — giải thích cho người chưa biết gì (bấm ℹ️ trên từng thẻ)
+const INDEX_INFO = {
+  'S&P 500': 'Rổ 500 công ty lớn nhất nước Mỹ — "nhiệt kế" được nhìn nhiều nhất của thị trường Mỹ. Nó giảm = đa số cổ phiếu Mỹ đang giảm.',
+  NASDAQ: 'Chỉ số của sàn Nasdaq — nơi niêm yết các công ty công nghệ (Apple, Microsoft...). Nên nó phản ánh "sức khỏe" của nhóm công nghệ.',
+  DOW: 'Dow Jones — 30 công ty lớn, lâu đời nhất nước Mỹ. Ít mã hơn S&P 500 nên mỗi mã ảnh hưởng mạnh hơn.',
+  'VN-Index': 'TẤT CẢ cổ phiếu niêm yết trên sàn TP.HCM (HOSE) — "nhiệt kế" của thị trường Việt Nam. Trên 1.000 điểm hay xuất hiện trên báo chí.',
+  VN30: 'Rổ 30 cổ phiếu lớn nhất và được giao dịch nhiều nhất HOSE — bản "rút gọn chất lượng" của VN-Index.',
+  'HNX-Index': 'Chỉ số của sàn Hà Nội (HNX) — nơi các công ty thường nhỏ hơn HOSE. Hai sàn này cùng tạo nên thị trường chứng khoán Việt Nam.',
+}
+
 function IndexCard({ name, symbol, price, changePercent, market }) {
   const cls = changePercent > 0 ? 'up' : changePercent < 0 ? 'down' : 'muted-c'
+  const [info, setInfo] = useState(false)
   return (
-    <Link to={`/stock/${symbol}`} className="card idx-card" style={{ textDecoration: 'none' }}>
+    <div className="card idx-card" style={{ textDecoration: 'none' }}>
       <span className="idx-name">
-        {name} {market === 'VN' ? <span className="badge vn">VN</span> : <span className="badge us">US</span>}
+        <Link to={`/stock/${symbol}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+          {name}
+        </Link>{' '}
+        {market === 'VN' ? <span className="badge vn">VN</span> : <span className="badge us">US</span>}
+        <button className="btn sm ghost" style={{ padding: '0 6px', marginLeft: 4, fontSize: 11 }} onClick={() => setInfo(!info)} title="Chỉ số này là gì?">
+          {info ? '✕' : 'ℹ️'}
+        </button>
       </span>
-      <span className={`idx-value num ${cls}`}>{price != null ? price.toLocaleString('vi-VN', { maximumFractionDigits: 2 }) : '—'}</span>
-      <span className={`idx-sub num ${cls}`}>
-        {changePercent > 0 ? '▲' : changePercent < 0 ? '▼' : '•'} {fmtPct(changePercent)}
-      </span>
+      {info && <div className="muted" style={{ fontSize: 11.5, margin: '4px 0' }}>{INDEX_INFO[name] || 'Chỉ số thị trường — giỏ cổ phiếu tiêu biểu dùng đo sức khỏe cả thị trường.'}</div>}
+      <Link to={`/stock/${symbol}`} style={{ textDecoration: 'none' }}>
+        <span className={`idx-value num ${cls}`}>{price != null ? price.toLocaleString('vi-VN', { maximumFractionDigits: 2 }) : '—'}</span>
+        <span className={`idx-sub num ${cls}`}>
+          {changePercent > 0 ? '▲' : changePercent < 0 ? '▼' : '•'} {fmtPct(changePercent)}
+        </span>
+      </Link>
       <Sparkline symbol={symbol} />
-    </Link>
+    </div>
   )
 }
 
@@ -65,6 +85,9 @@ function QuickChart() {
         <Link to={`/stock/${symbol}`} style={{ fontSize: 11, textTransform: 'none' }}>
           Phân tích đầy đủ →
         </Link>
+      </div>
+      <div className="muted" style={{ fontSize: 11.5, marginBottom: 8 }}>
+        💡 Mỗi cây nến = 1 ngày giao dịch: <span className="up">xanh = đóng cao hơn mở (người mua thắng)</span>, <span className="down">đỏ = ngược lại</span> · cột dưới = khối lượng cp đổi chủ · <b>bấm vào bất kỳ cây nến để học cách đọc nó</b>
       </div>
       <div className="chart-legend" style={{ marginBottom: 12 }}>
         {chips.map((c) => (
@@ -138,6 +161,9 @@ function WatchlistTable() {
         <span>⭐ Danh sách theo dõi</span>
         <span style={{ fontSize: 11, textTransform: 'none' }}>tự cập nhật mỗi 10 giây</span>
       </div>
+      <div className="muted" style={{ fontSize: 11.5, marginBottom: 8 }}>
+        💡 Danh sách những mã bạn quan tâm · % = thay đổi giá so với đóng cửa hôm trước · bấm mã để mở trang phân tích
+      </div>
       <div style={{ marginBottom: 12 }}>
         <StockSearch placeholder="🔍 Tìm mã để THÊM vào danh sách (AAPL, VNM...)" onPick={add} />
       </div>
@@ -196,6 +222,7 @@ function MoverList({ title, emoji, items }) {
   return (
     <div className="card">
       <div className="card-title">{emoji} {title}</div>
+      <div className="muted" style={{ fontSize: 11.5, marginBottom: 6 }}>% = hôm nay · chỉ là nơi TÌM ý tưởng, không phải gợi ý mua</div>
       {(!items || items.length === 0) && <div className="empty">Đang tải...</div>}
       {items?.slice(0, 5).map((m) => (
         <Link key={m.market + m.symbol} to={`/stock/${m.symbol}`} style={{ textDecoration: 'none' }}>
@@ -271,6 +298,7 @@ export default function Dashboard() {
             <div className={`num ${account?.profitUsd >= 0 ? 'up' : 'down'}`} style={{ fontSize: 13 }}>
               {account ? `${fmtMoney(account.profitUsd)} (${fmtPct(account.profitUsdPercent)})` : ''}
             </div>
+            <div className="muted" style={{ fontSize: 11, marginTop: 2 }}>💵 Tiền ẢO để luyện — không phải tiền thật</div>
           </div>
           <div>
             <div className="muted" style={{ fontSize: 12, fontWeight: 700 }}>VÍ GIẢ LẬP VND</div>
@@ -283,7 +311,10 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Chỉ số */}
+      {/* Chỉ số — kèm chú giải cho người mới */}
+      <div className="muted" style={{ fontSize: 12.5, marginBottom: 8 }}>
+        📊 <b>Chỉ số</b> là "nhiệt kế" của cả thị trường (mỗi thẻ = 1 giỏ cổ phiếu tiêu biểu) · ▲ <span className="up">xanh = tăng</span>, ▼ <span className="down">đỏ = giảm</span> so với đóng cửa hôm trước · bấm ℹ️ để xem từng chỉ số là gì
+      </div>
       <div className="grid cols-3">
         {indexes.length === 0 && <div className="card"><div className="spinner" /></div>}
         {indexes.map((idx) => (

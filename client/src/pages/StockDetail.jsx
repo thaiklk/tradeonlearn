@@ -124,25 +124,28 @@ function HealthMetricsCard({ symbol, fin, quote }) {
 
 function StatsCard({ data }) {
   const { indicators, quote, currency } = data
+  const G = (q) => `/glossary?q=${encodeURIComponent(q)}`
   const rows = [
-    ['Giá hiện tại', fmtPrice(quote?.price, currency)],
-    ['Thay đổi hôm nay', `${fmtPrice(quote?.change, currency)} (${fmtPct(quote?.changePercent)})`],
-    ['Cao nhất phiên', fmtPrice(quote?.dayHigh, currency)],
-    ['Thấp nhất phiên', fmtPrice(quote?.dayLow, currency)],
-    ['Khối lượng', fmtCompact(quote?.volume)],
-    ['RSI (14)', indicators?.rsi14 != null ? indicators.rsi14.toFixed(1) : '—'],
-    ['MA20', fmtPrice(indicators?.ma20, currency)],
-    ['MA50', fmtPrice(indicators?.ma50, currency)],
-    ['MA200', fmtPrice(indicators?.ma200, currency)],
+    ['Giá hiện tại', fmtPrice(quote?.price, currency), 'Giá mua/bán 1 cổ phiếu tại thời điểm gần nhất'],
+    ['Thay đổi hôm nay', `${fmtPrice(quote?.change, currency)} (${fmtPct(quote?.changePercent)})`, 'So với giá ĐÓNG CỬA hôm trước — không phải so với lúc bạn mua'],
+    ['Cao nhất phiên', fmtPrice(quote?.dayHigh, currency), 'Mức giá đỉnh trong phiên hôm nay'],
+    ['Thấp nhất phiên', fmtPrice(quote?.dayLow, currency), 'Mức giá đáy trong phiên hôm nay'],
+    ['Khối lượng', quote?.volume != null ? `${fmtCompact(quote.volume)} cp` : '—', 'Số cổ phiếu đổi chủ hôm nay — "nhiên liệu" của biến động'],
+    ['RSI (14)', indicators?.rsi14 != null ? indicators.rsi14.toFixed(1) : '—', 'Động lượng 0–100: dưới 30 bán nhiều quá, trên 70 mua nóng quá (Bài 6)', 'RSI'],
+    ['MA20', fmtPrice(indicators?.ma20, currency), 'Trung bình giá 20 phiên (~1 tháng) — nhịp ngắn hạn (Bài 5)', 'MA (Đường trung bình)'],
+    ['MA50', fmtPrice(indicators?.ma50, currency), 'Trung bình giá 50 phiên (~1 quý) — trung hạn (Bài 5)', 'MA (Đường trung bình)'],
+    ['MA200', indicators?.ma200 != null ? fmtPrice(indicators.ma200, currency) : 'chưa đủ dữ liệu', 'Trung bình giá 200 phiên (~1 năm) — cần đủ 200 phiên lịch sử mới tính được (Bài 5)', 'MA (Đường trung bình)'],
   ]
   return (
     <div className="card">
-      <div className="card-title">📊 Số liệu chính</div>
+      <div className="card-title">📊 Số liệu chính <span style={{ fontSize: 10, textTransform: 'none' }}>(chạm/chuột vào từng dòng để giải thích)</span></div>
       <table className="table">
         <tbody>
-          {rows.map(([k, v]) => (
-            <tr key={k}>
-              <td className="muted">{k}</td>
+          {rows.map(([k, v, tip, term]) => (
+            <tr key={k} title={tip}>
+              <td className="muted" style={{ cursor: 'help' }}>
+                {k}{term ? <Link to={G(term)} style={{ fontSize: 10, marginLeft: 4 }}>? </Link> : null}
+              </td>
               <td className="right num">{v}</td>
             </tr>
           ))}
@@ -573,6 +576,10 @@ export default function StockDetail() {
       <div>
         <div className="card">
           <div className="card-title">💡 Gợi ý đầu tư (học tập)</div>
+          <div className="muted" style={{ fontSize: 11.5, marginBottom: 10 }}>
+            🤖 Đây là MÁY TÍNH tổng hợp 4 chỉ báo kỹ thuật (RSI, MA, MACD, khối lượng — Bài 4-8), hoàn toàn KHÁC với
+            phần phân tích doanh nghiệp ở trên. Chỉ để học cách đọc tín hiệu — không phải lời khuyên.
+          </div>
           {data && (
             <>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
