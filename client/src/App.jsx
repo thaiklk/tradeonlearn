@@ -16,6 +16,7 @@ import HealthCheck from './pages/HealthCheck.jsx'
 import Compare from './pages/Compare.jsx'
 import ResearchHome, { ResearchEditor } from './pages/Research.jsx'
 import ManualData from './pages/ManualData.jsx'
+import StartTour from './pages/StartTour.jsx'
 
 // Lưới an toàn: nếu 1 component lỗi, hiện thông báo dễ đọc thay vì màn hình đen
 export class ErrorBoundary extends Component {
@@ -69,6 +70,7 @@ export default function App() {
             <Route path="/research/:symbol" element={<ResearchEditor />} />
             <Route path="/manual" element={<ManualData />} />
             <Route path="/manual/:symbol" element={<ManualData />} />
+            <Route path="/start" element={<StartTour />} />
           </Routes>
         </ErrorBoundary>
       </main>

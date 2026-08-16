@@ -233,15 +233,15 @@ export default function Dashboard() {
             Không cần biết trước gì — sếp sẽ giao việc và hướng dẫn từng bước.
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 14 }}>
+            <Link to="/start" className="btn primary">▶ Bắt đầu phân tích doanh nghiệp (15 phút)</Link>
             {nextTask ? (
-              <Link to={`/desk/${nextTask.id}`} className="btn primary">
-                ▶ Bắt đầu: {nextTask.title.split('·')[1]?.trim() || nextTask.title} (+{nextTask.xp} XP)
+              <Link to={`/desk/${nextTask.id}`} className="btn">
+                Task tiếp: {nextTask.title.split('·')[1]?.trim() || nextTask.title} (+{nextTask.xp} XP)
               </Link>
             ) : (
-              <Link to="/desk" className="btn primary">▶ Vào Phòng phân tích</Link>
+              <Link to="/desk" className="btn">💼 Phòng phân tích</Link>
             )}
-            <Link to="/stock/FPT" className="btn">Xem mẫu: doanh nghiệp FPT 🇻🇳</Link>
-            <Link to="/roadmap" className="btn ghost">🧭 Lộ trình 12 tháng</Link>
+            <Link to="/stock/FPT" className="btn ghost">Xem mẫu: doanh nghiệp FPT 🇻🇳</Link>
           </div>
         </div>
         {progress && (
