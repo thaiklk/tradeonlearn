@@ -1,0 +1,13 @@
+name = "tradelearn-state"
+main = "src/index.js"
+compatibility_date = "2026-08-16"
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGIN = "https://tradeonlearn.onrender.com"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "tradelearn-production"
+database_id = "f23453ef-c69a-4308-9ea0-c89a1d5c4167"
+migrations_dir = "migrations"

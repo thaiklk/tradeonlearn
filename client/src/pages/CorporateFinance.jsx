@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { api } from '../api.js'
 
 const MODULES = [
   {
@@ -131,6 +132,15 @@ const ROLE_CARDS = [
 ]
 
 const CHECKLIST_KEY = 'tradelearn.corporate-finance-checklist'
+
+function storedChecklist() {
+  try {
+    const value = JSON.parse(window.localStorage.getItem(CHECKLIST_KEY) || '[]')
+    return Array.isArray(value) ? value.filter((id) => MODULES.some((module) => module.id === id)) : []
+  } catch {
+    return []
+  }
+}
 
 function NumberField({ id, label, value, onChange, suffix = 'triệu đồng', min = 0, step = 1, help }) {
   return (
@@ -284,16 +294,12 @@ function NpvLab() {
 
 export default function CorporateFinance() {
   const [activeId, setActiveId] = useState(MODULES[0].id)
-  const [completed, setCompleted] = useState(() => {
-    try {
-      return JSON.parse(window.localStorage.getItem(CHECKLIST_KEY) || '[]')
-    } catch {
-      return []
-    }
-  })
+  const [completed, setCompleted] = useState(storedChecklist)
+  const completedRef = useRef(completed)
   const activeModule = MODULES.find((module) => module.id === activeId) || MODULES[0]
 
   useEffect(() => {
+    completedRef.current = completed
     try {
       window.localStorage.setItem(CHECKLIST_KEY, JSON.stringify(completed))
     } catch {
@@ -301,7 +307,31 @@ export default function CorporateFinance() {
     }
   }, [completed])
 
-  const toggleModule = (id) => setCompleted((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id])
+  useEffect(() => {
+    let cancelled = false
+    api.corporateFinanceProgress()
+      .then(({ completedIds }) => {
+        if (cancelled) return
+        const remote = Array.isArray(completedIds) ? completedIds : []
+        const local = storedChecklist()
+        const merged = [...new Set([...local, ...remote])]
+        completedRef.current = merged
+        setCompleted(merged)
+        const missingRemote = local.filter((id) => !remote.includes(id))
+        return Promise.all(missingRemote.map((id) => api.setCorporateFinanceProgress(id, true)))
+      })
+      .catch(() => undefined)
+    return () => { cancelled = true }
+  }, [])
+
+  const toggleModule = (id) => {
+    const current = completedRef.current
+    const done = !current.includes(id)
+    const next = done ? [...current, id] : current.filter((item) => item !== id)
+    completedRef.current = next
+    setCompleted(next)
+    api.setCorporateFinanceProgress(id, done).catch(() => undefined)
+  }
 
   return (
     <div className="corp-page">

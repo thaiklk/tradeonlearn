@@ -4,6 +4,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import db, { ensureWorkspace } from '../db.js'
+import { persistWorkspace } from '../cloudState.js'
+import { asyncHandler } from '../http.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const readContent = (f) => JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'content', f), 'utf8'))
@@ -69,16 +71,17 @@ router.get('/:id', (req, res) => {
 })
 
 // Đánh dấu đã đọc
-router.post('/:id/read', (req, res) => {
+router.post('/:id/read', asyncHandler(async (req, res) => {
   const userId = ensureWorkspace(req.workspaceId)
   const lesson = LESSONS.find((l) => l.id === req.params.id)
   if (!lesson) return res.status(404).json({ error: 'Không tìm thấy bài học' })
   db.prepare('INSERT OR REPLACE INTO user_read_progress (user_id, lesson_id) VALUES (?, ?)').run(userId, lesson.id)
+  await persistWorkspace(userId)
   res.json({ ok: true })
-})
+}))
 
 // Nộp bài trắc nghiệm — chấm trên server
-router.post('/:id/quiz', (req, res) => {
+router.post('/:id/quiz', asyncHandler(async (req, res) => {
   const userId = ensureWorkspace(req.workspaceId)
   const lesson = LESSONS.find((l) => l.id === req.params.id)
   if (!lesson) return res.status(404).json({ error: 'Không tìm thấy bài học' })
@@ -94,9 +97,10 @@ router.post('/:id/quiz', (req, res) => {
   const existing = db.prepare('SELECT score FROM user_quiz_progress WHERE user_id = ? AND lesson_id = ?').get(userId, lesson.id)
   if (!existing || score > existing.score) {
     db.prepare('INSERT OR REPLACE INTO user_quiz_progress (user_id, lesson_id, score, total) VALUES (?, ?, ?, ?)').run(userId, lesson.id, score, total)
+    await persistWorkspace(userId)
   }
   const best = db.prepare('SELECT * FROM user_quiz_progress WHERE user_id = ? AND lesson_id = ?').get(userId, lesson.id)
   res.json({ score, total, results, best: { score: best.score, total: best.total }, passed: score / total >= 0.6 })
-})
+}))
 
 export default router

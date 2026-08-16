@@ -4,6 +4,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { initDb, workspaceId } from './db.js'
+import { hydrateWorkspace, isCloudStateError } from './cloudState.js'
 import marketRoutes from './routes/market.js'
 import tradingRoutes from './routes/trading.js'
 import learnRoutes from './routes/learn.js'
@@ -14,6 +15,7 @@ import streamRoutes from './routes/stream.js'
 import taskRoutes from './routes/tasks.js'
 import researchRoutes from './routes/research.js'
 import manualRoutes from './routes/manual.js'
+import corporateFinanceRoutes from './routes/corporateFinance.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -31,9 +33,16 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'X-TradeLearn-Workspace'],
 }))
 app.use(express.json())
-app.use((req, _res, next) => {
-  req.workspaceId = workspaceId(req.get('X-TradeLearn-Workspace'))
-  next()
+app.use(async (req, _res, next) => {
+  try {
+    req.workspaceId = workspaceId(req.get('X-TradeLearn-Workspace'))
+    const needsWorkspace = ['/api/trading', '/api/watchlist', '/api/lessons', '/api/tasks', '/api/research', '/api/manual', '/api/corporate-finance']
+      .some((prefix) => req.path.startsWith(prefix))
+    if (needsWorkspace) await hydrateWorkspace(req.workspaceId)
+    next()
+  } catch (error) {
+    next(error)
+  }
 })
 
 initDb()
@@ -50,6 +59,7 @@ app.use('/api/glossary', glossaryRoutes)
 app.use('/api/tasks', taskRoutes)
 app.use('/api/research', researchRoutes)
 app.use('/api/manual', manualRoutes)
+app.use('/api/corporate-finance', corporateFinanceRoutes)
 app.use('/api', streamRoutes)
 
 // Chế độ production (deploy 1 service duy nhất): phục vụ bản build của client
@@ -66,6 +76,9 @@ if (fs.existsSync(path.join(clientDist, 'index.html'))) {
 app.use((_req, res) => res.status(404).json({ error: 'Không tìm thấy endpoint' }))
 app.use((err, _req, res, _next) => {
   console.error('[API error]', err)
+  if (isCloudStateError(err)) {
+    return res.status(503).json({ error: 'Cloudflare đang tạm không phản hồi. Dữ liệu chưa được xác nhận đồng bộ; hãy tải lại trước khi thao tác tiếp.' })
+  }
   const payload = { error: 'Lỗi máy chủ nội bộ' }
   if (process.env.NODE_ENV !== 'production') payload.detail = String(err?.message || err)
   res.status(500).json(payload)

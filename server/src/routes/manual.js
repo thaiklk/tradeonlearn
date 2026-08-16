@@ -2,6 +2,8 @@
 // Tách biệt tuyệt đối với dữ liệu live/demo — mọi response đều gắn status:'manual'.
 import { Router } from 'express'
 import db, { ensureWorkspace } from '../db.js'
+import { persistWorkspace } from '../cloudState.js'
+import { asyncHandler } from '../http.js'
 
 const router = Router()
 
@@ -21,7 +23,7 @@ router.get('/:symbol', (req, res) => {
 })
 
 // Nhập nhiều kỳ cùng lúc: body { source, currency, rows: [{period, revenue, ...}] }
-router.post('/:symbol', (req, res) => {
+router.post('/:symbol', asyncHandler(async (req, res) => {
   const userId = ensureWorkspace(req.workspaceId)
   const symbol = String(req.params.symbol || '').toUpperCase()
   if (!/^[A-Z0-9^.-]{1,10}$/.test(symbol)) return res.status(400).json({ error: 'Mã không hợp lệ' })
@@ -41,13 +43,15 @@ router.post('/:symbol', (req, res) => {
   const ins = db.prepare('INSERT INTO user_manual_financials (user_id, symbol, period, source, currency, data) VALUES (?,?,?,?,?,?)')
   const tx = db.transaction(() => valid.forEach((v) => ins.run(...v)))
   tx()
+  await persistWorkspace(userId)
   res.json({ ok: true, inserted: valid.length, status: 'manual' })
-})
+}))
 
-router.delete('/entry/:id', (req, res) => {
+router.delete('/entry/:id', asyncHandler(async (req, res) => {
   const userId = ensureWorkspace(req.workspaceId)
-  db.prepare('DELETE FROM user_manual_financials WHERE user_id = ? AND id = ?').run(userId, Number(req.params.id) || 0)
+  const result = db.prepare('DELETE FROM user_manual_financials WHERE user_id = ? AND id = ?').run(userId, Number(req.params.id) || 0)
+  if (result.changes) await persistWorkspace(userId)
   res.json({ ok: true })
-})
+}))
 
 export default router

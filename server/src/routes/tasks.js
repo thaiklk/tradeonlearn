@@ -4,6 +4,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import db, { ensureWorkspace } from '../db.js'
+import { persistWorkspace } from '../cloudState.js'
+import { asyncHandler } from '../http.js'
 import { marketOf, getQuote } from '../services/marketService.js'
 import { usFundamentals } from '../services/usMarket.js'
 import { analyzeCandles } from '../services/signals.js'
@@ -156,7 +158,7 @@ router.get('/:id', (req, res) => {
 })
 
 // Nộp task — chấm bằng dữ liệu live
-router.post('/:id/submit', async (req, res) => {
+router.post('/:id/submit', asyncHandler(async (req, res) => {
   const userId = ensureWorkspace(req.workspaceId)
   const task = TASKS.find((t) => t.id === req.params.id)
   if (!task) return res.status(404).json({ error: 'Không tìm thấy task' })
@@ -286,6 +288,7 @@ router.post('/:id/submit', async (req, res) => {
     db.prepare(
       `INSERT OR REPLACE INTO user_task_progress (user_id, task_id, score, total, xp, submitted_at) VALUES (?, ?, ?, ?, ?, datetime('now'))`
     ).run(userId, task.id, score, total, earnedXp)
+    await persistWorkspace(userId)
   }
   const xp = totalXp(userId)
 
@@ -310,6 +313,6 @@ router.post('/:id/submit', async (req, res) => {
     results,
     mentor: mentorLines.join(' '),
   })
-})
+}))
 
 export default router

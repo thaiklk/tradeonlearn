@@ -1,7 +1,9 @@
 // Giao dịch giả lập (paper trading): ví USD 100.000 + ví VND 500 triệu, giá theo báo giá thật.
 import { Router } from 'express'
 import db, { ensureWorkspace } from '../db.js'
+import { persistWorkspace } from '../cloudState.js'
 import { getQuote, marketOf, stockName } from '../services/marketService.js'
+import { asyncHandler } from '../http.js'
 
 const router = Router()
 
@@ -71,7 +73,7 @@ router.get('/history', (req, res) => {
   res.json(trades)
 })
 
-router.post('/order', async (req, res) => {
+router.post('/order', asyncHandler(async (req, res) => {
   const userId = ensureWorkspace(req.workspaceId)
   const { symbol, side, qty } = req.body || {}
   const sym = String(symbol || '').toUpperCase()
@@ -151,22 +153,24 @@ router.post('/order', async (req, res) => {
       return { message: `Đã BÁN ${quantity} cp ${sym} @ ${price.toLocaleString('vi-VN')}`, cashAfter }
     })()
 
+    await persistWorkspace(userId)
     res.json({ ok: true, ...result, account: await portfolioSummary(userId) })
   } catch (err) {
     if (err instanceof OrderError) return res.status(400).json({ error: err.message })
     throw err
   }
-})
+}))
 
-router.post('/reset', (req, res) => {
+router.post('/reset', asyncHandler(async (req, res) => {
   const userId = ensureWorkspace(req.workspaceId)
   db.transaction(() => {
     db.prepare('DELETE FROM user_positions WHERE user_id = ?').run(userId)
     db.prepare('DELETE FROM user_trades WHERE user_id = ?').run(userId)
     db.prepare('UPDATE user_accounts SET cash_usd = starting_usd, cash_vnd = starting_vnd WHERE user_id = ?').run(userId)
   })()
+  await persistWorkspace(userId)
   res.json({ ok: true, message: 'Đã reset ví về số dư ban đầu' })
-})
+}))
 
 class OrderError extends Error {}
 

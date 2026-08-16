@@ -142,6 +142,12 @@ export function initDb() {
       read_at TEXT DEFAULT (datetime('now')),
       PRIMARY KEY (user_id, lesson_id)
     );
+    CREATE TABLE IF NOT EXISTS user_corporate_finance_progress (
+      user_id TEXT NOT NULL,
+      module_id TEXT NOT NULL,
+      completed_at TEXT DEFAULT (datetime('now')),
+      PRIMARY KEY (user_id, module_id)
+    );
     CREATE TABLE IF NOT EXISTS user_task_progress (
       user_id TEXT NOT NULL,
       task_id TEXT NOT NULL,

@@ -69,6 +69,11 @@ export const api = {
   markRead: (id) => request(`/lessons/${id}/read`, { method: 'POST' }),
   progress: () => request('/lessons/progress'),
 
+  // Track tai chinh doanh nghiep
+  corporateFinanceProgress: () => request('/corporate-finance/progress'),
+  setCorporateFinanceProgress: (moduleId, completed) =>
+    request('/corporate-finance/progress', { method: 'POST', body: JSON.stringify({ moduleId, completed }) }),
+
   // Từ điển & tin tức
   glossary: (q, category) => {
     const p = new URLSearchParams()

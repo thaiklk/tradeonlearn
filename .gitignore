@@ -3,3 +3,6 @@ dist/
 server/data/
 *.log
 .DS_Store
+.wrangler/
+server/cloud-state-integration-test/
+server/cloud-state-test/

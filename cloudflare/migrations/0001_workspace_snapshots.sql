@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS workspace_snapshots (
+  user_id TEXT PRIMARY KEY,
+  payload TEXT NOT NULL,
+  version INTEGER NOT NULL DEFAULT 1,
+  last_write_id TEXT NOT NULL,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

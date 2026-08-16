@@ -1,6 +1,8 @@
 // Phase 6 — Research workspace theo từng mã: lưu/mở/xóa ghi chú nghiên cứu
 import { Router } from 'express'
 import db, { ensureWorkspace } from '../db.js'
+import { persistWorkspace } from '../cloudState.js'
+import { asyncHandler } from '../http.js'
 
 const router = Router()
 
@@ -35,7 +37,7 @@ router.get('/:symbol', (req, res) => {
 })
 
 // Lưu (upsert)
-router.put('/:symbol', (req, res) => {
+router.put('/:symbol', asyncHandler(async (req, res) => {
   const userId = ensureWorkspace(req.workspaceId)
   const symbol = String(req.params.symbol || '').toUpperCase().slice(0, 10)
   if (!/^[A-Z0-9^.-]{1,10}$/.test(symbol)) return res.status(400).json({ error: 'Mã không hợp lệ' })
@@ -46,15 +48,17 @@ router.put('/:symbol', (req, res) => {
      VALUES (?, ?, ${FIELDS.map(() => '?').join(', ')}, datetime('now'))
      ON CONFLICT(user_id, symbol) DO UPDATE SET ${FIELDS.map((f) => `${f} = excluded.${f}`).join(', ')}, updated_at = datetime('now')`
   ).run(userId, symbol, ...vals)
+  await persistWorkspace(userId)
   const row = db.prepare('SELECT * FROM user_research_notes WHERE user_id = ? AND symbol = ?').get(userId, symbol)
   res.json({ ok: true, symbol, summary: summarize(row) })
-})
+}))
 
 // Xóa
-router.delete('/:symbol', (req, res) => {
+router.delete('/:symbol', asyncHandler(async (req, res) => {
   const userId = ensureWorkspace(req.workspaceId)
-  db.prepare('DELETE FROM user_research_notes WHERE user_id = ? AND symbol = ?').run(userId, String(req.params.symbol || '').toUpperCase())
+  const result = db.prepare('DELETE FROM user_research_notes WHERE user_id = ? AND symbol = ?').run(userId, String(req.params.symbol || '').toUpperCase())
+  if (result.changes) await persistWorkspace(userId)
   res.json({ ok: true })
-})
+}))
 
 export default router

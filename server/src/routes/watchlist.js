@@ -1,6 +1,8 @@
 import { Router } from 'express'
 import db, { ensureWorkspace } from '../db.js'
+import { persistWorkspace } from '../cloudState.js'
 import { getQuotes, marketOf } from '../services/marketService.js'
+import { asyncHandler } from '../http.js'
 
 const router = Router()
 
@@ -25,7 +27,7 @@ router.get('/', async (req, res) => {
   )
 })
 
-router.post('/', async (req, res) => {
+router.post('/', asyncHandler(async (req, res) => {
   const userId = ensureWorkspace(req.workspaceId)
   const symbol = String(req.body?.symbol || '').toUpperCase().trim()
   if (!symbol) return res.status(400).json({ error: 'Thiếu mã cổ phiếu' })
@@ -33,14 +35,16 @@ router.post('/', async (req, res) => {
   const exists = db.prepare('SELECT 1 FROM user_watchlist WHERE user_id = ? AND symbol = ?').get(userId, symbol)
   if (!exists) {
     db.prepare('INSERT INTO user_watchlist (user_id, symbol, market, name) VALUES (?, ?, ?, ?)').run(userId, symbol, market, req.body?.name || null)
+    await persistWorkspace(userId)
   }
   res.json({ ok: true, symbol, market })
-})
+}))
 
-router.delete('/:symbol', (req, res) => {
+router.delete('/:symbol', asyncHandler(async (req, res) => {
   const userId = ensureWorkspace(req.workspaceId)
-  db.prepare('DELETE FROM user_watchlist WHERE user_id = ? AND symbol = ?').run(userId, String(req.params.symbol).toUpperCase())
+  const result = db.prepare('DELETE FROM user_watchlist WHERE user_id = ? AND symbol = ?').run(userId, String(req.params.symbol).toUpperCase())
+  if (result.changes) await persistWorkspace(userId)
   res.json({ ok: true })
-})
+}))
 
 export default router
