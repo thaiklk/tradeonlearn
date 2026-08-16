@@ -14,6 +14,7 @@ import TaskDetail from './pages/TaskDetail.jsx'
 import Roadmap from './pages/Roadmap.jsx'
 import HealthCheck from './pages/HealthCheck.jsx'
 import Compare from './pages/Compare.jsx'
+import ResearchHome, { ResearchEditor } from './pages/Research.jsx'
 
 // Lưới an toàn: nếu 1 component lỗi, hiện thông báo dễ đọc thay vì màn hình đen
 export class ErrorBoundary extends Component {
@@ -63,6 +64,8 @@ export default function App() {
             <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/health-check/:symbol" element={<HealthCheck />} />
             <Route path="/compare" element={<Compare />} />
+            <Route path="/research" element={<ResearchHome />} />
+            <Route path="/research/:symbol" element={<ResearchEditor />} />
           </Routes>
         </ErrorBoundary>
       </main>

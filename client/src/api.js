@@ -61,4 +61,11 @@ export const api = {
   tasks: () => request('/tasks'),
   task: (id) => request(`/tasks/${id}`),
   submitTask: (id, answers) => request(`/tasks/${id}/submit`, { method: 'POST', body: JSON.stringify({ answers }) }),
+
+  // Research workspace (Phase 6)
+  researchList: () => request('/research'),
+  researchGet: (symbol) => request(`/research/${encodeURIComponent(symbol)}`),
+  researchSave: (symbol, fields) =>
+    request(`/research/${encodeURIComponent(symbol)}`, { method: 'PUT', body: JSON.stringify(fields) }),
+  researchDelete: (symbol) => request(`/research/${encodeURIComponent(symbol)}`, { method: 'DELETE' }),
 }

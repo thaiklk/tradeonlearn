@@ -67,6 +67,14 @@ export function initDb() {
       xp INTEGER NOT NULL DEFAULT 0,
       submitted_at TEXT DEFAULT (datetime('now'))
     );
+
+    -- Phase 6: research workspace theo mã (migration an toàn, không đụng dữ liệu cũ)
+    CREATE TABLE IF NOT EXISTS research_notes (
+      symbol TEXT PRIMARY KEY,
+      thesis TEXT, evidence TEXT, valuation TEXT, catalysts TEXT,
+      risks TEXT, invalidation TEXT, sources TEXT, checklist TEXT,
+      updated_at TEXT DEFAULT (datetime('now'))
+    );
   `)
   db.prepare('INSERT OR IGNORE INTO account (id) VALUES (1)').run()
 }
