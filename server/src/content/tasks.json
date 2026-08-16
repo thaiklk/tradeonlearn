@@ -253,5 +253,244 @@
     ],
     "relatedLessons": ["quy-trinh-ra-quyet-dinh", "quan-tri-rui-ro", "tam-ly-dau-tu"],
     "mentorNote": "Memo tốt = người đọc ra quyết định được mà không cần hỏi lại gì. Đó là tiêu chuẩn em hướng tới."
+  },
+  {
+    "id": "cashflow-quality",
+    "title": "Task 8 · Sự thật nằm ở dòng tiền: OCF vs Lợi nhuận",
+    "level": "Nâng cao · Analyst",
+    "role": "Phân tích viên báo cáo tài chính",
+    "minutes": 25,
+    "xp": 70,
+    "symbol": null,
+    "briefEmail": {
+      "from": "Chị Lan — Trưởng phòng Phân tích",
+      "subject": "Công ty Tá Diệu: lợi nhuận đẹp, nhưng tiền đâu?",
+      "body": [
+        "Phòng nhận được báo cáo 3 năm của Công ty Tá Diệu. Lợi nhuận tăng đều — nhưng chị muốn em kiểm tra câu hỏi vàng: LIỢI NHUẬN có thật sự thành TIỀN không?",
+        "Đọc bộ số liệu 3 năm dưới đây, làm 3 phép so sánh OCF/Lợi nhuận, và trả lời: đây là doanh nghiệp khỏe hay 'lợi nhuận trên giấy'? (Ôn Bài 11 trước khi làm.)"
+      ]
+    },
+    "caseTable": {
+      "title": "Công ty Tá Diệu — 3 năm gần nhất (tỷ đồng)",
+      "columns": ["Năm", "Doanh thu", "Lợi nhuận ròng", "OCF (tiền từ kinh doanh)", "CAPEX (đầu tư)", "Phải thu (cuối năm)"],
+      "rows": [
+        ["N1", 800, 50, 45, 20, 150],
+        ["N2", 960, 60, 10, 25, 290],
+        ["N3", 1120, 70, -15, 30, 470]
+      ]
+    },
+    "steps": [
+      "Với từng năm tính tỷ lệ OCF / Lợi nhuận ròng (N1: 45/50 = 0.9; N2: 10/60 ≈ 0.17; N3: âm). Lành mạnh khi ≥ 0.8 nhiều năm.",
+      "Tính FCF từng năm = OCF − CAPEX (N1: 25; N2: −15; N3: −45). FCF âm liên tục = công ty 'tiêu tiền' faster hơn 'in tiền'.",
+      "Nhìn dòng Phải thu: tăng từ 150 → 290 → 470 trong khi doanh thu chỉ tăng 800 → 1120 (+40%). Phải thu tăng ~3 lần tốc độ doanh thu = khách nợ tiền nhiều hơn — nguyên nhân số 1 của OCF kém.",
+      "Kết luận 3 câu: triệu chứng gì? nguyên nhân khả dĩ? em sẽ hỏi công ty câu gì?"
+    ],
+    "fields": [
+      { "id": "ocf_ratio_n2", "label": "Tỷ lệ OCF/LN năm N2 (làm tròn 2 chữ số)", "type": "number", "expectedValue": 0.17, "tolerance": 0.12, "points": 10 },
+      { "id": "fcf_n3", "label": "FCF năm N3 (tỷ đồng, số âm ghi dấu -)", "type": "number", "expectedValue": -45, "tolerance": 0.05, "points": 10 },
+      { "id": "verdict", "label": "Kết luận sức khỏe?", "type": "select", "options": ["Khỏe — lợi nhuận chuyển thành tiền tốt", "Cảnh báo — lợi nhuận trên giấy, tiền không về", "Chưa đủ dữ liệu"], "expected": [1], "points": 15 },
+      { "id": "root_cause", "label": "Nguyên nhân sâu nhất của OCF kém (theo bảng số liệu)?", "type": "select", "options": ["Phải thu tăng quá nhanh — bán chịu nhiều", "CAPEX quá lớn", "Doanh thu giảm", "Thuế tăng"], "expected": [0], "points": 15 },
+      { "id": "questions", "label": "3 câu em sẽ hỏi Ban lãnh đạo (viết đủ 3 câu)", "type": "text", "minLen": 100, "keywords": [["phải thu", "khách nợ", "thu"], ["OCF", "tiền"], ["tồn kho", "chính sách", "khi nào"]], "points": 20 }
+    ],
+    "relatedLessons": ["bao-cao-tai-chinh-3-luu-chuyen-tien"],
+    "mentorNote": "Lợi nhuận là quan điểm, tiền mặt là sự thật — câu này cứu nhiều nhà phân tích khỏi bom nổ chậm."
+  },
+  {
+    "id": "dupont",
+    "title": "Task 9 · Mổ xẻ ROE bằng phân tích DuPont",
+    "level": "Nâng cao · Analyst",
+    "role": "Phân tích viên định giá",
+    "minutes": 20,
+    "xp": 60,
+    "symbol": null,
+    "briefEmail": {
+      "from": "Anh Minh — Analyst cấp cao",
+      "subject": "ROE 20% của 2 công ty — không giống nhau đâu",
+      "body": [
+        "Hai công ty cùng ROE 20% nhưng chất lượng khác nhau. DuPont tách ROE thành 3 bánh xe: ROE = Biên lợi nhuận × Vòng quay tài sản × Đòn bẩy tài chính.",
+        "Em làm với bộ số liệu dưới — đây là kỹ năng 'nhìn xuyên' con số tổng."
+      ]
+    },
+    "caseTable": {
+      "title": "Hai công ty cùng ROE 20% (đơn vị tương đối)",
+      "columns": ["Công ty", "Biên LN ròng", "Vòng quay tài sản", "Đòn bẩy (TS/VCSH)", "ROE"],
+      "rows": [
+        ["Alpha", "10%", "1.0", "2.0", "20%"],
+        ["Beta", "2%", "2.0", "5.0", "20%"]
+      ]
+    },
+    "steps": [
+      "Kiểm tra phép nhân: Alpha 10% × 1.0 × 2.0 = 20% ✓; Beta 2% × 2.0 × 5.0 = 20% ✓.",
+      "Đọc ý nghĩa từng bánh xe: Biên = mỗi $1 doanh thu giữ mấy cent; Vòng quay = mỗi $1 tài sản sinh mấy $ doanh thu; Đòn bẩy = dùng bao nhiêu tiền vay trên $1 vốn chủ.",
+      "Phân biệt: Alpha thắng bằng BIÊN (sản phẩm đắt tiền, thương hiệu); Beta thắng bằng VÒNG QUAY + ĐÒN BẨY (bán rẻ chạy lượng, vay nhiều) → Beta mỏng manh hơn khi nền lãi suất tăng hoặc biên bị bào mòn 0.5%.",
+      "Trả lời form: nếu lãi suất tăng, ai đau hơn? Nếu cạnh tranh ép biên giảm 20% (10%→8% và 2%→1.6%), ROE ai giảm nhiều hơn (tính thử!)."
+    ],
+    "fields": [
+      { "id": "beta_meaning", "label": "Mô hình của Beta là gì?", "type": "select", "options": ["Biên cao, chất lượng”, chạy lượng + vay nhiều", "Cân bằng đều", "Đầu tư dài hạn"], "expected": [0], "points": 10 },
+      { "id": "rate_risk", "label": "Lãi suất tăng — ai đau hơn?", "type": "select", "options": ["Alpha", "Beta", "Ngang nhau"], "expected": [1], "points": 10 },
+      { "id": "alpha_new_roe", "label": "ROE mới của Alpha nếu biên 10% → 8%", "type": "number", "expectedValue": 16, "tolerance": 0.06, "points": 10 },
+      { "id": "beta_new_roe", "label": "ROE mới của Beta nếu biên 2% → 1.6%", "type": "number", "expectedValue": 16, "tolerance": 0.06, "points": 10 },
+      { "id": "insight", "label": "Vì sao ROE giảm giống nhau nhưng Beta vẫn rủi ro hơn? (2-3 câu)", "type": "text", "minLen": 80, "keywords": [["đòn bẩy", "vay", "nợ"], ["biên", "mỏng"]], "points": 20 }
+    ],
+    "relatedLessons": ["chi-so-dinh-gia", "bao-cao-tai-chinh-1-can-doi"],
+    "mentorNote": "Cùng một con số, ba câu chuyện khác nhau — DuPont là kính hiển vi của ROE."
+  },
+  {
+    "id": "peer-compare",
+    "title": "Task 10 · So sánh ngang hàng: KO vs PEP chọn ai?",
+    "level": "Nâng cao · Analyst",
+    "role": "Phân tích viên ngành tiêu dùng",
+    "minutes": 25,
+    "xp": 65,
+    "symbol": null,
+    "briefEmail": {
+      "from": "Chị Lan — Trưởng phòng Phân tích",
+      "subject": "Danh mục cần 1 mã đồ uống — so sánh giúp chị",
+      "body": [
+        "Phòng cần chọn THÊM 1 mã ngành đồ uống cho danh mục phòng thủ. Em so sánh 2 ứng viên bằng phương pháp 'so sánh ngang hàng' (peer comparison): cùng ngành thì chỉ số nào đẹp hơn — chứ không so với công ty công nghệ.",
+        "Bộ số liệu gần nhất của 2 ông lớn dưới đây. Chọn 1 mã + bảo vệ lựa chọn bằng số."
+      ]
+    },
+    "caseTable": {
+      "title": "Hai ứng viên ngành đồ uống (số liệu gần nhất)",
+      "columns": ["Chỉ số", "KO (Coca-Cola)", "PEP (PepsiCo)", "Ai đẹp hơn?"],
+      "rows": [
+        ["P/E", 24, 22, "Xem ngữ cảnh"],
+        ["ROE", "40%", "45%", "Gần nhau"],
+        ["Biên LN ròng", "23%", "10%", "?"],
+        ["Tăng trưởng DT", "6%", "8%", "?"],
+        ["Cổ tức/yield", "3.1%", "3.4%", "?"],
+        ["Nợ/Vốn", "160%", "230%", "?"]
+      ]
+    },
+    "steps": [
+      "Đọc từng dòng và tự hỏi 'ai đẹp hơn & vì sao': P/E PEP thấp hơn chút nhưng ROE PEP cao hơn một phần nhờ NỢ nhiều hơn (D/E 230% vs 160%).",
+      "Điểm nhấn: Biên LN của KO 23% vs PEP 10% — KO là 'cỗ máy thương hiệu' thuần túy; PEP có mảng snack/đồ ăn nhanh dài vốn hơn nên biên mỏng nhưng tăng trưởng nhỉnh hơn.",
+      "Cổ tức: cả hai đều trả đều đặn 60+ năm (Dividend King/Knight) — phù hợp danh mục phòng thủ.",
+      "Chọn 1 mã cho MỤC TIÊU 'phòng thủ + cổ tức' của phòng, lập luận bằng ít nhất 3 số liệu."
+    ],
+    "fields": [
+      { "id": "pick", "label": "Em chọn mã nào cho danh mục phòng thủ?", "type": "select", "options": ["KO (Coca-Cola)", "PEP (PepsiCo)"], "expected": [0, 1], "points": 10, "hint": "Không có đáp án sai — điểm nằm ở立 luận." },
+      { "id": "margin_why", "label": "Vì sao biên LN 2 bên khác nhau lớn vậy? (1-2 câu)", "type": "text", "minLen": 60, "keywords": [["thương hiệu", "mô hình", "snack", "đồ ăn", "chi phí"]], "points": 15 },
+      { "id": "de_note", "label": "Nợ/Vốn khác nhau nói lên điều gì về 2 ROE 'gần nhau'?", "type": "text", "minLen": 60, "keywords": [["đòn bẩy", "nợ", "vay"]], "points": 15 },
+      { "id": "defense", "label": "Lập luận chọn mã của em (dùng ≥3 con số trong bảng)", "type": "text", "minLen": 100, "keywords": [["P/E", "ROE"], ["cổ tức", "yield", "3."], ["nợ", "biên"]], "points": 25 }
+    ],
+    "relatedLessons": ["chi-so-dinh-gia", "quan-tri-rui-ro"],
+    "mentorNote": "Analyst không bao giờ nói 'mã này tốt' — họ nói 'tốt CHO MỤC TIÊU NÀY, vì 3 con số này'."
+  },
+  {
+    "id": "vn-research",
+    "title": "Task 11 · Nghiên cứu thật 1 cổ phiếu Việt Nam",
+    "level": "Nâng cao · Thực chiến",
+    "role": "Phân tích viên thị trường VN",
+    "minutes": 40,
+    "xp": 100,
+    "symbol": "VNM",
+    "briefEmail": {
+      "from": "Chị Lan — Trưởng phòng Phân tích",
+      "subject": "Phòng mở mảng Việt Nam — em coverage mã đầu tiên",
+      "body": [
+        "Phòng bắt đầu coverage thị trường VN. Em tự chọn 1 trong các mã: VNM, FPT, HPG, MWG — rồi tự TRA SỐ LIỆU THẬT trên cafef.vn hoặc vietstock.vn (mục 'Báo cáo tài chính' + 'Chỉ số tài chính').",
+        "Đây là lần đầu em làm toàn trình với nguồn thật: web này có giá & kỹ thuật VN realtime (trang /stock/VNM), phần cơ bản em tự thu thập. Ghi rõ số em tìm được — mentor sẽ kiểm tra tính hợp lý."
+      ]
+    },
+    "steps": [
+      "Mở cafef.vn → gõ mã vào ô tìm kiếm → vào trang mã → menu 'Hồ sơ công ty' → 'Chỉ số tài chính'. Ghi P/E, ROE, Biên LN ròng của năm gần nhất.",
+      "Vào 'Báo cáo tài chính' → xem Lưu chuyển tiền tệ: OCF dương không? lớn hơn LN không?",
+      "Quay lại web này mở /stock/VNM (hoặc mã em chọn): đọc giá realtime + mục Gợi ý kỹ thuật (MA/RSI/MACD).",
+      "Điền đủ form: 3 số cơ bản + 1 nhận xét dòng tiền + 1 nhận xét kỹ thuật + kết luận có đáng nghiên cứu sâu không."
+    ],
+    "fields": [
+      { "id": "ticker", "label": "Mã em chọn", "type": "text", "minLen": 2, "maxLen": 8, "points": 5 },
+      { "id": "pe_vn", "label": "P/E em tra được (gần đúng,mentor kiểm tra khoảng hợp lý)", "type": "number", "min": 3, "max": 80, "points": 15 },
+      { "id": "roe_vn", "label": "ROE em tra được (%)", "type": "number", "min": -20, "max": 100, "points": 15 },
+      { "id": "ocf_note", "label": "Dòng tiền kinh doanh (OCF) của công ty dương/âm? có lớn hơn LN không?", "type": "text", "minLen": 50, "points": 15 },
+      { "id": "tech_note", "label": "Kỹ thuật hiện tại trên web này: giá vs MA200? RSI vùng nào? (2-3 câu)", "type": "text", "minLen": 60, "keywords": [["MA"], ["RSI"]], "points": 20 },
+      { "id": "conclusion", "label": "Kết luận: có đáng đưa vào danh sách nghiên cứu sâu không? Vì sao?", "type": "text", "minLen": 80, "points": 30 }
+    ],
+    "relatedLessons": ["quy-trinh-ra-quyet-dinh", "bao-cao-tai-chinh-3-luu-chuyen-tien"],
+    "mentorNote": "Tự tra được số liệu từ nguồn chính thống = 'tự đi được' — kỹ năng sống còn của nghề."
+  },
+  {
+    "id": "dividend-portfolio",
+    "title": "Task 12 · Xây nhánh cổ tức cho danh mục",
+    "level": "Nâng cao · Analyst",
+    "role": "Quản lý danh mục tập sự",
+    "minutes": 20,
+    "xp": 55,
+    "symbol": null,
+    "briefEmail": {
+      "from": "Anh Minh — Analyst cấp cao",
+      "subject": "Khách hàng muốn dòng tiền đều — làm nhánh cổ tức",
+      "body": [
+        "Khách lớn muốn 40% danh mục sinh cổ tức đều đặn. Em thiết kế nhánh cổ tức từ 4 ứng viên dưới đây — nhớ quy tắc: yield cao phải kèm tỷ lệ chi trả (payout) lành mạnh, không phải 'cái bẫy yield'."
+      ]
+    },
+    "caseTable": {
+      "title": "4 ứng viên cổ tức (số liệu gần nhất)",
+      "columns": ["Mã", "Cổ tức yield", "Payout (LN chi cho cổ tức)", "Tăng cổ tức liên tục", "Ghi chú"],
+      "rows": [
+        ["A", "3.2%", "65%", "20 năm", "Hàng tiêu dùng"],
+        ["B", "7.5%", "95%", "3 năm", "Địa ốc — LN lên xuống"],
+        ["C", "4.0%", "55%", "8 năm", "Điện & nước"],
+        ["D", "9.8%", "140%", "2 năm", "Vay cổ tức > LN!"]
+      ]
+    },
+    "steps": [
+      "Hiểu 2 khái niệm: Yield = cổ tức/giá (thu nhập); Payout = % lợi nhuận chia出去 (sức bền — trên 80% là căng, >100% là vay để chia!).",
+      "Loại bẫy: D yield 9.8% nghe hấp dẫn nhưng payout 140% = chia nhiều hơn kiếm — không bền. B payout 95% + ngành chu kỳ = rủi ro cắt cổ tức khi LN giảm.",
+      "Chọn 2 mã bền nhất cho khách 'muốn dòng tiền đều' + giải thích vì sao yield của em chọn 'thấp hơn nhưng thật hơn'.",
+      "Tính nhanh: đầu tư $40.000 vào 2 mã theo tỷ lệ em chọn → cổ tức dự kiến mỗi năm bao nhiêu $?"
+    ],
+    "fields": [
+      { "id": "pick2", "label": "2 mã em chọn (VD: A, C)", "type": "text", "minLen": 3, "points": 15 },
+      { "id": "trap", "label": "Vì sao yield 9.8% của D là 'cái bẫy'?", "type": "text", "minLen": 50, "keywords": [["140", "payout", "hơn lợi nhuận", "vay"]], "points": 15 },
+      { "id": "income_calc", "label": "Cổ tức $/năm nếu đầu tư $40.000 theo tỷ lệ em chọn (ghi cả tỷ lệ)", "type": "text", "minLen": 40, "keywords": [["$"]], "points": 15, "hint": "VD: 50/50 vào A(3.2%) và C(4.0%): 20.000×3.2% + 20.000×4.0% = $1.440/năm." },
+      { "id": "philosophy", "label": "1 câu triết lý em rút ra về yield vs payout", "type": "text", "minLen": 40, "points": 10 }
+    ],
+    "relatedLessons": ["co-phieu-la-gi", "quan-tri-rui-ro"],
+    "mentorNote": "Yield là thu nhập hôm nay; payout là khả năng còn thu nhập ngày mai."
+  },
+  {
+    "id": "red-flags",
+    "title": "Task 13 · Săn dấu hiệu đỏ trong báo cáo tài chính",
+    "level": "Nâng cao · Thực chiến",
+    "role": "Phân tích viên kiểm tra rủi ro",
+    "minutes": 25,
+    "xp": 75,
+    "symbol": null,
+    "briefEmail": {
+      "from": "Chị Lan — Trưởng phòng Phân tích",
+      "subject": "Screen 3 công ty — có quả bom nào không?",
+      "body": [
+        "Trước khi phòng的研究 bất kỳ mã nào, em phải chạy 'bộ lọc dấu hiệu đỏ' (red flags) 5 phút. Dưới đây là 3 công ty ẩn danh — em tìm cho chị xem ai đáng ngờ nhất."
+      ]
+    },
+    "caseTable": {
+      "title": "3 công ty ẩn danh — điểm đáng chú ý",
+      "columns": ["Điểm观察", "Công ty X", "Công ty Y", "Công ty Z"],
+      "rows": [
+        ["OCF vs LN (3 năm TB)", "0.95×", "0.3×", "1.1×"],
+        ["Phải thu / DT (xu hướng)", "Ổn định", "×3 tốc độ DT", "Giảm"],
+        ["Tồn kho", "Bình thường", "Tăng mạnh", "Giảm"],
+        ["Goodwill / VCSH", "8%", "5%", "45%"],
+        ["Kiểm toán", "Không ngoại trừ", "Không ngoại trừ", "Ngoại trừ nhỏ"],
+        ["Cổ đông lớn giảm sở hữu", "Không", "Không", "Đang giảm dần"]
+      ]
+    },
+    "steps": [
+      "Nhớ 5 dấu hiệu đỏ kinh điển (Bài 9+11): OCF thấp hơn LN kéo dài; phải thu/tồn kho phình nhanh hơn doanh thu; Goodwill khổng lồ; kiểm toán có 'ngoại trừ'; người trong cuộc bán/rút vốn.",
+      "Đánh giá từng ô: dấu hiệu nào nặng (red), đáng chú ý (yellow), hay bình thường (green)?",
+      "Xếp hạng 3 công ty theo mức nguy hiểm. Chú ý: dấu hiệu đơn lẻ = câu hỏi; cụm 2-3 dấu hiệu = cảnh báo thật.",
+      "Viết 'ghi chú rủi ro' 3 câu cho công ty nguy hiểm nhất."
+    ],
+    "fields": [
+      { "id": "worst", "label": "Công ty nguy hiểm nhất?", "type": "select", "options": ["X", "Y", "Z"], "expected": [1, 2], "points": 15, "hint": "Hai lựa chọn đều có thể bảo vệ được — điểm ở lập luận. Z cũng rất đáng ngờ: goodwill 45% + kiểm toán ngoại trừ + người trong cuộc rút..." },
+      { "id": "y_flags", "label": "Y có những dấu hiệu đỏ nào? (liệt kê từ bảng)", "type": "text", "minLen": 50, "keywords": [["OCF", "tiền"], ["phải thu"]], "points": 20 },
+      { "id": "z_flags", "label": "Z có những dấu hiệu đáng lo nào?", "type": "text", "minLen": 50, "keywords": [["goodwill", "thương mại"], ["kiểm toán", "ngoại trừ"], ["cổ đông", "bán", "rút"]], "points": 20 },
+      { "id": "rule", "label": "Quy tắc em tự đặt sau task này (1 câu, kiểu 'nếu thấy... thì...')", "type": "text", "minLen": 40, "points": 20 }
+    ],
+    "relatedLessons": ["bao-cao-tai-chinh-1-can-doi", "bao-cao-tai-chinh-3-luu-chuyen-tien"],
+    "mentorNote": "Nhiệm vụ số 1 của analyst không phải tìm cổ phiếu thắng — mà là TRÁNH cổ phiếu thua xấu xí."
   }
 ]

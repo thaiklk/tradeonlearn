@@ -15,8 +15,9 @@ export default function NavBar() {
         <nav className="nav-links">
           <NavLink to="/" end>Tổng quan</NavLink>
           <NavLink to="/desk">💼 Phòng phân tích</NavLink>
-          <NavLink to="/trading">Giao dịch giả lập</NavLink>
+          <NavLink to="/roadmap">🧭 Lộ trình</NavLink>
           <NavLink to="/learn">Học tập</NavLink>
+          <NavLink to="/trading">Giao dịch</NavLink>
           <NavLink to="/glossary">Từ điển</NavLink>
           <NavLink to="/news">Tin tức</NavLink>
           <NavLink to="/guide">📖 Hướng dẫn</NavLink>

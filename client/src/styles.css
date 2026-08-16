@@ -29,10 +29,119 @@ html, body { margin: 0; padding: 0; }
 body {
   background: radial-gradient(1200px 500px at 80% -10%, #14213a 0%, var(--bg) 55%) fixed;
   color: var(--text);
-  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Be Vietnam Pro', 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 15px;
   line-height: 1.6;
   min-height: 100vh;
+}
+
+/* ============ LỚP LÀM ĐẸP (beautify) ============ */
+
+/* Nền động nhẹ */
+#root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(700px 400px at -5% 15%, #4f8cff0d 0%, transparent 60%),
+    radial-gradient(600px 400px at 105% 45%, #22c55e09 0%, transparent 60%),
+    radial-gradient(500px 350px at 40% 110%, #a78bfa0b 0%, transparent 60%);
+}
+
+/* Navbar kính mờ + viền phát sáng trên */
+.navbar {
+  background: #0c1220d9;
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-soft);
+  box-shadow: 0 1px 0 #4f8cff1a, 0 8px 30px #00000059;
+}
+.brand .logo { filter: drop-shadow(0 0 10px #4f8cff66); animation: floaty 3.4s ease-in-out infinite; }
+@keyframes floaty { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-2.5px) } }
+.nav-links a { transition: all 0.18s ease; }
+.nav-links a.active {
+  color: #fff;
+  background: linear-gradient(135deg, #4f8cff26, #22c55e1c);
+  border-color: #4f8cff66;
+  box-shadow: 0 0 14px #4f8cff2e inset;
+}
+
+/* Thẻ kính + hover nâng lên */
+.card {
+  background: linear-gradient(160deg, #141d31f2 0%, #101726f2 100%);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: 0 10px 30px #00000042, inset 0 1px 0 #ffffff0a;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.card:hover { border-color: #2c3a58; box-shadow: 0 14px 36px #00000052, inset 0 1px 0 #ffffff0d; }
+.idx-card:hover, a.card:hover { transform: translateY(-2px); }
+
+/* Nút chính gradient + sáng */
+.btn { transition: all 0.16s ease; }
+.btn.primary {
+  background: linear-gradient(135deg, #4f8cff, #3a6fe0);
+  border: none;
+  box-shadow: 0 4px 16px #4f8cff3d;
+}
+.btn.primary:hover { box-shadow: 0 6px 22px #4f8cff5c; transform: translateY(-1px); filter: brightness(1.07); }
+.btn.buy { box-shadow: 0 4px 14px #22c55e33; }
+.btn.sell { box-shadow: 0 4px 14px #ef444433; }
+
+/* Hero gradient text */
+.hero-card h1 {
+  background: linear-gradient(100deg, #e8edf6 30%, #7db1ff 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Thẻ bước trong Roadmap / step */
+.step-card {
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  background: linear-gradient(160deg, #131c2ecc, #0e1523cc);
+  transition: border-color 0.16s ease, transform 0.16s ease;
+}
+.step-card:hover { border-color: #3d5a94; transform: translateY(-1px); }
+
+/* Badge phát nhẹ */
+.badge.green { box-shadow: 0 0 10px #22c55e22; }
+.badge.demo { box-shadow: 0 0 10px #f59e0b22; animation: pulse 2.2s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: 0.72 } }
+
+/* Bảng mượt */
+.table tbody tr { transition: background 0.14s ease; }
+.table tbody tr:hover { background: #4f8cff0a; }
+
+/* Scrollbar gọn */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #0a0e16; }
+::-webkit-scrollbar-thumb { background: #243350; border-radius: 99px; border: 2px solid #0a0e16; }
+::-webkit-scrollbar-thumb:hover { background: #31456e; }
+
+/* Chọn text màu thương hiệu */
+::selection { background: #4f8cff; color: #fff; }
+
+/* Input focus phát sáng */
+.input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px #4f8cff22; }
+
+/* Tím kiếm & dropdown bóng sâu hơn */
+.search-drop { animation: dropIn 0.16s ease; }
+@keyframes dropIn { from { opacity: 0; transform: translateY(-4px) } to { opacity: 1; transform: none } }
+
+/* Trọng tâm: card-title có gạch gradient nhỏ */
+.card-title span:first-child::after {
+  content: '';
+  display: block;
+  width: 34px;
+  height: 2.5px;
+  margin-top: 5px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--accent), transparent);
 }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
