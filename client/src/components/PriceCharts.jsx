@@ -124,7 +124,7 @@ export default function AnalysisCharts({
       price: 30, color: '#22c55e99', lineStyle: LineStyle.Dashed, lineWidth: 1,
       title: 'Quá bán 30', axisLabelVisible: true,
     })
-    rsiChart.priceScale().applyOptions({ scaleMargins: { top: 0.1, bottom: 0.08 } })
+    rsiChart.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.08 } })
 
     /* ---------- Chart 3: MACD ---------- */
     const macdChart = createChart(macdRef.current, {
@@ -140,7 +140,7 @@ export default function AnalysisCharts({
     macdLine.setData(alignSeries(candles, series.macd))
     const signalLine = macdChart.addLineSeries({ color: '#f59e0b', lineWidth: 1, priceLineVisible: false, title: 'Signal' })
     signalLine.setData(alignSeries(candles, series.macdSignal))
-    macdChart.priceScale().applyOptions({ scaleMargins: { top: 0.15, bottom: 0.08 } })
+    macdChart.priceScale('right').applyOptions({ scaleMargins: { top: 0.15, bottom: 0.08 } })
 
     /* ---------- Bấm vào biểu đồ → mở hướng dẫn đọc ---------- */
     const clickPrice = (param) => {
