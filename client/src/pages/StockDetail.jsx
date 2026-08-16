@@ -48,6 +48,80 @@ function SignalCard({ signal }) {
   )
 }
 
+import MetricExplainer from '../components/MetricExplainer.jsx'
+
+// "Doanh nghiệp này bán gì?" — 1 câu cho người mới (nguồn: mô tả kinh doanh chính)
+const BUSINESS_MODEL = {
+  FPT: 'Bán dịch vụ phát triển phần mềm (xuất khẩu IT), giải pháp số và bán lẻ thiết bị công nghệ.',
+  VNM: 'Sản xuất và bán sữa cùng các sản phẩm dinh dưỡng cho mọi lứa tuổi.',
+  AAPL: 'Bán iPhone, máy tính, phụ kiện và các dịch vụ số (App Store, iCloud...) — phần lớn lợi nhuận đến từ dịch vụ.',
+  MSFT: 'Bán phần mềm đám mây (Azure), Office, Windows và dịch vụ doanh nghiệp theo thuê.',
+  KO: 'Bán nước ngọt và đồ uống có thương hiệu toàn cầu qua mạng lưới đóng chai.',
+}
+
+const last = (a) => (a?.length ? a[a.length - 1] : null)
+
+function SummaryCard({ symbol, name, fin, quote }) {
+  const notable = []
+  const g = last(fin?.ratios?.revenueGrowth)
+  const ocf = last(fin?.ratios?.ocfToNi)
+  const de = last(fin?.ratios?.debtToEquity)
+  const roe = last(fin?.ratios?.roe)
+  if (g != null) notable.push(`Doanh thu ${g >= 0 ? 'tăng' : 'giảm'} ${Math.abs(g)}% năm gần nhất ${g >= 15 ? '(tăng trưởng khỏe)' : g >= 0 ? '(chậm)' : '(co lại — cần hiểu lý do)'}`)
+  if (roe != null) notable.push(`ROE ${roe}% ${roe >= 15 ? '— vốn chủ sinh lời khá hiệu quả' : '— dưới mốc 15% thường xem là tốt'}`)
+  if (ocf != null) notable.push(`OCF/Lợi nhuận ${ocf}% ${ocf >= 80 ? '— lợi nhuận chuyển thành tiền khá thật' : '— CẦN KIỂM TRA THÊM: tiền chưa về đủ (xem Bài 11)'}`)
+  if (de != null) notable.push(`Nợ/Vốn ${de}% ${de <= 100 ? '— gánh nợ tương đối nhẹ' : '— nợ cao hơn vốn, xem lãi vay'}`)
+  return (
+    <div className="card">
+      <div className="card-title"><span>⏱️ Tóm tắt 5 phút (cho người mới)</span></div>
+      <p style={{ margin: '0 0 8px' }}><b>Doanh nghiệp kiếm tiền bằng cách nào?</b></p>
+      <p className="muted" style={{ margin: 0 }}>{BUSINESS_MODEL[symbol] || `Chưa có mô tả cho ${symbol} — hãy tra mục "Hồ sơ công ty" trên cafef/vietstock và tự viết 1 câu (đó là Bước 1 của mọi analyst).`}</p>
+      <p style={{ margin: '12px 0 6px' }}><b>Ba điểm đáng chú ý</b> <span className="muted" style={{ fontWeight: 400, fontSize: 12 }}>(từ số liệu bên dưới{fin?.status === 'demo' ? ' — đang là dữ liệu mẫu giáo dục' : ''})</span>:</p>
+      <ul style={{ margin: 0, paddingLeft: 20 }}>
+        {(notable.length ? notable.slice(0, 3) : ['Chưa có dữ liệu để tóm tắt — xem thẻ BCTC bên dưới hoặc nhập tay']).map((n, i) => <li key={i} style={{ margin: '4px 0', fontSize: 13.5 }}>{n}</li>)}
+      </ul>
+      <p style={{ margin: '12px 0 6px' }}><b>Ba câu hỏi cần kiểm tra</b> <span className="muted" style={{ fontWeight: 400, fontSize: 12 }}>(tự trả lời khi đọc tiếp trang)</span>:</p>
+      <ul className="muted" style={{ margin: 0, paddingLeft: 20, fontSize: 13.5 }}>
+        <li>Lợi nhuận có đi CÙNG dòng tiền không?</li>
+        <li>Nợ có tăng nhanh hơn tài sản không?</li>
+        <li>Giá hiện tại đang trả bao nhiêu cho 1 đồng lợi nhuận (P/E) — đắt hay rẻ so với chính nó?</li>
+      </ul>
+    </div>
+  )
+}
+
+function HealthMetricsCard({ symbol, fin, quote }) {
+  const r = fin?.rows, q = fin?.ratios
+  const period = fin?.periodEnd || '—'
+  const source = fin?.source || '—'
+  const status = fin?.status || 'no-data'
+  const unit = fin?.unit || ''
+  const eps = last(r?.eps)
+  const pe = quote?.price != null && eps > 0 ? (quote.price / eps).toFixed(1) : null
+  const M = (props) => <MetricExplainer period={period} source={source} status={status} {...props} />
+  const items = [
+    { name: 'Doanh thu (Revenue)', value: last(r?.revenue) != null ? last(r.revenue).toLocaleString('vi-VN') : '—', unit, simple: 'Tổng tiền doanh nghiệp bán được trong kỳ — quy mô của việc kinh doanh.', formula: 'Tổng giá trị hàng/dịch vụ đã bán', example: 'Bán 1 triệu sản phẩm × 50.000₫ = 50 tỷ doanh thu', readUp: 'đang mở rộng quy mô hoặc giá tăng', readDown: 'co lại — cần tìm lý do (cạnh tranh? nhu cầu?)', traps: 'Doanh thu ≠ tiền thu được: có thể là bán chịu. Luôn đọc cạnh OCF.', compare: 'So với chính nó năm trước và các đối thủ cùng ngành', links: [{ to: '/learn/bao-cao-tai-chinh-2-ket-qua', label: 'Bài 10' }, { to: '/glossary?q=Doanh thu', label: 'Thuật ngữ' }] },
+    { name: 'Lợi nhuận ròng (Net Income)', value: last(r?.netIncome) != null ? last(r.netIncome).toLocaleString('vi-VN') : '—', unit, simple: 'Phần còn lại sau khi trừ MỌI chi phí — "kiếm được thật" theo sổ sách.', formula: 'Doanh thu − giá vốn − chi phí − lãi vay − thuế', example: 'Doanh thu 100, chi phí hết 88 → lãi ròng 12', readUp: 'kinh doanh hiệu quả hơn', readDown: 'chi phí ăn mòn hoặc doanh thu giảm', traps: 'Lợi nhuận là QUAN ĐIỂM kế toán — có thể đẹp mà chưa có tiền. Đọc cạnh OCF.', links: [{ to: '/learn/bao-cao-tai-chinh-2-ket-qua', label: 'Bài 10' }] },
+    { name: 'Dòng tiền kinh doanh (OCF)', value: last(r?.ocf) != null ? last(r.ocf).toLocaleString('vi-VN') : '—', unit, simple: 'Tiền THẬT vào két sắt từ việc buôn bán — số khó làm đẹp nhất.', formula: 'Tiền thu từ khách − tiền trả lương/nhà cung cấp...', example: 'Lãi 12 nhưng khách chưa trả → OCF có thể chỉ 3', readUp: 'kinh doanh tự nuôi mình tốt', readDown: 'dấu hiệu cần kiểm tra: bán chịu nhiều / tồn kho chất', traps: 'OCF < lợi nhuận nhiều năm = "lợi nhuận trên giấy" (Bài 11).', links: [{ to: '/learn/bao-cao-tai-chinh-3-luu-chuyen-tien', label: 'Bài 11' }] },
+    { name: 'Dòng tiền tự do (FCF)', value: last(r?.fcf) != null ? last(r.fcf).toLocaleString('vi-VN') : '—', unit, simple: 'Tiền dư SAU khi đầu tư nhà xưởng — tiền thật sự "tự do" cho cổ đông.', formula: 'OCF − CAPEX (tiền đầu tư)', example: 'OCF 10 − đầu tư 3 = FCF 7', readUp: 'càng nhiều "oxy" cho trả nợ/cổ tức', readDown: 'đang đầu tư nặng tay hoặc kinh doanh yếu', traps: 'FCF âm liên tục ở công ty "già" là cảnh báo.', links: [{ to: '/learn/bao-cao-tai-chinh-3-luu-chuyen-tien', label: 'Bài 11' }] },
+    { name: 'ROE (%)', value: last(q?.roe) != null ? last(q.roe) : '—', unit: '%', simple: `Với mỗi 100 đồng vốn của chủ sở hữu, doanh nghiệp tạo ra khoảng ${last(q?.roe) ?? '?'} đồng lợi nhuận trong kỳ.`, formula: 'Lợi nhuận ròng ÷ Vốn chủ sở hữu', example: 'Lãi 18 / vốn 100 = ROE 18%', readUp: 'dùng vốn hiệu quả — nhưng xem có phải do NỢ cao đẩy lên (DuPont)', readDown: 'vốn sinh lời kém hoặc lợi nhuận suy giảm', traps: 'Không kết luận từ 1 năm hoặc 1 chỉ số. ROE cao + nợ thấp mới chất lượng.', compare: '≥15% thường xem là khá; so cùng ngành', links: [{ to: '/learn/chi-so-dinh-gia', label: 'Bài 12' }, { to: '/desk/dupont', label: 'Task 9 DuPont' }] },
+    { name: 'Biên lợi nhuận ròng (%)', value: last(q?.netMargin) != null ? last(q.netMargin) : '—', unit: '%', simple: 'Mỗi 100 đồng doanh thu giữ lại được bao nhiêu đồng lợi nhuận.', formula: 'Lợi nhuận ròng ÷ Doanh thu × 100', example: 'Lãi 12 / doanh thu 100 = biên 12%', readUp: 'định giá mạnh hoặc cắt chi phí tốt', readDown: 'cạnh tranh gay hoặc chi phí tăng', traps: 'Mỗi ngành khác nhau (siêu thị 2% vẫn ổn, phần mềm 30% mới thường).', links: [{ to: '/learn/bao-cao-tai-chinh-2-ket-qua', label: 'Bài 10' }] },
+    { name: 'Nợ / Vốn chủ (%)', value: last(q?.debtToEquity) != null ? last(q.debtToEquity) : '—', unit: '%', simple: 'Bao nhiêu đồng nợ trên mỗi 1 đồng vốn thật của chủ sở hữu.', formula: 'Tổng nợ phải trả ÷ Vốn chủ sở hữu', example: 'Nợ 40 / vốn 100 = 40%', readUp: 'đòn bẩy mạnh hơn — lợi nhuận và rủi ro cùng tăng', readDown: 'gánh nợ nhẹ đi', traps: '≤100% thường thoải mái; ngân hàng nợ cao là bản chất ngành. Nợ cao + lãi suất tăng = nguy hiểm.', links: [{ to: '/learn/bao-cao-tai-chinh-1-can-doi', label: 'Bài 9' }] },
+    { name: 'P/E (Giá ÷ EPS)', value: pe ?? '—', unit: 'lần', simple: pe ? `Ở giá hiện tại, bạn trả ${pe} đồng cho mỗi 1 đồng lợi nhuận mỗi năm.` : 'Cần giá live + EPS để tính.', formula: 'Giá cổ phiếu ÷ Lợi nhuận trên mỗi cổ phiếu (EPS)', example: 'Giá 300 ÷ EPS 8.5 = P/E 35', readUp: 'thị trường kỳ vọng tăng trưởng lớn (hoặc đang đắt)', readDown: 'kỳ vọng thấp hoặc đang rẻ — PHẢI so cùng ngành + lịch sử', traps: 'Bẫy giá rẻ: P/E thấp có thể vì doanh nghiệp đang hỏng. P/E = 0 nghĩa đang lỗ.', compare: 'Dải bình thường mỗi ngành khác nhau (ngân hàng ~10, công nghệ ~30)', links: [{ to: '/learn/chi-so-dinh-gia', label: 'Bài 12' }, { to: '/desk/valuation', label: 'Task 4' }] },
+  ]
+  return (
+    <div className="card">
+      <div className="card-title"><span>🩺 Sức khỏe tài chính — bấm "Giải thích" ở mỗi chỉ số</span></div>
+      <div className="grid cols-2" style={{ gap: 10 }}>
+        {items.map((it) => <div key={it.name}><M {...it} /></div>)}
+      </div>
+      <div className="muted" style={{ fontSize: 12, marginTop: 10 }}>
+        💡 Mọi kết luận trên chỉ là <b>dấu hiệu cần kiểm tra thêm</b> so với mốc tham khảo — không phải lời khuyên mua/bán.
+      </div>
+    </div>
+  )
+}
+
 function StatsCard({ data }) {
   const { indicators, quote, currency } = data
   const rows = [
@@ -78,8 +152,10 @@ function StatsCard({ data }) {
   )
 }
 
-function FinancialsCard({ symbol }) {
-  const { data: fin } = useApi(() => api.get(`/stocks/${encodeURIComponent(symbol)}/financials`), [symbol])
+function FinancialsCard({ symbol, fin: finProp }) {
+  // dùng BCTC cha đã fetch nếu có, chỉ tự fetch khi đứng một mình
+  const { data: finSelf } = useApi(() => (finProp ? Promise.resolve(finProp) : api.get(`/stocks/${encodeURIComponent(symbol)}/financials`)), [symbol, finProp])
+  const fin = finProp || finSelf
   const [basic, setBasic] = useState(true) // Phase 3: Cơ bản (5 chỉ số + câu hỏi) / Nâng cao (đủ bảng)
   if (!fin || fin.status === 'no-data' || !fin.years?.length)
     return (
@@ -247,6 +323,10 @@ export default function StockDetail() {
   // Báo giá live qua SSE (~5s) + polling dự phòng
   const { quotes, updatedAt, live } = useQuoteStream([symbol])
   const live2 = quotes[symbol.toUpperCase()] || null
+  // BCTC chuẩn hóa dùng chung cho Tóm tắt + Sức khỏe + bảng 4 năm (1 request)
+  const { data: fin } = useApi(() => api.get(`/stocks/${encodeURIComponent(symbol)}/financials`), [symbol])
+  const [beginnerCharts, setBeginnerCharts] = useState(false)
+  const effectiveToggles = beginnerCharts ? { ma20: false, ma50: false, ma200: false, bb: false } : toggles
 
   useEffect(() => {
     api
@@ -298,9 +378,9 @@ export default function StockDetail() {
                 <span className={`badge ${data?.market === 'VN' ? 'vn' : 'us'}`}>{data?.market === 'VN' ? 'Việt Nam' : 'Mỹ'}</span>
                 {data?.demo && <span className="badge demo">DỮ LIỆU MÔ PHỎNG</span>}
                 {data?.quote?.delayed && !data?.demo && <span className="badge gray">{data.quote.delayed}</span>}
-                {live ? (
-                  <span className="badge green" title={updatedAt ? `Cập nhật lúc ${updatedAt.toLocaleTimeString('vi-VN')}` : ''}>
-                    ● TRỰC TIẾP {updatedAt ? updatedAt.toLocaleTimeString('vi-VN') : ''}
+                {live2 ? (
+                  <span className="badge green" title={updatedAt ? `Nhận lúc ${updatedAt.toLocaleTimeString('vi-VN')}` : ''}>
+                    ● {live2.delayed || 'trực tiếp'} {updatedAt ? updatedAt.toLocaleTimeString('vi-VN') : ''}
                   </span>
                 ) : (
                   <span className="badge gray">○ cập nhật định kỳ</span>
@@ -332,26 +412,69 @@ export default function StockDetail() {
           </div>
         </div>
 
-        {/* Charts */}
+        {/* 2. Tóm tắt 5 phút cho người mới */}
+        <div style={{ marginTop: 16 }}>
+          <SummaryCard symbol={symbol.toUpperCase()} name={data?.name} fin={fin} quote={live2 || data?.quote} />
+        </div>
+
+        {/* 3. Sức khỏe tài chính với MetricExplainer */}
+        <div style={{ marginTop: 16 }}>
+          <HealthMetricsCard symbol={symbol.toUpperCase()} fin={fin} quote={live2 || data?.quote} />
+        </div>
+
+        {/* 4. BCTC 4 năm + tỷ số (kèm toggle Cơ bản/Nâng cao) */}
+        <div style={{ marginTop: 16 }}>
+          <FinancialsCard symbol={symbol} fin={fin} />
+        </div>
+
+        {/* 5. So sánh đối thủ + red-flags */}
+        <div style={{ marginTop: 16 }}>
+          <PeersCard symbol={symbol} />
+        </div>
+
+        {/* 6. Research workspace */}
+        <div className="card" style={{ marginTop: 16 }}>
+          <div className="card-title"><span>🔬 Ghi chú nghiên cứu {symbol.toUpperCase()}</span></div>
+          <div className="muted" style={{ fontSize: 13.5 }}>
+            Lưu luận điểm, bằng chứng, rủi ro và xuất Investment Memo cho mã này — workspace riêng của bạn.
+          </div>
+          <Link to={`/research/${symbol.toUpperCase()}`} className="btn sm" style={{ marginTop: 10 }}>Mở workspace →</Link>
+        </div>
+
+        {/* 7. Biểu đồ kỹ thuật — bài học BỔ TRỢ, đặt cuối */}
         <div className="card" style={{ marginTop: 16 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', marginBottom: 12 }}>
             <div className="range-tabs">
               {RANGES.map((r) => (
-                <button key={r.key} className={`btn sm ${range === r.key ? 'active' : ''}`} onClick={() => setRange(r.key)}>
+                <button
+                  key={r.key}
+                  title={r.key === '1d' ? 'Mỗi nến = 5 phút trong phiên hôm nay — xem biến động ngắn' : `Mỗi nến = 1 ngày, nhìn ${r.label.toLowerCase()} để thấy xu hướng lớn`}
+                  className={`btn sm ${range === r.key ? 'active' : ''}`}
+                  onClick={() => setRange(r.key)}
+                >
                   {r.label}
                 </button>
               ))}
             </div>
             <div className="chart-legend">
+              <button
+                className={`btn sm ${beginnerCharts ? 'active' : ''}`}
+                title="Người mới: ẩn mọi đường chỉ báo, chỉ còn nến giá + khối lượng cho dễ nhìn"
+                onClick={() => setBeginnerCharts(!beginnerCharts)}
+              >
+                🌱 Ẩn chỉ báo
+              </button>
               {[
-                ['ma20', 'MA20'],
-                ['ma50', 'MA50'],
-                ['ma200', 'MA200'],
-                ['bb', 'Bollinger'],
-              ].map(([key, label]) => (
+                ['ma20', 'MA20', 'Trung bình giá 20 phiên (~1 tháng) — nhịp ngắn hạn'],
+                ['ma50', 'MA50', 'Trung bình giá 50 phiên (~1 quý) — huyết mạch trung hạn'],
+                ['ma200', 'MA200', 'Trung bình giá 200 phiên (~1 năm) — ranh giới tăng/giảm dài hạn'],
+                ['bb', 'Bollinger', 'Dải biến động ±2 độ lệch chuẩn quanh MA20 — đo "sức ép" biến động'],
+              ].map(([key, label, tip]) => (
                 <button
                   key={key}
-                  className={`btn sm ${toggles[key] ? 'active' : ''}`}
+                  title={tip}
+                  disabled={beginnerCharts}
+                  className={`btn sm ${toggles[key] && !beginnerCharts ? 'active' : ''}`}
                   onClick={() => setToggles((t) => ({ ...t, [key]: !t[key] }))}
                 >
                   {label}
@@ -364,24 +487,18 @@ export default function StockDetail() {
               <AnalysisCharts
                 candles={data.candles}
                 series={data.series}
-                toggles={toggles}
+                toggles={effectiveToggles}
                 ranges={{ intraday: range === '1d' }}
                 symbol={symbol.toUpperCase()}
                 market={data.market}
                 currency={currency}
                 live={live2}
+                liveCandles={data.market === 'US' && !data.demo}
               />
             </ErrorBoundary>
           ) : (
             <div className="empty">Không có dữ liệu nến.</div>
           )}
-        </div>
-
-        <div style={{ marginTop: 16 }}>
-          <FinancialsCard symbol={symbol} />
-        </div>
-        <div style={{ marginTop: 16 }}>
-          <Fundamentals symbol={symbol} market={data?.market} />
         </div>
       </div>
 

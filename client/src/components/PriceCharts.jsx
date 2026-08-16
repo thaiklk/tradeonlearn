@@ -44,6 +44,7 @@ export default function AnalysisCharts({
   ranges,
   compact = false,
   live = null, // quote realtime — cập nhật cây nến cuối từng tick
+  liveCandles = true, // trung thực dữ liệu: nguồn trễ/EOD/demo KHÔNG sửa nến, chỉ chạy đường giá
 }) {
   const priceRef = useRef(null)
   const rsiRef = useRef(null)
@@ -221,10 +222,16 @@ export default function AnalysisCharts({
 
   // 📡 LIVE: mỗi tick giá (~5s qua SSE) → cập nhật cây nến cuối / lăn sang nến mới (khung 1 ngày)
   useEffect(() => {
-    const cs = candleSeriesRef.current
     const lb = lastBarRef.current
-    if (!live?.price || !cs || !lb) return
+    if (!live?.price || !lb) return
     const p = live.price
+    // Nguồn trễ/EOD/demo: chỉ cập nhật ĐƯỜNG GIÁ + nhãn — không ghi đè nến (tránh bịa OHLC)
+    if (!liveCandles) {
+      priceLineRef.current?.applyOptions({ price: p })
+      return
+    }
+    const cs = candleSeriesRef.current
+    if (!cs) return
     let bar
     if (intradayRef.current) {
       const bucket = Math.floor(Date.now() / 1000 / 300) * 300 // bar 5 phút hiện tại
@@ -239,7 +246,7 @@ export default function AnalysisCharts({
     lastBarRef.current = { ...bar }
     cs.update(bar)
     priceLineRef.current?.applyOptions({ price: p })
-  }, [live])
+  }, [live, liveCandles])
 
   const labelBtn = (kind) => (
     <button
