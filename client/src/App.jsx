@@ -12,6 +12,7 @@ import Guide from './pages/Guide.jsx'
 import Desk from './pages/Desk.jsx'
 import TaskDetail from './pages/TaskDetail.jsx'
 import Roadmap from './pages/Roadmap.jsx'
+import HealthCheck from './pages/HealthCheck.jsx'
 
 // Lưới an toàn: nếu 1 component lỗi, hiện thông báo dễ đọc thay vì màn hình đen
 export class ErrorBoundary extends Component {
@@ -59,6 +60,7 @@ export default function App() {
             <Route path="/desk" element={<Desk />} />
             <Route path="/desk/:id" element={<TaskDetail />} />
             <Route path="/roadmap" element={<Roadmap />} />
+            <Route path="/health-check/:symbol" element={<HealthCheck />} />
           </Routes>
         </ErrorBoundary>
       </main>

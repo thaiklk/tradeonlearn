@@ -122,6 +122,7 @@ function FinancialsCard({ symbol }) {
       <div className="muted" style={{ fontSize: 12, marginTop: 8 }}>
         💡 Câu hỏi phân tích: doanh thu &amp; LN cùng chiều không? Biên ổn định không? OCF/LN ≥ 80% không? Nợ/Vốn xu hướng gì? — trả lời được là bạn vừa "health-check" xong 1 doanh nghiệp.
       </div>
+      <Link to={`/health-check/${symbol}`} className="btn primary" style={{ marginTop: 10 }}>🩺 Chạy Health Check 15 phút (6 bước)</Link>
     </div>
   )
 }
