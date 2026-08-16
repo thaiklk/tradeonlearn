@@ -101,11 +101,12 @@ function submittedFair(submitted) {
   return null
 }
 
-// Kiểm tra nhóm từ khóa: mỗi nhóm cần ít nhất 1 từ xuất hiện
+// Kiểm tra nhóm từ khóa: mỗi nhóm cần ít nhất 1 từ xuất hiện — chuẩn hóa dấu (đ alumni "rui ro" = "rủi ro")
+const noDiacritics = (s) => String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd')
 function checkKeywords(text, keywordGroups) {
-  const t = String(text || '').toLowerCase()
+  const t = noDiacritics(text || '')
   for (const group of keywordGroups || []) {
-    if (!group.some((kw) => t.includes(String(kw).toLowerCase()))) return false
+    if (!group.some((kw) => t.includes(noDiacritics(kw)))) return false
   }
   return true
 }

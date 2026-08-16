@@ -173,6 +173,39 @@ router.get('/:symbol/financials', async (req, res) => {
   })
 })
 
+// So sánh ngang hàng + median (Phase 5 foundation) — dùng tỷ số từ /financials + giá live
+const PEER_MAP = { AAPL: ['AAPL', 'MSFT', 'KO'], MSFT: ['MSFT', 'AAPL', 'KO'], KO: ['KO', 'AAPL', 'MSFT'], FPT: ['FPT', 'VNM'], VNM: ['VNM', 'FPT'] }
+const med = (a) => { const s = a.filter(Number.isFinite).sort((x, y) => x - y); return s.length ? s[Math.floor(s.length / 2)] : null }
+
+router.get('/:symbol/peers', async (req, res) => {
+  const symbol = String(req.params.symbol).toUpperCase()
+  const peers = PEER_MAP[symbol] || [symbol]
+  const out = []
+  for (const p of peers) {
+    const fx = FIN_FIXTURES[p]
+    const q = await getQuote(p).catch(() => null)
+    if (!fx) continue
+    const r = fx.rows
+    const L = (a) => a[a.length - 1]
+    out.push({
+      symbol: p, price: q?.price ?? null, changePercent: q?.changePercent ?? null, currency: fx.c,
+      roe: +((L(r.netIncome) / L(r.equity)) * 100).toFixed(1),
+      netMargin: +((L(r.netIncome) / L(r.revenue)) * 100).toFixed(1),
+      debtToEquity: +((L(r.totalLiabilities) / L(r.equity)) * 100).toFixed(1),
+      revenueGrowth: +(((L(r.revenue) / r.revenue[r.revenue.length - 2]) - 1) * 100).toFixed(1),
+      ocfToNi: +((L(r.ocf) / L(r.netIncome)) * 100).toFixed(0),
+      fcf: +(L(r.ocf) + L(r.capex)).toFixed(1), unit: fx.u,
+    })
+  }
+  res.json({
+    symbol, status: out.length ? 'demo' : 'no-data',
+    source: 'So sánh trên bộ số liệu mẫu giáo dục + giá live', fetchedAt: new Date().toISOString(),
+    peers: out,
+    median: out.length ? { roe: med(out.map((x) => x.roe)), netMargin: med(out.map((x) => x.netMargin)), debtToEquity: med(out.map((x) => x.debtToEquity)), revenueGrowth: med(out.map((x) => x.revenueGrowth)), ocfToNi: med(out.map((x) => x.ocfToNi)) } : null,
+    note: 'Câu hỏi phân tích: công ty nào tốt hơn VÌ SAO — dùng median làm mốc, không kết luận nhanh.',
+  })
+})
+
 // Chỉ số cơ bản để phân tích tài chính + chú thích giáo dục cho từng chỉ số
 router.get('/:symbol/fundamentals', async (req, res) => {
   const symbol = String(req.params.symbol).toUpperCase()

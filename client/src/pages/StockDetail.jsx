@@ -127,6 +127,31 @@ function FinancialsCard({ symbol }) {
   )
 }
 
+function PeersCard({ symbol }) {
+  const { data: p } = useApi(() => api.get(`/stocks/${encodeURIComponent(symbol)}/peers`), [symbol])
+  if (!p?.peers?.length) return null
+  const rows = [['ROE %', 'roe'], ['Biên ròng %', 'netMargin'], ['Nợ/Vốn %', 'debtToEquity'], ['Tăng trưởng DT %', 'revenueGrowth'], ['OCF/LN %', 'ocfToNi']]
+  return (
+    <div className="card" style={{ marginTop: 16 }}>
+      <div className="card-title"><span>⚖️ So sánh ngang hàng + median</span><span className="badge demo">DEMO DATA + giá live</span></div>
+      <div style={{ overflowX: 'auto' }}>
+        <table className="table" style={{ minWidth: 420 }}>
+          <thead><tr><th>Mã</th>{rows.map(([n]) => <th key={n} className="right">{n}</th>)}</tr></thead>
+          <tbody>
+            {p.peers.map((x) => (
+              <tr key={x.symbol}><td><b>{x.symbol}</b></td>{rows.map(([n, k]) => (
+                <td key={k} className={`right num ${(k === 'debtToEquity') ? (x[k] <= (p.median[k] ?? 0) ? 'up' : 'down') : (x[k] >= (p.median[k] ?? 0) ? 'up' : 'down')}`}>{x[k] != null ? x[k].toLocaleString('vi-VN') : '—'}</td>
+              ))}</tr>
+            ))}
+            <tr style={{ borderTop: '2px solid var(--border)' }}><td className="muted"><b>Median</b></td>{rows.map(([n, k]) => <td key={k} className="right num">{p.median[k] != null ? p.median[k].toLocaleString('vi-VN') : '—'}</td>)}</tr>
+          </tbody>
+        </table>
+      </div>
+      <div className="muted" style={{ fontSize: 12, marginTop: 8 }}>💡 {p.note} · Nguồn: {p.source}</div>
+    </div>
+  )
+}
+
 function Fundamentals({ symbol, market }) {
   const { data: fund } = useApi(() => api.fundamentals(symbol), [symbol])
 
