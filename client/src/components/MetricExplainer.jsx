@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import ExplainableValue from './ExplainableValue.jsx'
 
 // Component giải thích chuẩn 3 tầng (progressive disclosure) cho MỌI chỉ số tài chính
 // Tầng 1: một câu đơn giản hiện sẵn · Tầng 2: bấm "Giải thích" (công thức/ví dụ/cách đọc/bẫy) · Tầng 3: link đọc sâu
-export default function MetricExplainer({ name, value, unit, simple, formula, example, readUp, readDown, traps, compare, period, source, status, links }) {
+// metricKey (tuỳ chọn): giá trị trở thành ExplainableValue dùng chung registry metricDefinitions.js
+export default function MetricExplainer({ name, value, unit, simple, formula, example, readUp, readDown, traps, compare, period, source, status, links, metricKey, evCtx }) {
   const [open, setOpen] = useState(false)
   const statusClass = status === 'live' ? 'green' : status === 'demo' ? 'demo' : status === 'manual' ? 'amber' : 'gray'
   return (
@@ -11,7 +13,7 @@ export default function MetricExplainer({ name, value, unit, simple, formula, ex
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
         <b>{name}</b>
         <span className="num" style={{ fontSize: 18, fontWeight: 800 }}>
-          {value}
+          {metricKey ? <ExplainableValue metricKey={metricKey} value={String(value)} ctx={evCtx} /> : value}
           {unit ? <span className="muted" style={{ fontSize: 12, fontWeight: 400 }}> {unit}</span> : null}
         </span>
       </div>

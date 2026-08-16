@@ -3,6 +3,22 @@
 // Ghi chú: mọi "ngưỡng" (ROE 15%, nợ/vốn 100%...) chỉ là gợi ý giáo dục, KHÔNG phải luật cho mọi ngành.
 
 export const METRICS = {
+  indexPoints: { labelVi: 'Điểm chỉ số thị trường', en: 'Index Points', cat: 'Thị trường',
+    def: '"Giá" của một GIỎ cổ phiếu tiêu biểu — không phải giá 1 cổ phiếu nào cả, mà là điểm số tổng hợp cả rổ.',
+    why: 'Là nhiệt kế của cả thị trường: chỉ số giảm = đa số cổ phiếu đang giảm, dù cp riêng của bạn có thể ngược chiều.',
+    formula: 'Tính theo giá của rổ cp thành phần (mỗi chỉ số có công thức riêng, có trọng số theo vốn hóa)', parts: [],
+    example: 'VN-Index 1.729 điểm — con số này so với chính nó hôm qua (−2,07%), không mua bán được như giá cp.',
+    up: 'Thị trường chung đang色调 xanh', down: 'Thị trường chung đỏ', flat: 'Đi ngang',
+    pitfalls: 'Chỉ số là BỐI CẢNH cho cp riêng — cp tốt vẫn giảm khi cả thị trường bán tháo, và ngược lại.',
+    unit: 'điểm', terms: ['Chỉ số thị trường (Index)'], lesson: 'thi-truong-va-bang-gia', task: 'morning-brief' },
+  healthScore: { labelVi: 'Điểm nhóm Health Check', en: 'Health Check Group Score', cat: 'Học tập',
+    def: 'Điểm 0–10 của 1 nhóm sức khỏe (sinh lời/tăng trưởng/đòn bẩy/dòng tiền/định giá) theo quy tắc ngưỡng giáo dục.',
+    why: 'Tách sức khỏe doanh nghiệp thành 5 khía cạnh để không gộp mọi thứ thành một chữ "tốt/xấu".',
+    formula: 'Quy tắc bậc thang trên tỷ số của nhóm (VD dòng tiền: OCF/LN ≥90% → 10đ, ≥70% → 7đ...)', parts: [],
+    example: 'ROE 23,5% → nhóm "sinh lời" ~8-9/10.',
+    up: 'Nhóm đó mạnh theo mốc tham khảo', down: 'Cần kiểm tra thêm', flat: '',
+    pitfalls: 'Điểm quy tắc đơn giản trên số liệu demo/manual — CHỈ để học cách đọc, không phải kết luận mua/bán; từng điểm đều kèm bằng chứng ngay bên cạnh.',
+    unit: 'điểm /10', terms: [], lesson: 'chi-so-dinh-gia', task: null },
   // ── GIÁ THỊ TRƯỜNG ──────────────────────────────────────────
   price: { labelVi: 'Giá cổ phiếu', en: 'Price', cat: 'Thị trường',
     def: 'Số tiền bạn phải trả để mua 1 cổ phiếu tại giao dịch gần nhất.',
