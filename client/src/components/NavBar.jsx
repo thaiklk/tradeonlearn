@@ -13,6 +13,7 @@ export default function NavBar() {
           </span>
         </NavLink>
         <nav className="nav-links">
+          <NavLink to="/start">🎯 Bắt đầu</NavLink>
           <NavLink to="/" end>Tổng quan</NavLink>
           <NavLink to="/desk">💼 Phòng phân tích</NavLink>
           <NavLink to="/roadmap">🧭 Lộ trình</NavLink>
