@@ -3,86 +3,125 @@ import { Link, useParams } from 'react-router-dom'
 import { api } from '../api.js'
 import { useApi } from '../hooks.js'
 
-function Quiz({ lessonId, questions, onDone }) {
-  const [answers, setAnswers] = useState({})
-  const [result, setResult] = useState(null)
+function asItems(value) {
+  if (Array.isArray(value)) return value.filter(Boolean)
+  return value ? [value] : []
+}
+
+function PracticePanel({ lesson }) {
+  const practice = lesson.practice || {}
+  const steps = asItems(practice.steps || practice.instructions || practice.tasks)
+  const checklist = asItems(practice.checklist || practice.review || practice.selfCheck)
+  const objective = practice.objective || practice.goal || practice.outcome
+  const deliverable = practice.deliverable || practice.output || practice.record
+  const activityLink = practice.link || practice.href || lesson.tryIt?.link
+  const activityText = practice.text || lesson.tryIt?.text
+  const fields = Array.isArray(practice.fields) ? practice.fields : []
+  const [answers, setAnswers] = useState(() => lesson.progress?.practiceAnswers || {})
+  const [status, setStatus] = useState(lesson.progress?.practiceStatus || null)
   const [busy, setBusy] = useState(false)
+  const [notice, setNotice] = useState('')
 
-  const choose = (qi, oi) => {
-    if (result) return
-    setAnswers((a) => ({ ...a, [qi]: oi }))
-  }
+  useEffect(() => {
+    setAnswers(lesson.progress?.practiceAnswers || {})
+    setStatus(lesson.progress?.practiceStatus || null)
+    setNotice('')
+  }, [lesson.id])
 
-  const submit = async () => {
-    const arr = questions.map((_, i) => (answers[i] != null ? answers[i] : -1))
-    if (arr.some((a) => a === -1)) {
-      window.alert('Bạn còn câu chưa chọn đáp án.')
-      return
-    }
+  const update = (id, value) => setAnswers((current) => ({ ...current, [id]: value }))
+  const save = async (submit) => {
     setBusy(true)
+    setNotice('')
     try {
-      const res = await api.submitQuiz(lessonId, arr)
-      setResult(res)
-      onDone?.(res)
-    } catch (e) {
-      window.alert('Lỗi nộp bài: ' + e.message)
+      const response = await api.saveLessonPractice(lesson.id, answers, submit)
+      setAnswers(response.progress?.practiceAnswers || answers)
+      setStatus(response.progress?.practiceStatus || (submit ? 'submitted' : 'draft'))
+      setNotice(submit ? 'Đã nộp đầu ra thực hành. Bây giờ hãy tự đối chiếu rubric và lời giải mẫu.' : 'Đã lưu bản nháp thực hành.')
+    } catch (error) {
+      setNotice(error.message || 'Không lưu được bài thực hành.')
     } finally {
       setBusy(false)
     }
   }
 
-  const retake = () => {
-    setAnswers({})
-    setResult(null)
-  }
-
   return (
-    <div>
-      {questions.map((q, qi) => {
-        const r = result?.results?.[qi]
-        return (
-          <div key={qi} className="quiz-q">
-            <div className="q-text">
-              Câu {qi + 1}. {q.q}
-            </div>
-            {q.options.map((opt, oi) => {
-              let cls = 'opt'
-              if (!result && answers[qi] === oi) cls += ' selected'
-              if (result) {
-                if (oi === r.answer) cls += ' correct'
-                else if (oi === r.selected) cls += ' wrong'
-              }
-              return (
-                <div key={oi} className={cls} onClick={() => choose(qi, oi)}>
-                  <span className="letter">{String.fromCharCode(65 + oi)}.</span>
-                  <span>{opt}</span>
-                  {result && oi === r.answer && <span style={{ marginLeft: 'auto' }}>✅</span>}
-                  {result && oi === r.selected && oi !== r.answer && <span style={{ marginLeft: 'auto' }}>❌</span>}
-                </div>
-              )
-            })}
-            {result && <div className="explain">💡 {r.explain}</div>}
-          </div>
-        )
-      })}
-      {!result ? (
-        <button className="btn primary" style={{ width: '100%' }} disabled={busy} onClick={submit}>
-          {busy ? 'Đang chấm...' : '📝 Nộp bài & xem kết quả'}
-        </button>
-      ) : (
-        <div className="grid cols-2" style={{ alignItems: 'center' }}>
-          <div className={`quiz-result ${result.passed ? 'pass' : 'fail'}`}>
-            {result.passed ? '🎉 ĐẠT' : '📔 CHƯA ĐẠT (cần ≥60%)'} — Đúng {result.score}/{result.total} câu (kỷ lục:{' '}
-            {result.best.score}/{result.best.total})
-          </div>
-          <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
-            <button className="btn" onClick={retake}>
-              🔁 Làm lại
+    <section className="card practice-workbench" style={{ marginTop: 16 }} aria-labelledby="guided-practice-title">
+      <div className="card-title" id="guided-practice-title">
+        <span>🧭 {practice.title || 'Thực hành có hướng dẫn'}</span>
+        {status === 'submitted' && <span className="badge green">✓ Đã nộp</span>}
+        {status === 'draft' && <span className="badge amber">Bản nháp</span>}
+      </div>
+      <div className="try-box" style={{ margin: 0 }}>
+        {objective && <p style={{ margin: '0 0 10px' }}><b>Mục tiêu:</b> {objective}</p>}
+        {practice.scenario && <p className="practice-scenario"><b>Tình huống:</b> {practice.scenario}</p>}
+        {activityText && <p style={{ margin: '0 0 10px' }}>{activityText}</p>}
+
+        {steps.length > 0 && (
+          <>
+            <b>Các bước thực hiện</b>
+            <ol style={{ margin: '8px 0 10px', paddingLeft: 22 }}>
+              {steps.map((step, index) => <li key={`${index}-${step}`} style={{ marginBottom: 6 }}>{step}</li>)}
+            </ol>
+          </>
+        )}
+
+        {checklist.length > 0 && (
+          <>
+            <b>Tự đối chiếu trước khi chuyển bài</b>
+            <ul style={{ margin: '8px 0 10px', paddingLeft: 20 }}>
+              {checklist.map((item, index) => <li key={`${index}-${item}`} style={{ marginBottom: 6 }}>{item}</li>)}
+            </ul>
+          </>
+        )}
+
+        {deliverable && <p style={{ margin: '0 0 10px' }}><b>Ghi lại:</b> {deliverable}</p>}
+        {activityLink && <Link to={activityLink} className="btn sm">Mở dữ liệu hoặc công cụ →</Link>}
+      </div>
+
+      {fields.length > 0 && (
+        <div className="practice-fields">
+          <div className="practice-fields-title">Bài làm của bạn</div>
+          {fields.map((item) => (
+            <label className="field practice-field" key={item.id} htmlFor={`${lesson.id}-${item.id}`}>
+              <span>{item.label}{item.required !== false && <b className="practice-required"> *</b>}</span>
+              {item.help && <small>{item.help}</small>}
+              <textarea
+                id={`${lesson.id}-${item.id}`}
+                className="input"
+                rows={4}
+                maxLength={5000}
+                value={answers[item.id] || ''}
+                placeholder={item.placeholder || 'Viết câu trả lời của bạn...'}
+                onChange={(event) => update(item.id, event.target.value)}
+              />
+            </label>
+          ))}
+          <div className="practice-actions">
+            <button className="btn ghost" disabled={busy} onClick={() => save(false)}>
+              {busy ? 'Đang lưu...' : 'Lưu bản nháp'}
+            </button>
+            <button className="btn primary" disabled={busy} onClick={() => save(true)}>
+              {busy ? 'Đang nộp...' : 'Nộp đầu ra thực hành'}
             </button>
           </div>
+          {notice && <div className={notice.startsWith('Đã') ? 'practice-notice ok' : 'practice-notice'}>{notice}</div>}
         </div>
       )}
-    </div>
+
+      {(checklist.length > 0 || practice.rubric) && status === 'submitted' && (
+        <details className="practice-review">
+          <summary>Rubric tự đối chiếu</summary>
+          {checklist.length > 0 && <ul>{checklist.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul>}
+          {asItems(practice.rubric).length > 0 && <ul>{asItems(practice.rubric).map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul>}
+        </details>
+      )}
+      {practice.modelAnswer && status === 'submitted' && (
+        <details className="practice-review">
+          <summary>Gợi ý đối chiếu sau khi nộp</summary>
+          <p>{practice.modelAnswer}</p>
+        </details>
+      )}
+    </section>
   )
 }
 
@@ -117,9 +156,6 @@ export default function LessonDetail() {
         </span>
         <span className="muted">⏱ {lesson.minutes} phút đọc</span>
         {lesson.progress?.read && <span className="badge green">✓ Đã đọc</span>}
-        {lesson.progress?.quizScore != null && (
-          <span className="badge gray">Điểm tốt nhất: {lesson.progress.quizScore}/{lesson.progress.quizTotal}</span>
-        )}
       </div>
 
       <div className="card lesson-body">
@@ -154,20 +190,6 @@ export default function LessonDetail() {
           </div>
         )}
 
-        {lesson.tryIt && (
-          <div className="try-box">
-            🧪 <b>Thực hành trên web:</b> {lesson.tryIt.text}
-            {lesson.tryIt.link && (
-              <>
-                {' '}
-                <Link to={lesson.tryIt.link} className="btn sm" style={{ marginLeft: 6 }}>
-                  Mở ngay →
-                </Link>
-              </>
-            )}
-          </div>
-        )}
-
         {(lesson.relatedTerms || []).length > 0 && (
           <div style={{ marginTop: 14 }}>
             <b className="muted">🔖 Thuật ngữ trong bài:</b>{' '}
@@ -182,10 +204,7 @@ export default function LessonDetail() {
         )}
       </div>
 
-      <div className="card" style={{ marginTop: 16 }}>
-        <div className="card-title">📝 Trắc nghiệm — kiểm tra kiến thức</div>
-        <Quiz lessonId={lesson.id} questions={lesson.quiz} />
-      </div>
+      <PracticePanel lesson={lesson} />
 
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, marginTop: 18 }}>
         {lesson.prev ? (

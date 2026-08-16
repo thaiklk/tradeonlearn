@@ -65,7 +65,8 @@ export const api = {
   // Học tập
   lessons: () => request('/lessons'),
   lesson: (id) => request(`/lessons/${id}`),
-  submitQuiz: (id, answers) => request(`/lessons/${id}/quiz`, { method: 'POST', body: JSON.stringify({ answers }) }),
+  saveLessonPractice: (id, answers, submit = false) =>
+    request(`/lessons/${id}/practice`, { method: 'POST', body: JSON.stringify({ answers, submit }) }),
   markRead: (id) => request(`/lessons/${id}/read`, { method: 'POST' }),
   progress: () => request('/lessons/progress'),
 

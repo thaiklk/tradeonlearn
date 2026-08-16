@@ -17,6 +17,7 @@ const TABLES = [
   ['user_watchlist', 'watchlist'],
   ['user_quiz_progress', 'quizProgress'],
   ['user_read_progress', 'readProgress'],
+  ['user_lesson_practice_progress', 'lessonPractices'],
   ['user_corporate_finance_progress', 'corporateFinanceProgress'],
   ['user_task_progress', 'taskProgress'],
   ['user_research_notes', 'researchNotes'],
@@ -116,6 +117,23 @@ export function importWorkspace(input, snapshot) {
 
     const read = db.prepare('INSERT INTO user_read_progress (user_id, lesson_id, read_at) VALUES (?, ?, ?)')
     for (const item of rows(snapshot.readProgress).slice(0, 100)) read.run(userId, String(item.lesson_id || '').slice(0, 120), String(item.read_at || new Date().toISOString()))
+
+    const lessonPractice = db.prepare(
+      'INSERT INTO user_lesson_practice_progress (user_id, lesson_id, answers, status, updated_at, submitted_at) VALUES (?, ?, ?, ?, ?, ?)'
+    )
+    for (const item of rows(snapshot.lessonPractices).slice(0, 100)) {
+      const lessonId = String(item.lesson_id || '').slice(0, 120)
+      const answers = String(item.answers || '{}').slice(0, 50000)
+      if (!lessonId) continue
+      lessonPractice.run(
+        userId,
+        lessonId,
+        answers,
+        item.status === 'submitted' ? 'submitted' : 'draft',
+        String(item.updated_at || new Date().toISOString()),
+        item.submitted_at ? String(item.submitted_at) : null
+      )
+    }
 
     const corporateFinance = db.prepare('INSERT INTO user_corporate_finance_progress (user_id, module_id, completed_at) VALUES (?, ?, ?)')
     for (const item of rows(snapshot.corporateFinanceProgress).slice(0, 20)) {

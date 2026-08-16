@@ -3,102 +3,175 @@ import { Link } from 'react-router-dom'
 import { api } from '../api.js'
 import { useApi } from '../hooks.js'
 
-// Luồng học tập dẫn dắt lần đầu — 8 bước nhỏ, thử TRẢ LỜI trước rồi mới xem đáp án
+// Luồng học lần đầu: quan sát trước, mở giải thích, rồi ghi nhận xét của riêng bạn.
 const BUSINESS = {
-  FPT: 'FPT bán dịch vụ viết phần mềm (xuất khẩu IT), giải pháp số và máy tính — quen thuộc với sinh viên Việt Nam, báo cáo dễ tra trên cafef.',
-  AAPL: 'Apple bán iPhone, máy tính và dịch vụ số (App Store, iCloud) — sản phẩm ai cũng biết, dễ hình dung "tiền đến từ đâu".',
+  FPT: 'FPT bán dịch vụ phần mềm, giải pháp số và máy tính. Khi đọc báo cáo, hãy tìm xem từng mảng dịch vụ đóng góp doanh thu, biên lợi nhuận và dòng tiền như thế nào.',
+  AAPL: 'Apple bán iPhone, máy tính và dịch vụ số như App Store, iCloud. Đây là ví dụ dễ hình dung doanh thu đến từ sản phẩm, hệ sinh thái và khách hàng trung thành.',
 }
-const last = (a) => (a?.length ? a[a.length - 1] : null)
+
+const last = (items) => (items?.length ? items[items.length - 1] : null)
+
+function Reflection({ item }) {
+  return (
+    <details className="reflection-card">
+      <summary>Dừng 30 giây để tự trả lời: {item.prompt}</summary>
+      <div className="reflection-answer"><b>Giải thích:</b> {item.explain}</div>
+      <div className="reflection-action"><b>Thử làm:</b> {item.action}</div>
+    </details>
+  )
+}
 
 export default function StartTour() {
   const [symbol, setSymbol] = useState(null)
-  const { data: fin } = useApi(() => (symbol ? api.get(`/stocks/${encodeURIComponent(symbol)}/financials`) : Promise.resolve(null)), [symbol])
+  const { data: fin } = useApi(
+    () => (symbol ? api.get(`/stocks/${encodeURIComponent(symbol)}/financials`) : Promise.resolve(null)),
+    [symbol]
+  )
   const [step, setStep] = useState(0)
-  const [pick, setPick] = useState(null)
-  const [checked, setChecked] = useState(false)
 
-  const r = fin?.rows, q = fin?.ratios
+  const rows = fin?.rows
+  const ratios = fin?.ratios
   const unit = fin?.unit || ''
-  const eps = last(r?.eps)
-  const STEPS = symbol && fin?.years ? [
-    { t: 'Bước 1/8 · Doanh nghiệp này bán gì?', goal: 'Mô hình kinh doanh', body: BUSINESS[symbol] || '', ex: null,
-      quiz: { q: 'Khi bạn mua 1 cổ phiếu, bạn thực sự đang làm gì?', opts: ['Cho công ty vay tiền', 'Sở hữu một phần rất nhỏ của công ty', 'Cược may rủi'], ans: 1, why: 'Cổ phiếu = chứng nhận sở hữu. Cho vay là trái phiếu — khác hẳn.', hint: 'Nhớ Bài 1: sở hữu, không phải cho vay.' } },
-    { t: 'Bước 2/8 · Doanh thu', goal: 'Hiểu quy mô', body: `Năm gần nhất ${symbol} bán được ${last(r.revenue)?.toLocaleString('vi-VN')} ${unit} hàng hóa/dịch vụ — đó là DOANH THU.`, ex: `Bán 1 triệu sp × 50.000₫ = 50 ${unit}`,
-      quiz: { q: `Doanh thu ${last(r.revenue)} nghĩa là công ty đã...`, opts: ['Thu được đủ tiền mặt', 'Bán được giá trị đó (có thể chưa thu tiền)', 'Lãi chừng đó'], ans: 1, why: 'Doanh thu là giá trị đã BÁN — tiền có thể chưa về (bán chịu). Vì vậy phải đọc kèm dòng tiền ở Bước 6.', hint: 'Bán ≠ thu tiền.' } },
-    { t: 'Bước 3/8 · Lợi nhuận ròng', goal: 'Phần "kiếm được thật" theo sổ sách', body: `Sau khi trừ mọi chi phí, ${symbol} giữ lại ${last(r.netIncome)?.toLocaleString('vi-VN')} ${unit} — gọi là LỢI NHUẬN RÒNG.`, ex: 'Doanh thu 100 − chi phí 88 = lãi 12',
-      quiz: { q: 'Doanh thu 100, giá vốn + chi phí 88. Lợi nhuận ròng là bao nhiêu?', opts: ['100', '88', '12'], ans: 2, why: '100 − 88 = 12. Đơn giản vậy — mọi chỉ số lợi nhuận đều từ phép trừ này mà ra.', hint: 'Phần CÒN LẠI sau chi phí.' } },
-    { t: 'Bước 4/8 · Biên lợi nhuận', goal: 'Chất lượng mỗi đồng bán ra', body: `Biên ròng của ${symbol}: ${last(q.netMargin)}% — mỗi 100 đồng doanh thu giữ lại ${last(q.netMargin)} đồng.`, ex: 'Lãi 12 / doanh thu 100 = biên 12%',
-      quiz: { q: `Biên ròng ${symbol} là ${last(q.netMargin)}%. Điều này nghĩa là mỗi 100đ doanh thu...`, opts: [`giữ lại ${last(q.netMargin)}đ lãi`, `chi khoảng ${(100 - Number(last(q.netMargin) || 0)).toFixed(1)}đ cho mọi chi phí`, 'thu 100đ tiền mặt'], ans: 0, why: 'Biên = phần giữ lại trên mỗi đồng doanh thu. >10% thường xem là khá (tùy ngành).', hint: 'Chia lãi cho doanh thu.' } },
-    { t: 'Bước 5/8 · Tài sản & nợ', goal: 'Bức ảnh sức mạnh tài chính', body: `Tài sản ${last(r.totalAssets)?.toLocaleString('vi-VN')} = Nợ ${last(r.totalLiabilities)?.toLocaleString('vi-VN')} + Vốn chủ ${last(r.equity)?.toLocaleString('vi-VN')} ${unit}. Phần THẬT của chủ sở hữu là Vốn chủ.`, ex: 'Xe 100 = nợ 40 + vốn thật 60',
-      quiz: { q: `Nợ/Vốn của ${symbol} ≈ ${last(q.debtToEquity)}%. Nhận định đúng:`, opts: ['Nợ nhẹ hơn vốn → gánh trả nợ tương đối dễ', 'Sắp phá sản', 'Không có ý nghĩa gì'], ans: 0, why: `Dưới 100% nghĩa là nợ nhỏ hơn vốn chủ. (Số liệu ${fin.status === 'demo' ? 'mẫu giáo dục' : fin.status}).`, hint: 'So nợ với vốn, không nhìn tổng tài sản.' } },
-    { t: 'Bước 6/8 · Dòng tiền (quan trọng nhất!)', goal: 'Lợi nhuận có thành TIỀN không', body: `OCF (tiền thật từ kinh doanh) ${last(r.ocf)?.toLocaleString('vi-VN')} ${unit} so với lợi nhuận ${last(r.netIncome)?.toLocaleString('vi-VN')} → tỷ lệ ${last(q.ocfToNi)}%.`, ex: 'Lãi 12 nhưng OCF 3 → "lợi nhuận trên giấy"',
-      quiz: { q: `OCF/LN của ${symbol} = ${last(q.ocfToNi)}%. Kết luận thận trọng:`, opts: [`≥80% — lợi nhuận khá "thật"`, 'Công ty giàu ngay lập tức', 'Sai số kế toán'], ans: 0, why: '≥80% nhiều năm = lợi nhuận chuyển thành tiền tốt. <50% kéo dài = cần hỏi sâu (Bài 11).', hint: 'Đây là bộ lọc số 1 của analyst.' } },
-    { t: 'Bước 7/8 · Định giá (P/E)', goal: 'Giá đang đắt hay rẻ — THEO GIẢ ĐỊNH', body: `P/E = Giá cổ phiếu ÷ EPS. EPS của ${symbol} ≈ ${eps}. Mở trang /stock/${symbol} nhìn giá hiện tại, TỰ CHIA cho ${eps} — đó là P/E bạn vừa tự tính!`, ex: 'Giá 300 ÷ EPS 8.5 = P/E 35',
-      quiz: { q: 'P/E 35 nghĩa là gì?', opts: ['Chắc chắn đắt', 'Trả 35 đồng cho mỗi 1 đồng lợi nhuận/năm — phải so ngành & lịch sử mới nói đắt/rẻ', 'Lãi 35%'], ans: 1, why: 'P/E chỉ có nghĩa khi so sánh: cùng ngành, chính nó năm trước, và tốc độ tăng trưởng (Bài 12).', hint: 'Không kết luận từ 1 con số.' } },
-    { t: 'Bước 8/8 · Rủi ro & kết thúc', goal: 'Nghĩ như analyst', body: 'Mọi phân tích đều cần điều kiện "TÔI SẼ SAI NẾU..." — viết trước, giữ kỷ luật sau. Bạn vừa đi đủ: mô hình → doanh thu → lợi nhuận → biên → nợ → dòng tiền → định giá → rủi ro!', ex: null,
-      quiz: { q: 'Điều nào KHÔNG nên làm khi phân tích?', opts: ['Viết điều kiện dừng trước khi mua', 'Kết luận từ 1 chỉ số 1 năm', 'So sánh với đối thủ cùng ngành'], ans: 1, why: 'Một chỉ số một năm không đủ — luôn cần xu hướng + so sánh + dòng tiền.', hint: 'Tính hệ thống, không phán đoán đơn lẻ.' } },
+  const eps = last(rows?.eps)
+  const steps = symbol && fin?.years ? [
+    {
+      title: 'Bước 1/8 · Doanh nghiệp này bán gì?',
+      goal: 'Mô hình kinh doanh',
+      body: BUSINESS[symbol] || '',
+      reflection: {
+        prompt: 'Nếu mua một cổ phiếu, bạn đang sở hữu điều gì?',
+        explain: 'Cổ phiếu là một phần sở hữu trong doanh nghiệp. Người mua không cho công ty vay như trái phiếu, và cũng không chỉ dự đoán giá trong một phiên.',
+        action: 'Viết một câu: doanh nghiệp này bán gì, bán cho ai và thu tiền bằng cách nào?',
+      },
+    },
+    {
+      title: 'Bước 2/8 · Doanh thu',
+      goal: 'Hiểu quy mô',
+      body: `Năm gần nhất, ${symbol} ghi nhận ${last(rows.revenue)?.toLocaleString('vi-VN')} ${unit} doanh thu. Doanh thu là giá trị hàng hóa hoặc dịch vụ đã bán ra, không đồng nghĩa đã thu đủ tiền mặt.`,
+      example: `Bán 1 triệu sản phẩm × 50.000 đồng = 50 ${unit}`,
+      reflection: {
+        prompt: 'Doanh thu khác tiền thu về ở điểm nào?',
+        explain: 'Bán chịu làm doanh thu tăng khi hàng hóa hoặc dịch vụ được ghi nhận, nhưng tiền có thể về sau. Vì vậy analyst phải đọc kèm khoản phải thu và dòng tiền kinh doanh.',
+        action: 'Tìm một ví dụ về bán chịu: công ty đã bán gì và mất bao lâu mới thu tiền?',
+      },
+    },
+    {
+      title: 'Bước 3/8 · Lợi nhuận ròng',
+      goal: 'Phần còn lại sau chi phí',
+      body: `Sau khi trừ giá vốn, chi phí vận hành, lãi vay và thuế, ${symbol} còn ${last(rows.netIncome)?.toLocaleString('vi-VN')} ${unit} lợi nhuận ròng trong kỳ gần nhất.`,
+      example: 'Doanh thu 100 − tổng chi phí 88 = lợi nhuận ròng 12',
+      reflection: {
+        prompt: 'Nếu doanh thu là 100 và tổng chi phí là 88, còn lại bao nhiêu?',
+        explain: 'Còn lại 12. P&L là câu chuyện từ doanh thu, trừ dần các lớp chi phí để tìm ra phần lợi nhuận của kỳ.',
+        action: 'Đánh dấu một khoản chi phí có thể tăng nhanh hơn doanh thu trong ngành bạn đang quan sát.',
+      },
+    },
+    {
+      title: 'Bước 4/8 · Biên lợi nhuận',
+      goal: 'Chất lượng mỗi đồng bán ra',
+      body: `Biên ròng của ${symbol} là ${last(ratios.netMargin)}%. Trung bình 100 đồng doanh thu tạo ra khoảng ${last(ratios.netMargin)} đồng lợi nhuận ròng theo sổ sách.`,
+      example: 'Lợi nhuận 12 / doanh thu 100 = biên ròng 12%',
+      reflection: {
+        prompt: 'Biên lợi nhuận kể cho bạn nghe câu chuyện gì?',
+        explain: 'Biên cho biết doanh nghiệp giữ lại bao nhiêu sau chi phí trên mỗi đồng doanh thu. Một con số chỉ có ý nghĩa khi so theo lịch sử, đối thủ và mô hình kinh doanh.',
+        action: 'So sánh biên ròng với một đối thủ cùng ngành trước khi kết luận nó cao hay thấp.',
+      },
+    },
+    {
+      title: 'Bước 5/8 · Tài sản và nợ',
+      goal: 'Sức mạnh tài chính',
+      body: `Tài sản ${last(rows.totalAssets)?.toLocaleString('vi-VN')} = nợ phải trả ${last(rows.totalLiabilities)?.toLocaleString('vi-VN')} + vốn chủ sở hữu ${last(rows.equity)?.toLocaleString('vi-VN')} ${unit}.`,
+      example: 'Tài sản 100 = nợ 40 + vốn chủ 60',
+      reflection: {
+        prompt: 'Vốn chủ sở hữu phản ánh điều gì sau khi trừ nợ?',
+        explain: 'Đó là phần giá trị còn lại của chủ sở hữu theo sổ sách. Tỷ lệ nợ/vốn giúp đặt câu hỏi về áp lực trả nợ, nhưng phải xem thêm lãi vay, kỳ hạn nợ và dòng tiền.',
+        action: 'Ghi một câu hỏi cần kiểm tra trước khi gọi nợ là an toàn hoặc nguy hiểm.',
+      },
+    },
+    {
+      title: 'Bước 6/8 · Dòng tiền',
+      goal: 'Lợi nhuận có thành tiền không',
+      body: `Dòng tiền từ hoạt động kinh doanh của ${symbol} là ${last(rows.ocf)?.toLocaleString('vi-VN')} ${unit}, so với lợi nhuận ${last(rows.netIncome)?.toLocaleString('vi-VN')} ${unit}; tỷ lệ hiển thị là ${last(ratios.ocfToNi)}%.`,
+      example: 'Lãi 12 nhưng OCF 3: cần tìm xem tiền đang kẹt ở đâu',
+      reflection: {
+        prompt: 'Vì sao lợi nhuận cao vẫn có thể kém tiền?',
+        explain: 'Tiền có thể kẹt trong khoản phải thu hay tồn kho, hoặc doanh nghiệp ghi nhận doanh thu trước khi thu tiền. Một kỳ thấp chưa kết luận điều gì; xu hướng và thuyết minh mới quan trọng.',
+        action: 'Nêu một nguyên nhân bình thường và một rủi ro cần kiểm tra khi OCF thấp hơn lợi nhuận.',
+      },
+    },
+    {
+      title: 'Bước 7/8 · Định giá P/E',
+      goal: 'Giá theo giả định',
+      body: `P/E = giá cổ phiếu / EPS. EPS của ${symbol} gần đây là ${eps}. Mở trang chi tiết của mã này, lấy giá hiện tại chia cho EPS để tự tính bội số.`,
+      example: 'Giá 300 / EPS 8,5 = P/E 35',
+      reflection: {
+        prompt: 'P/E 35 có tự động có nghĩa là đắt không?',
+        explain: 'Không. Bội số có thể cao vì thị trường kỳ vọng tăng trưởng, biên lợi nhuận hoặc rủi ro thấp hơn. Cần so sánh với lịch sử công ty, đối thủ và chất lượng dòng tiền.',
+        action: 'Liệt kê ba bằng chứng cần có trước khi kết luận một bội số rẻ hoặc đắt.',
+      },
+    },
+    {
+      title: 'Bước 8/8 · Rủi ro và kết luận',
+      goal: 'Nghĩ như analyst',
+      body: 'Một phân tích tốt luôn có câu “tôi sẽ sai nếu...”. Bạn đã đi qua mô hình kinh doanh, doanh thu, lợi nhuận, biên, nợ, dòng tiền, định giá và rủi ro.',
+      reflection: {
+        prompt: 'Điều gì không nên làm khi phân tích một doanh nghiệp?',
+        explain: 'Không kết luận từ một chỉ số của một năm. Hãy kết hợp xu hướng, so sánh cùng ngành, dòng tiền và rủi ro; sau đó viết điều kiện làm luận điểm không còn đúng.',
+        action: 'Viết một điều kiện có thể quan sát được để bạn xem lại luận điểm của mình.',
+      },
+    },
   ] : []
 
-  // P/E live cho bước 7
-  const s = STEPS[Math.min(step, Math.max(STEPS.length - 1, 0))]
+  const activeStep = steps[Math.min(step, Math.max(steps.length - 1, 0))]
 
-  if (!symbol)
+  if (!symbol) {
     return (
       <div style={{ maxWidth: 640, margin: '0 auto' }}>
-        <h1 style={{ fontSize: 24, margin: '0 0 6px' }}>🎯 Bắt đầu phân tích doanh nghiệp đầu tiên</h1>
-        <p className="muted" style={{ fontSize: 13.5 }}>Chọn 1 công ty mẫu — mình chọn 2 mã quen thuộc nhất để bạn tập trung HỌC CÁCH PHÂN TÍCH chứ không phải tìm hiểu doanh nghiệp lạ:</p>
+        <h1 style={{ fontSize: 24, margin: '0 0 6px' }}>Bắt đầu phân tích doanh nghiệp đầu tiên</h1>
+        <p className="muted" style={{ fontSize: 13.5 }}>Chọn một doanh nghiệp quen thuộc để tập trung vào cách đọc số liệu và đặt câu hỏi, không phải ghi nhớ đáp án.</p>
         <div className="grid cols-2" style={{ marginTop: 12 }}>
-          {[['FPT', '🇻🇳', 'Công ty IT Việt Nam — báo cáo dễ tra tiếng Việt trên cafef'], ['AAPL', '🇺🇸', 'Apple — sản phẩm ai cũng biết, dễ hình dung tiền đến từ đâu']].map(([sym, flag, why]) => (
-            <button key={sym} className="card" style={{ textAlign: 'left', cursor: 'pointer', border: '1px solid var(--border)' }} onClick={() => setSymbol(sym)}>
-              <div style={{ fontSize: 22 }}>{flag} <b style={{ fontSize: 18 }}>{sym}</b></div>
+          {[
+            ['FPT', 'Công ty IT Việt Nam, dễ hình dung dịch vụ, nhân sự và hợp đồng.', 'Việt Nam'],
+            ['AAPL', 'Sản phẩm quen thuộc, dễ quan sát doanh thu từ thiết bị và dịch vụ.', 'Hoa Kỳ'],
+          ].map(([ticker, why, market]) => (
+            <button key={ticker} className="card start-company" onClick={() => { setSymbol(ticker); setStep(0) }}>
+              <div><b style={{ fontSize: 18 }}>{ticker}</b><span className="badge gray">{market}</span></div>
               <div className="muted" style={{ fontSize: 12.5, marginTop: 6 }}>{why}</div>
-              <div className="btn sm primary" style={{ marginTop: 10 }}>Chọn {sym} →</div>
+              <span className="btn sm primary" style={{ marginTop: 10 }}>Chọn {ticker}</span>
             </button>
           ))}
         </div>
       </div>
     )
+  }
 
-  if (!s) return <div className="spinner" />
+  if (!activeStep) return <div className="spinner" />
 
   return (
     <div style={{ maxWidth: 680, margin: '0 auto' }}>
-      <div className="muted"><Link to="/">← Trang chủ</Link> · {symbol}</div>
-      <div style={{ height: 8, background: '#ffffff12', borderRadius: 99, margin: '10px 0 14px', overflow: 'hidden' }}>
-        <div style={{ width: `${((step + 1) / STEPS.length) * 100}%`, height: '100%', background: 'linear-gradient(90deg,var(--accent),var(--green))', transition: 'width .3s' }} />
+      <div className="muted"><Link to="/">Trang chủ</Link> · {symbol}</div>
+      <div className="start-progress" aria-label={`Tiến độ ${Math.min(step + 1, steps.length)} trên ${steps.length}`}>
+        <div style={{ width: `${(Math.min(step + 1, steps.length) / steps.length) * 100}%` }} />
       </div>
       <div className="card">
-        <div className="card-title"><span>{s.t}</span><span className="badge us">🎯 {s.goal}</span></div>
-        <p style={{ margin: '0 0 8px', fontSize: 14.5 }}>{s.body}</p>
-        {s.ex && <div className="tip-box" style={{ margin: '8px 0' }}>📐 <b>Ví dụ dễ tính:</b> {s.ex}</div>}
-        <div className="quiz-q" style={{ marginTop: 10, marginBottom: 0 }}>
-          <div className="q-text">❓ {s.quiz.q}</div>
-          {s.quiz.opts.map((o, i) => {
-            let cls = 'opt'
-            if (!checked && pick === i) cls += ' selected'
-            if (checked) { if (i === s.quiz.ans) cls += ' correct'; else if (i === pick) cls += ' wrong' }
-            return <div key={i} className={cls} onClick={() => !checked && setPick(i)}><span className="letter">{String.fromCharCode(65 + i)}.</span><span>{o}</span></div>
-          })}
-          {!checked ? (
-            <button className="btn primary" style={{ width: '100%', marginTop: 6 }} disabled={pick == null} onClick={() => setChecked(true)}>Kiểm tra đáp án</button>
-          ) : (
-            <>
-              <div className={`quiz-result ${pick === s.quiz.ans ? 'pass' : 'fail'}`}>{pick === s.quiz.ans ? '✅ Chính xác!' : '💡 Chưa đúng — đọc giải thích:'}</div>
-              <div className="explain">{s.quiz.why}{pick !== s.quiz.ans && ` (Gợi ý: ${s.quiz.hint})`}</div>
-              <button className="btn primary" style={{ width: '100%', marginTop: 8 }} onClick={() => { setPick(null); setChecked(false); setStep(step + 1) }}>
-                {step === STEPS.length - 1 ? '🏁 Hoàn thành!' : 'Bước tiếp theo →'}
-              </button>
-            </>
-          )}
-        </div>
+        <div className="card-title"><span>{activeStep.title}</span><span className="badge us">{activeStep.goal}</span></div>
+        <p style={{ margin: '0 0 8px', fontSize: 14.5 }}>{activeStep.body}</p>
+        {activeStep.example && <div className="tip-box" style={{ margin: '8px 0' }}><b>Ví dụ để tính:</b> {activeStep.example}</div>}
+        <Reflection item={activeStep.reflection} />
+        {step < steps.length && (
+          <button className="btn primary start-next" onClick={() => setStep((current) => current + 1)}>
+            {step === steps.length - 1 ? 'Kết thúc hành trình' : 'Bước tiếp theo'}
+          </button>
+        )}
       </div>
-      {step >= STEPS.length && (
+      {step >= steps.length && (
         <div className="card" style={{ marginTop: 12 }}>
-          <div className="card-title">🎓 Bạn đã đi hết hành trình phân tích đầu tiên!</div>
+          <div className="card-title">Bạn đã đi hết hành trình phân tích đầu tiên</div>
+          <p className="muted">Bây giờ hãy biến câu trả lời của bạn thành một ghi chú có bằng chứng và điều kiện sai, sau đó chuyển sang bài thực hành có lưu kết quả.</p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <Link className="btn primary" to={`/stock/${symbol}`}>Xem trang {symbol} đầy đủ →</Link>
-            <Link className="btn" to="/desk/morning-brief">Nhận task đầu tiên từ sếp →</Link>
-            <Link className="btn ghost" to={`/health-check/${symbol}`}>Làm Health Check 6 bước →</Link>
+            <Link className="btn primary" to={`/stock/${symbol}`}>Xem {symbol} đầy đủ</Link>
+            <Link className="btn" to="/learn/quy-trinh-ra-quyet-dinh">Làm memo quyết định</Link>
+            <Link className="btn ghost" to="/corporate-finance">Học tài chính doanh nghiệp</Link>
           </div>
         </div>
       )}

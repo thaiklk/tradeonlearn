@@ -57,8 +57,8 @@ export default function Guide() {
           bấm MUA. Không lo lỗ thật: đây là ví luyện tay.
         </Step>
         <Step n={4} title="Bắt đầu khóa học">
-          Vào <Link to="/learn">Học tập</Link>, đọc <Link to="/learn/co-phieu-la-gi">Bài 1</Link> và làm trắc nghiệm. Mỗi
-          bài 10–15 phút, có bài tập thực hành ngay trên web.
+          Vào <Link to="/learn">Học tập</Link>, đọc <Link to="/learn/co-phieu-la-gi">Bài 1</Link> và nộp đầu ra thực hành.
+          Mỗi bài có tình huống, các ô ghi nhận xét, rubric tự đối chiếu và liên kết đến công cụ trên web.
         </Step>
         <Step n={5} title="Đọc hết trang này">
           Phần "Quy trình 1 lệnh mua mẫu" bên dưới là cách dùng web như một nhà đầu tư thật sự — đừng bỏ qua.
@@ -85,8 +85,8 @@ export default function Guide() {
         </ul>
         <h3 style={{ color: '#cfe0ff' }}>3. 💼 Phòng phân tích — "đi làm thật"</h3>
         <ul className="muted">
-          <li>7 task mô phỏng công việc analyst thật: nhận <b>email sếp giao việc</b> → làm theo <b>hướng dẫn từng bước</b> (dành cho người chưa biết gì) → điền phiếu hoàn thành → <b>mentor chấm bằng dữ liệu live</b>.</li>
-          <li>Làm đúng thứ tự 1→7 (Morning Brief → Screening → Health-check → Định giá → Kỹ thuật → Danh mục → Investment Memo). Sai mục nào sẽ hiện đáp án/số liệu đúng để học — nộp lại được.</li>
+          <li>13 task mô phỏng công việc analyst thật: nhận <b>email sếp giao việc</b> → làm theo <b>hướng dẫn từng bước</b> (dành cho người chưa biết gì) → điền phiếu hoàn thành → <b>mentor phản hồi bằng dữ liệu live</b>.</li>
+          <li>Làm task theo thứ tự từ Morning Brief đến Investment Memo. Những phần cần dữ liệu sẽ nêu rõ cách tính và số liệu đối chiếu để bạn sửa bài, không phải bài kiểm tra chọn đáp án.</li>
           <li>Tích <b>XP thăng chức</b>: Intern 🌱 → Junior 💼 → Analyst 📊 → Senior 🏆. Giá & biểu đồ trong task cập nhật <b>thời gian thực</b> (badge ● TRỰC TIẾP).</li>
         </ul>
         <h3 style={{ color: '#cfe0ff' }}>4. Giao dịch giả lập</h3>
@@ -98,7 +98,7 @@ export default function Guide() {
         </ul>
         <h3 style={{ color: '#cfe0ff' }}>5. Học tập · Từ điển · Tin tức</h3>
         <ul className="muted">
-          <li><b>Học tập</b>: 15 bài chia 3 cấp độ, tiến độ và điểm cao nhất được lưu tự động trên máy bạn.</li>
+          <li><b>Học tập</b>: 15 bài chia 3 cấp độ. Mỗi bài có đầu ra thực hành, bản nháp và bài nộp được lưu theo workspace của bạn.</li>
           <li><b>Từ điển</b>: 85 thuật ngữ có thể tìm bằng tiếng Anh lẫn tiếng Việt, lọc theo chủ đề.</li>
           <li><b>Tin tức</b>: tin 2 ngày qua theo 2 thị trường. Quy tắc: đọc để hiểu bối cảnh, không mua theo tít (Bài 15).</li>
         </ul>
@@ -122,7 +122,7 @@ export default function Guide() {
 
       <Section id="roadmap" title="🗺️ Lộ trình học 8 tuần (mỗi tuần ~2 bài, 2-3 giờ)">
         <Step n={1} title="Tuần 1–2 · Nền tảng (Bài 1–4)">
-          Đọc xong làm trắc nghiệm ≥60%. Thực hành: thêm 5 mã vào watchlist; mỗi ngày 5 phút nhìn biểu đồ và mô tả nến
+          Hoàn thành đầu ra thực hành của từng bài. Thực hành: thêm 5 mã vào watchlist; mỗi ngày 5 phút nhìn biểu đồ và mô tả nến
           hôm nay bằng ngôn ngữ bài 3–4.
         </Step>
         <Step n={2} title="Tuần 3–4 · Chỉ báo (Bài 5–8)">
@@ -177,7 +177,7 @@ export default function Guide() {
           <li><b>Thị trường Mỹ</b>: báo giá gần thời gian thực (thường trễ vài phút), lịch sử nến đầy đủ — nguồn Yahoo Finance.</li>
           <li><b>Thị trường Việt Nam</b>: dữ liệu giá <b>cuối ngày (EOD)</b> từ nguồn công khai VNDirect — đủ để học phân tích, giao dịch giả lập sẽ khớp theo giá đóng cửa gần nhất.</li>
           <li><b>Chế độ mô phỏng</b>: nếu mất kết nối tới nguồn dữ liệu, web tự chuyển sang dữ liệu mô phỏng (có nhãn vàng "DỮ LIỆU MÔ PHỎNG") để bạn vẫn học/học tiếp được.</li>
-          <li><b>Dữ liệu học của bạn</b> (watchlist, ví giả lập, tiến độ, ghi chú) được tách theo workspace ẩn danh của từng trình duyệt. Khi chạy local, nó nằm trong SQLite trên máy; bản Render miễn phí dùng bộ nhớ tạm nên sẽ mất khi service khởi động lại hoặc được deploy lại.</li>
+          <li><b>Dữ liệu học của bạn</b> (watchlist, ví giả lập, tiến độ, bài thực hành, ghi chú) được tách theo workspace ẩn danh của từng trình duyệt và đồng bộ sang Cloudflare D1 trên bản online. Đừng xóa dữ liệu trình duyệt nếu muốn giữ đúng workspace này.</li>
           <li><b>Giờ giao dịch</b>: Mỹ mở 21:30–04:00 giờ VN (sáng sớm hôm sau là lúc có biến động mới); VN mở 09:15–14:45 các ngày trong tuần.</li>
         </ul>
       </Section>
@@ -187,7 +187,7 @@ export default function Guide() {
         <p className="muted"><b>Sao cổ phiếu Việt không có P/E, ROE trên web?</b> — Chỉ số tài chính chi tiết của công ty VN chưa có trên nguồn công khai web dùng được. Hãy tự tra cafef/vietstock và dùng thẻ "cách đọc chỉ số" làm trợ lý ôn — đó cũng chính là bài tập của Bài 9–12.</p>
         <p className="muted"><b>Giá VNM trên web khác cafef?</b> — Giá VN trên web là giá đóng cửa phiên gần nhất (EOD). Trong phiên, cafef sẽ nhanh hơn — đây là giới hạn của nguồn dữ liệu miễn phí.</p>
         <p className="muted"><b>Máy tính báo lỗi/chưa tải được dữ liệu?</b> — Kiểm tra 2 terminal (server :4001 + web :5173) còn chạy không; xem README trong thư mục dự án. Nếu mạng chặn nguồn dữ liệu ngoài, web vẫn chạy với chế độ mô phỏng.</p>
-        <p className="muted"><b>Tôi muốn reset lại tiến độ học?</b> — Xoá file <span className="mono">server/data/app.db</span> rồi khởi động lại server (mất cả watchlist & ví — cân nhắc!).</p>
+        <p className="muted"><b>Tôi muốn làm lại một bài?</b> — Mở lại bài đó, sửa nội dung trong phần thực hành rồi nộp lại. Dữ liệu cũ được thay bằng phiên bản mới nhất của chính bạn.</p>
         <p className="muted"><b>Nên học theo điện thoại được không?</b> — Web hiển thị tốt trên mobile, nhưng bài tập "đọc biểu đồ + tính toán" nên làm trên máy tính để tập trung.</p>
       </Section>
 

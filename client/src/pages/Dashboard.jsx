@@ -364,12 +364,12 @@ export default function Dashboard() {
                   <div className="big num">{progress.lessonsRead}/{progress.lessonsTotal}</div>
                 </div>
                 <div>
-                  <div className="muted" style={{ fontSize: 12 }}>Bài kiểm tra</div>
-                  <div className="big num"><ExplainableValue metricKey="taskScore" value={progress.quizzesDone} ctx={{ source: 'Tiến độ học tập', note: 'Số bài kiểm tra đã hoàn thành' }} /></div>
+                  <div className="muted" style={{ fontSize: 12 }}>Đầu ra đã nộp</div>
+                  <div className="big num">{progress.practicesDone}</div>
                 </div>
                 <div>
-                  <div className="muted" style={{ fontSize: 12 }}>Điểm trung bình</div>
-                  <div className="big num">{progress.avgScorePercent != null ? <ExplainableValue metricKey="taskScore" value={progress.avgScorePercent + '%'} ctx={{ source: 'Tiến độ học tập', note: 'Điểm trung bình các bài kiểm tra' }} /> : '—'}</div>
+                  <div className="muted" style={{ fontSize: 12 }}>Bản nháp</div>
+                  <div className="big num">{progress.practicesDraft}</div>
                 </div>
               </div>
               <Link to="/learn" className="btn" style={{ marginTop: 14 }}>Tiếp tục học →</Link>

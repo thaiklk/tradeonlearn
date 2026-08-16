@@ -142,6 +142,15 @@ export function initDb() {
       read_at TEXT DEFAULT (datetime('now')),
       PRIMARY KEY (user_id, lesson_id)
     );
+    CREATE TABLE IF NOT EXISTS user_lesson_practice_progress (
+      user_id TEXT NOT NULL,
+      lesson_id TEXT NOT NULL,
+      answers TEXT NOT NULL DEFAULT '{}',
+      status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'submitted')),
+      updated_at TEXT DEFAULT (datetime('now')),
+      submitted_at TEXT,
+      PRIMARY KEY (user_id, lesson_id)
+    );
     CREATE TABLE IF NOT EXISTS user_corporate_finance_progress (
       user_id TEXT NOT NULL,
       module_id TEXT NOT NULL,
