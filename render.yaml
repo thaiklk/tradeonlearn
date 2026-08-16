@@ -1,0 +1,16 @@
+# Cấu hình Blueprint cho Render.com (gói FREE)
+# Cách dùng: đẩy code lên GitHub → render.com → New → Blueprint → chọn repo → Apply
+services:
+  - type: web
+    name: tradeonlearn
+    runtime: node
+    plan: free
+    region: singapore
+    healthCheckPath: /api/health
+    buildCommand: npm ci --prefix server --include=dev && npm ci --prefix client --include=dev && npm run build --prefix client
+    startCommand: cd server && npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 22.12.0
+      - key: PORT
+        value: 10000

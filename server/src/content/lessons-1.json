@@ -1,0 +1,719 @@
+[
+  {
+    "id": "co-phieu-la-gi",
+    "title": "Bài 1 · Cổ phiếu là gì và bạn kiếm tiền từ đâu?",
+    "level": "Cơ bản",
+    "minutes": 12,
+    "summary": "Nền tảng nhất cho người mới: cổ phiếu thực chất là gì, 2 cách kiếm tiền, và vì sao giá biến động mỗi ngày.",
+    "sections": [
+      {
+        "h": "1. Cổ phiếu thực chất là gì?",
+        "p": [
+          "Cổ phiếu (stock/share) là chứng nhận bạn sở hữu một phần rất nhỏ của một công ty. Ví dụ: Apple hiện có khoảng 15 tỷ cổ phiếu đang lưu hành. Nếu bạn mua 1 cổ phiếu Apple, bạn chính thức là chủ sở hữu của 1/15 tỷ công ty Apple — cực kỳ nhỏ, nhưng là thật.",
+          "Là cổ đông, bạn có các quyền cơ bản: (1) nhận cổ tức nếu công ty chia, (2) nhận báo cáo tài chính và biết công ty đang làm gì, (3) biểu quyết các vấn đề lớn trong đại hội cổ đông, (4) nếu công ty bị phá sản thanh lý, bạn nhận phần còn lại sau khi trả nợ (thường là không còn gì — vì vậy cổ đông chịu rủi ro cuối cùng)."
+        ],
+        "tip": "Não bộ của bạn nên chuyển từ 'mua vé số' sang 'mua một phần công ty thật'. Khi bạn xem một mã cổ phiếu, hãy luôn hỏi: doanh nghiệp này kiếm tiền bằng cách nào?"
+      },
+      {
+        "h": "2. Hai cách kiếm tiền từ cổ phiếu",
+        "p": ["Là cổ đông, bạn có đúng 2 nguồn lợi nhuận:"],
+        "list": [
+          "Chênh lệch giá (capital gain): mua ở 50$, sau này bán 60$ → lãi 10$/cổ phiếu, tương đương +20%. Đây là nguồn lợi nhuận chính mà hầu hết mọi người hướng tới.",
+          "Cổ tức (dividend): công ty chia một phần lợi nhuận cho cổ đông. Ví dụ cổ phiếu giá 100$ trả cổ tức 4$/năm → 'tỷ suất cổ tức' là 4%/năm. Nhiều công ty lớn (Coca-Cola, Vinamilk...) trả cổ tức đều đặn hàng chục năm."
+        ],
+        "p2": [
+          "Lưu ý ngược lại cũng đúng: nếu công ty làm ăn kém và bạn bán rẻ hơn giá mua, bạn sẽ LỖ. Chứng khoán không có lãi suất cố định như gửi ngân hàng — đổi lại, tiềm năng tăng trưởng dài hạn cao hơn hẳn."
+        ]
+      },
+      {
+        "h": "3. Vì sao giá cổ phiếu biến động mỗi ngày?",
+        "p": [
+          "Giá cổ phiếu được quyết định bởi CUNG và CẦU tại từng thời điểm: nhiều người muốn mua hơn → giá tăng; nhiều người muốn bán hơn → giá giảm. Nhưng đằng sau cung cầu là những thứ này:",
+          "(1) Kỳ vọng lợi nhuận tương lai: nếu tin rằng công ty sẽ kiếm nhiều tiền hơn, người ta sẵn sàng trả giá cao hơn hôm nay. (2) Tin tức: báo cáo lợi nhuận, sản phẩm mới, bê bối... (3) Lãi suất và kinh tế vĩ mô: lãi suất cao làm các dòng tiền tương lai kém hấp dẫn hơn. (4) Tâm lý đám đông: FOMO (sợ bỏ lỡ) và hoảng loạn bán tháo có thể đẩy giá xa hơn đáng kể so với giá trị thật — cả hai chiều.",
+          "Điều quan trọng với người mới: trong NGẮN HẠN, giá bị tâm lý chi phối rất mạnh và gần như không đoán được. Trong DÀI HẠN, giá có xu hướng bám theo lợi nhuận thật của doanh nghiệp. Cả khóa học này sẽ trang bị cho bạn cách nhìn theo hướng dài hạn, dùng kỹ thuật chỉ để chọn ĐIỂM VÀO tốt hơn."
+        ]
+      },
+      {
+        "h": "4. So sánh nhanh các kênh đầu tư phổ biến",
+        "list": [
+          "Gửi tiết kiệm: an toàn cao, lợi suất thấp (~3-6%/năm tại VN), phù hợp tiền dự phòng.",
+          "Trái phiếu: cho công ty/chính phủ vay, lãi cố định, rủi ro trung bình (công ty phá sản thì mất).",
+          "Cổ phiếu: rủi ro cao nhất trong 3 kênh (giá dao động ±20-50%/năm là bình thường), nhưng lợi suất kỳ vọng dài hạn cao nhất (~7-10%/năm với danh mục cổ phiếu lớn, đa dạng).",
+          "Nguyên tắc: chỉ bỏ vào cổ phiếu số tiền mà bạn KHÔNG cần dùng trong 3-5 năm."
+        ]
+      },
+      {
+        "h": "5. 5 sai lầm kinh điển của người mới bắt đầu",
+        "list": [
+          "Nghĩ chứng khoán là cách làm giàu nhanh → thực tế đây là cách làm giàu CHẬM mà BỀN.",
+          "All-in toàn bộ tiền vào 1 mã 'nóng' → một mã giảm 50% thì mất nửa tài sản.",
+          "Không học gì đã mua, chỉ theo người khác → không hiểu tại sao lãi thì sẽ không biết tại sao lỗ.",
+          "Mua khi giá đang lên đỉnh vì FOMO, bán khi đang đáy vì hoảng → mua đắt bán rẻ.",
+          "Vay tiền/nợ vay để đầu tư → lãi vay bào mòn, áp lực tâm lý khiến quyết định tệ hơn."
+        ],
+        "tip": "Cách dùng web này để tránh sai lầm số 3: hãy hoàn thành các bài học, làm trắc nghiệm, rồi dùng ví giả lập 100.000$ để LỖ bằng tiền ảo trước khi bao giờ dùng tiền thật."
+      }
+    ],
+    "keyPoints": [
+      "Cổ phiếu = sở hữu một phần doanh nghiệp thật, không phải tấm vé may rủi.",
+      "2 nguồn lợi nhuận: chênh lệch giá + cổ tức.",
+      "Ngắn hạn giá do tâm lý, dài hạn giá theo lợi nhuận doanh nghiệp.",
+      "Chỉ đầu tư tiền không dùng đến trong 3-5 năm; tuyệt đối không vay để đầu tư khi mới học."
+    ],
+    "tryIt": {
+      "text": "Mở trang chi tiết của Apple (AAPL) trên web này: quan sát giá hiện tại, % thay đổi hôm nay và biểu đồ — chỉ cần làm quen, chưa cần hiểu sâu.",
+      "link": "/stock/AAPL"
+    },
+    "relatedTerms": ["Cổ phiếu (Stock)", "Cổ tức (Dividend)", "Cổ đông (Shareholder)", "Vốn hóa thị trường (Market Cap)"],
+    "quiz": [
+      {
+        "q": "Khi bạn mua 1 cổ phiếu, bạn thực sự đang làm gì?",
+        "options": ["Cho công ty vay tiền", "Sở hữu một phần rất nhỏ của công ty", "Mua một hợp đồng cá cược", "Gửi tiền vào công ty như tiết kiệm"],
+        "answer": 1,
+        "explain": "Cổ phiếu là chứng nhận sở hữu. Cho công ty vay là trái phiếu — hai thứ hoàn toàn khác nhau."
+      },
+      {
+        "q": "Cổ phiếu giá 200$ trả cổ tức 6$/năm. Tỷ suất cổ tức là bao nhiêu?",
+        "options": ["3%", "6%", "30%", "Không tính được"],
+        "answer": 0,
+        "explain": "6/200 = 3%. Tỷ suất cổ tức = cổ tức hàng năm / giá hiện tại."
+      },
+      {
+        "q": "Theo bài học, trong dài hạn giá cổ phiếu có xu hướng bám theo điều gì?",
+        "options": ["Tin tức trên mạng xã hội", "Quyết định của các quỹ lớn", "Lợi nhuận thật của doanh nghiệp", "Con số Fibonacci"],
+        "answer": 2,
+        "explain": "Ngắn hạn là lá phiếu của tâm lý, dài hạn là máy cân của lợi nhuận doanh nghiệp — trích dẫn nổi tiếng của Benjamin Graham (thầy của Warren Buffett)."
+      },
+      {
+        "q": "Điều nào SAU ĐÂY là khuyến nghị đúng cho người mới?",
+        "options": ["Tập trung toàn bộ tiền vào 1 mã để lời mạnh", "Vay tiền để có thêm vốn đầu tư", "Chỉ dùng tiền không cần trong 3-5 năm và luyện bằng ví giả lập trước", "Mua mã đang tăng mạnh nhất hôm nay"],
+        "answer": 2,
+        "explain": "Quản trị rủi ro từ số tiền bạn bỏ vào là bước đầu tiên và quan trọng nhất — sẽ học sâu ở Bài 14."
+      }
+    ]
+  },
+  {
+    "id": "thi-truong-va-bang-gia",
+    "title": "Bài 2 · Sàn giao dịch, chỉ số và cách đọc bảng giá",
+    "level": "Cơ bản",
+    "minutes": 10,
+    "summary": "HOSE, HNX, S&P 500, VN-Index là gì? Lot 100 cổ phiếu, biên độ trần/sàn và cách đọc mọi con số trên bảng giá.",
+    "sections": [
+      {
+        "h": "1. Thị trường giao dịch ở đâu?",
+        "p": [
+          "Cổ phiếu được mua bán trên các SÀN GIAO DỊCH có tổ chức — giống chợ có quản lý, quy định rõ ràng. Việt Nam có 2 sàn chính: HOSE (Tp.HCM — các công ty lớn, vốn hóa cao) và HNX (Hà Nội — thường là công ty nhỏ hơn). Mỹ có NYSE và NASDAQ — nơi giao dịch những công ty lớn nhất thế giới như Apple, Microsoft, NVIDIA.",
+          "Việc có sàn quan trọng vì: lệnh mua-bán của bạn được ghép công khai theo thứ tự giá, mọi người thấy cùng một giá, và tiền/cổ phiếu được thanh toán an toàn qua công ty chứng khoán (broker) thay vì tay ba."
+        ]
+      },
+      {
+        "h": "2. Chỉ số thị trường (index) — 'nhiệt kế' của thị trường",
+        "p": [
+          "Chỉ số là giỏ cổ phiếu tiêu biểu dùng để đo 'sức khỏe' toàn thị trường trong 1 con số:",
+          "VN-Index: đo tất cả cổ phiếu niêm yết HOSE. VN30: 30 mã lớn nhất, thanh khoản nhất HOSE. S&P 500: 500 công ty lớn nhất Mỹ (chỉ số được tham chiếu nhiều nhất thế giới). NASDAQ Composite: thiên về công nghệ.",
+          "Khi nghe 'thị trường hôm nay tăng 1%' — người ta đang nói chỉ số tăng 1%. Giao dịch cổ phiếu cá nhân mà không nhìn chỉ số thì như lái xe không nhìn đường chung: biết đâu cả thị trường đang bão."
+        ],
+        "tip": "Trên Dashboard của web này, nhóm thẻ 'Chỉ số' luôn hiển thị S&P 500, NASDAQ, DOW, VN-Index, VN30, HNX-Index — hãy mở nó làm thói quen mỗi ngày."
+      },
+      {
+        "h": "3. Đọc bảng giá: từng con số một",
+        "list": [
+          "Mã (symbol): tên viết tắt duy nhất — AAPL là Apple, VNM là Vinamilk.",
+          "Giá hiện tại: giá khớp lệnh gần nhất. Chấm màu + %: thay đổi so với GIÁ ĐÓNG CỬA hôm trước.",
+          "Cao/Thấp trong ngày: biên độ dao động hôm nay — cho thấy mức 'náo nhiệt'.",
+          "Khối lượng (volume): số cổ phiếu đổi chủ trong phiên. Khối lượng lớn = nhiều người quan tâm, biến động dễ 'thật' hơn.",
+          "Vốn hóa (market cap): giá × số cổ phiếu = 'toàn bộ công ty giá bao nhiêu'. So sánh công ty bằng vốn hóa công bằng hơn so giá/cổ phiếu."
+        ]
+      },
+      {
+        "h": "4. Đặc thù cần biết của thị trường Việt Nam",
+        "list": [
+          "Lot/lô chẵn: tại VN, lệnh tối thiểu thường là 100 cổ phiếu (mua 150 cp kiểu lẻ sẽ khó khớp hơn).",
+          "Biên độ trần/sàn: giá VN chỉ được dao động quanh giá tham chiếu khoảng ±7% (HOSE, tùy sàn và nhóm cổ phiếu) mỗi phiên — không như Mỹ tăng/giảm thoải mái.",
+          "Phiên ATO/ATC: đầu và cuối phiên VN có phiên khớp lệnh định kỳ; giá đóng cửa có thể nhảy tại ATC.",
+          "T+2/T+3: tiền và cổ phiếu về tài khoản sau 2-3 ngày làm việc — với ví giả lập trên web này thì tức thì để bạn luyện tập."
+        ],
+        "tip": "Dữ liệu cổ phiếu Việt trên web này là dữ liệu cuối ngày (EOD) từ nguồn công khai; dữ liệu Mỹ gần thời gian thực. Với mục tiêu học tập, điều đó là đủ."
+      },
+      {
+        "h": "5. Sử dụng web này như một chuyên gia",
+        "p": [
+          "(1) Dùng ô Tìm kiếm để tra bất kỳ mã Mỹ/Việt nào. (2) Bấm ngôi sao để thêm vào Danh sách theo dõi — watchlist của bạn lưu tự động. (3) Bấm vào mã bất kỳ để mở trang chi tiết với biểu đồ + gợi ý phân tích. (4) Mục 'Biến động mạnh' trên Dashboard cho biết mã nào đang dẫn đầu tăng/giảm trong vũ trụ cổ phiếu được theo dõi — nơi tốt để tìm ideas, nhưng nhớ: tăng mạnh KHÔNG đồng nghĩa nên mua."
+        ]
+      }
+    ],
+    "keyPoints": [
+      "Chỉ số = nhiệt kế thị trường; luôn nhìn trước khi giao dịch cổ phiếu cá nhân.",
+      "Vốn hóa (giá × số cp) công bằng hơn giá/cổ phiếu khi so công ty lớn nhỏ.",
+      "VN: lô chẵn 100 cp, biên độ ±7%, dữ liệu web này là EOD. Mỹ: gần thời gian thực.",
+      "Tăng/giảm mạnh nhất là nơi tìm ý tưởng — không phải lệnh mua tự động."
+    ],
+    "tryIt": {
+      "text": "Vào Dashboard, đọc 6 chỉ số và mô tả hôm nay thị trường Mỹ và Việt Nam đang 'màu' gì. Sau đó tìm mã VNM và thêm vào watchlist.",
+      "link": "/"
+    },
+    "relatedTerms": ["Chỉ số thị trường (Index)", "Khối lượng (Volume)", "Vốn hóa thị trường (Market Cap)", "Sàn giao dịch (Exchange)"],
+    "quiz": [
+      {
+        "q": "VN-Index đo lường điều gì?",
+        "options": ["30 mã lớn nhất HOSE", "Tất cả cổ phiếu niêm yết HOSE", "Tất cả cổ phiếu HNX", "Tỷ giá USD/VND"],
+        "answer": 1,
+        "explain": "VN-Index phủ toàn bộ HOSE; VN30 mới là giỏ 30 mã lớn nhất."
+      },
+      {
+        "q": "Công ty A giá 10.000đ/cp với 1 tỷ cp. Công ty B giá 100.000đ/cp với 10 triệu cp. Ai 'to' hơn?",
+        "options": ["B vì giá mỗi cổ phiếu cao gấp 10", "A vì vốn hóa 10.000 tỷ so với 1.000 tỷ", "Bằng nhau", "Không so được"],
+        "answer": 1,
+        "explain": "Vốn hóa A = 10.000đ × 1 tỷ = 10.000 tỷ. B = 100.000đ × 10 triệu = 1.000 tỷ. Giá/cổ phiếu không nói lên quy mô."
+      },
+      {
+        "q": "Giá cổ phiếu VNM hôm nay +6.8% trên bảng giá. Điều này có ý nghĩa gì với dữ liệu EOD?",
+        "options": [
+          "Đang được cập nhật mỗi giây",
+          "Là thay đổi giữa giá đóng cửa hôm nay và hôm trước (kết thúc phiên)",
+          "Là dự báo ngày mai",
+          "Là mức tăng so với đầu năm"
+        ],
+        "answer": 1,
+        "explain": "Dữ liệu EOD phản ánh phiên đã đóng: % thay đổi so với giá đóng cửa phiên liền trước."
+      },
+      {
+        "q": "Tại sao nên nhìn chỉ số trước khi giao dịch 1 mã riêng lẻ?",
+        "options": [
+          "Vì chỉ số quyết định giá từng mã",
+          "Để biết bối cảnh chung: bão thị trường kéo mọi mã xuống kể cả mã tốt",
+          "Vì chỉ số luôn tăng",
+          "Không cần thiết nếu đã chọn mã tốt"
+        ],
+        "answer": 1,
+        "explain": "Hệ số beta cho thấy đa số mã cùng chiều thị trường. Bối cảnh (context) là một nửa của quyết định."
+      }
+    ]
+  },
+  {
+    "id": "doc-hieu-bieu-do-nen",
+    "title": "Bài 3 · Đọc hiểu biểu đồ nến Nhật (candlestick)",
+    "level": "Cơ bản",
+    "minutes": 12,
+    "summary": "Mỗi cây nến kể một câu chuyện ẩn chứa đấu tranh mua–bán. Học xong bài này bạn đọc được ngôn ngữ của biểu đồ.",
+    "sections": [
+      {
+        "h": "1. Một cây nến chứa 4 con số",
+        "p": [
+          "Mỗi cây nến tóm tắt giao dịch trong 1 khoảng thời gian (1 ngày, 1 tuần, 5 phút...): Giá MỞ CỬA (đầu phiên), GIÁ ĐÓNG CỬA (cuối phiên), CAO NHẤT và THẤP NHẤT trong phiên.",
+          "THÂN NẾN (phần hình chữ nhật dày) = khoảng giữa mở cửa và đóng cửa. RIA NẾN (wick/shadow — vạch mảnh trên/dưới) = mức giá từng chạm cao/thấp nhất nhưng không giữ được đến khi đóng phiên.",
+          "Quy ước màu: nến XANH (hoặc trắng) = đóng cửa CAO HƠN mở cửa → người mua thắng phiên đó. Nến ĐỎ = đóng cửa thấp hơn mở cửa → người bán thắng."
+        ]
+      },
+      {
+        "h": "2. Nến dài, nến ngắn 'nói' điều gì?",
+        "list": [
+          "Nến tăng THÂN DÀI: người mua áp đảo toàn phiên, động lượng mạnh.",
+          "Nến giảm thân dài + KL lớn: đợt bán tháo thật — cần tôn trọng.",
+          "Thân ngắn + ria dài 2 đầu (doji): thế cân bằng, do dự — hay xuất hiện tại ĐỈNH/ĐÁY hoặc trước bước ngoặt.",
+          "Ria dưới dài (nến búa — hammer) sau đợt giảm: giá từng bị đẩy sâu xuống nhưng KÉO LÊN ĐƯỢC → dấu hiệu người mua bắt đầu bảo vệ vùng đáy."
+        ],
+        "tip": "Đừng học thuộc hàng chục mẫu nến. Chỉ cần 3 câu hỏi mỗi cây nến: ai thắng (màu), thắng áp đảo hay suýt thua (dài/ngắn), và có vùng giá nào bị 'thử' rồi bị đẩy ngược (ria)?"
+      },
+      {
+        "h": "3. Mẫu nến 2 cây đáng nhớ nhất",
+        "list": [
+          "Bao tăng (bullish engulfing): nến ĐỎ ngắn, ngay sau là nến XANH lớn 'nuốt trọn' thân nến đỏ trước → phe mua vừa giành quyền kiểm soát hoàn toàn.",
+          "Bao giảm (bearish engulfing): ngược lại — tín hiệu cảnh báo sau một đoạn tăng.",
+          "Sao mai (morning star) 3 cây: đỏ lớn → nến nhỏ/doji (do dự) → xanh lớn lấy lại hết số mất → mẫu đảo chiều tăng khá tin cậy, đặc biệt khi kèm khối lượng tăng."
+        ],
+        "p2": [
+          "Quan trọng: mẫu nến KHÔNG phải phép màu. Độ tin cậy tăng vọt khi nó xuất hiện ở VỊ TRÍ ý nghĩa (vùng hỗ trợ lâu dài, đỉnh cũ...) kèm KHỐI LƯỢNG xác nhận — 2 khái niệm của bài sau."
+        ]
+      },
+      {
+        "h": "4. Khung thời gian: cùng một cổ phiếu, nhiều câu chuyện",
+        "p": [
+          "Biểu đồ NGÀY (mỗi nến = 1 ngày) là mặc định của nhà đầu tư dài hạn. Tuần/tháng làm mượt nhiễu, hiện xu hướng lớn. Nến 5 phút/1 giờ dành cho trader trong ngày.",
+          "Một mã có thể đang giảm 5 ngày liên tiếp nhưng vẫn trong xu hướng tăng 2 năm — và ngược lại. LUÔN xác định bạn đang nhìn khung nào trước khi kết luận. Trên trang chi tiết của web này, bạn đổi khung bằng các nút 1T/3T/6T/1N/2N/5N."
+        ]
+      }
+    ],
+    "keyPoints": [
+      "Nến = mở cửa, đóng cửa, cao, thấp; màu cho biết phe thắng.",
+      "Thân dài = áp đảo; doji = do dự; ria dài = vùng giá bị thử và đẩy ngược.",
+      "Mẫu nến chỉ đáng tin ở vị trí ý nghĩa + khối lượng xác nhận.",
+      "Xác định khung thời gian trước khi kết luận xu hướng."
+    ],
+    "tryIt": {
+      "text": "Mở biểu đồ AAPL khung 6 tháng trên web: tìm nến đỏ dài nhất, phóng to (kéo chuột) và tự hỏi 'hôm đó đã chuyện gì với người mua?'. Tiếp theo bật MA20 để sẵn sàng cho Bài 5.",
+      "link": "/stock/AAPL"
+    },
+    "relatedTerms": ["Nến Nhật (Candlestick)", "Giá đóng cửa (Close)", "Doji", "Nến búa (Hammer)"],
+    "quiz": [
+      {
+        "q": "Nến XANH nghĩa là gì?",
+        "options": ["Giá đóng cửa thấp hơn mở cửa", "Giá đóng cửa cao hơn mở cửa", "Khối lượng tăng", "Giá bằng giá tham chiếu"],
+        "answer": 1,
+        "explain": "Nến xanh/đỏ chỉ so MỞ vs ĐÓNG của chính phiên đó, không so với hôm trước."
+      },
+      {
+        "q": "Nến có thân cực ngắn, ria dài cả 2 đầu (doji) sau đợt tăng dài cho thấy điều gì?",
+        "options": ["Người mua áp đảo", "Cân bằng & do dự — có thể sắp bước ngoặt", "Chắc chắn giảm 100%", "Công ty phá sản"],
+        "answer": 1,
+        "explain": "Doji = 2 phe ngang sức. Sau đợt tăng dài, đó là tín hiệu CẢNH BÁO cần xác nhận, không phải kết luận."
+      },
+      {
+        "q": "Khi nào mẫu 'bao tăng' (bullish engulfing) đáng tin cậy nhất?",
+        "options": ["Ở bất kỳ đâu trên biểu đồ", "Khi xuất hiện tại vùng hỗ trợ kèm khối lượng lớn", "Khi thị trường đóng cửa", "Khi giá ở đỉnh lịch sử"],
+        "answer": 1,
+        "explain": "Vị trí + khối lượng nâng chất lượng mọi tín hiệu kỹ thuật — nguyên tắc xuyên suốt."
+      },
+      {
+        "q": "Biểu đồ ngày của một mã đang giảm 5 phiên, nhưng biểu đồ 2 năm vẫn tăng. Kết luận đúng?",
+        "options": [
+          "Cổ phiếu này đang 'xấu' — bán",
+          "Chỉ là điều chỉnh ngắn hạn trong xu hướng tăng dài hạn — cần thêm thông tin trước khi hành động",
+          "Chắc chắn mua thêm ngay",
+          "Dữ liệu bị lỗi"
+        ],
+        "answer": 1,
+        "explain": "Nhiều khung thời gian có thể mâu thuẫn; hành động cần dựa trên khung phù hợp mục tiêu của bạn."
+      }
+    ]
+  },
+  {
+    "id": "khoi-luong-xu-huong",
+    "title": "Bài 4 · Khối lượng, xu hướng và hỗ trợ – kháng cự",
+    "level": "Cơ bản",
+    "minutes": 12,
+    "summary": "Khối lượng là 'nhiên liệu' của chuyển động giá. Học cách xác nhận xu hướng và vẽ các vùng giá quan trọng.",
+    "sections": [
+      {
+        "h": "1. Khối lượng — đồng hồ đo độ thật của chuyển động",
+        "p": [
+          "Giá tăng kèm khối lượng LỚN: nhiều tiền thật đổ vào → chuyển động có 'chất lượng', khả năng tiếp diễn cao. Giá tăng nhưng khối lượng leo thang yếu/loãng dần: ít người tham gia thật → cảnh báo sóng tăng 'giả'.",
+          "Hình dung: giá là chiếc xe, khối lượng là xăng. Xe chạy mà hết xăng (KL cạn) thì sớm muộn cũng dừng. Trên trang chi tiết của web, cột khối lượng nằm dưới nến, có đường bình quân 20 phiên để bạn so sánh 'hôm nay có bất thường không' — engine gợi ý cũng dùng tín hiệu KL đột biến."
+        ]
+      },
+      {
+        "h": "2. Xu hướng: đơn giản nhưng ít người tôn trọng",
+        "list": [
+          "Xu hướng TĂNG: các đỉnh sau cao hơn đỉnh trước (higher highs), các đáy sau cao hơn đáy trước. Chiến lược thuận xu hướng: mua khi giá điều chỉnh về vùng đáy tăng.",
+          "Xu hướng GIẢM: đỉnh sau thấp hơn đỉnh trước — 'đón dao rơi' trong xu hướng giảm là một trong những lỗi tốn kém nhất của người mới.",
+          "Đi ngang (sideways): giá dao động trong hộp — chờ phá vỡ hai mép hộp với khối lượng lớn."
+        ],
+        "p2": [
+          "Nguyên tắc vàng: xu hướng hiện tại có xu hướng TIẾP TỤC cho đến khi có bằng chứng đảo chiều đủ mạnh (phá vùng hỗ trợ/kháng cự + KL). Chi phí của việc 'đoán đỉnh đoán đáy sớm' gần như luôn lớn hơn lợi ích."
+        ]
+      },
+      {
+        "h": "3. Hỗ trợ và kháng cự — bản đồ tâm lý của đám đông",
+        "p": [
+          "VỰNG HỖ TRỢ (support): mức giá mà mỗi lần rơi tới, khối lượng mua xuất hiện đẩy giá bật lên — thường là đáy cũ, mức giá tròn, MA dài hạn.",
+          "VÙNG KHÁNG CỰ (resistance): mức giá mà mỗi lần lên tới, áp lực bán ập đến đẩy giá xuống — thường là đỉnh cũ.",
+          "Tại sao chúng 'hoạt động'? Vì hàng nghìn người cùng nhìn thấy cùng mức giá đó và hành động: người mua tiếc đã không mua ở đó, người bán chốt lời ở đó... tự lời hẹn tự thành hiện thực.",
+          "Phá vỡ kháng cự kèm KL lớn và giá ĐÓNG PHIÊN trên mức đó → kháng cự cũ thường trở thành hỗ trợ mới (và ngược lại). Đây là lúc các trader theo xu hướng quan tâm nhất."
+        ],
+        "tip": "Vẽ hỗ trợ/kháng cự bằng VÙNG (dải giá mờ), không phải 1 đường mảnh tuyệt đối. Nhiễu nhỏ xuyên qua mép vùng là bình thường."
+      },
+      {
+        "h": "4. Bộ ba xác nhận: Giá + Khối lượng + Vị trí",
+        "p": [
+          "Một tín hiệu kỹ thuật bất kỳ (nến, giao cắt MA, RSI...) chỉ nên được tin khi cả 3 câu trả lời ĐỒNG THUẬN: (1) Giá đã làm gì? (2) Khối lượng có xác nhận không? (3) Tín hiệu nằm ở vị trí có ý nghĩa (hỗ trợ/kháng cự chính) hay ở giữa vùng trống?",
+          "Ví dụ: nến búa + KL gấp đôi bình quân + đúng trên MA200 → tín hiệu A+. Cùng nến búa đó nhưng giữa vùng đi ngang, KL lẹt đẹt → gần như vô nghĩa."
+        ]
+      }
+    ],
+    "keyPoints": [
+      "Khối lượng lớn = chuyển động giá có 'xăng thật'; khối lượng loãng = cảnh báo.",
+      "Theo xu hướng: mua điều chỉnh trong xu hướng tăng, tránh đón dao rơi khi giảm.",
+      "Hỗ trợ/kháng cự là vùng tâm lý đám đông; phá vỡ kèm KL mới đáng tin.",
+      "Tín hiệu tốt = Giá + Khối lượng + Vị trí cùng đồng thuận."
+    ],
+    "tryIt": {
+      "text": "Mở NVDA khung 1 năm: tìm 2 lần giá chạm cùng một vùng đáy (hỗ trợ). Xem khối lượng các phiên bật lên từ vùng đó có lớn không. Ghi chú nhận xét — chính là bạn đang 'phân tích' rồi đấy.",
+      "link": "/stock/NVDA"
+    },
+    "relatedTerms": ["Khối lượng (Volume)", "Hỗ trợ (Support)", "Kháng cự (Resistance)", "Xu hướng (Trend)", "Phá vỡ (Breakout)"],
+    "quiz": [
+      {
+        "q": "Giá tăng mạnh nhưng khối lượng thấp hơn bình quân. Cách đọc đúng?",
+        "options": ["Tín hiệu rất mạnh vì không cần nhiều người mua", "Sóng tăng thiếu 'xăng' — cần thận trọng", "Chắc chắn sắp có tin tốt", "Khối lượng không liên quan giá"],
+        "answer": 1,
+        "explain": "Chuyển động thiếu khối lượng thường mong manh — có thể chỉ vài lệnh lớn đẩy giá."
+      },
+      {
+        "q": "'Đón dao rơi' nghĩa là gì và vì sao nguy hiểm?",
+        "options": [
+          "Mua cổ phiếu đang giảm mạnh trong xu hướng giảm — vì chưa có bằng chứng đáy, dao có thể tiếp tục rơi",
+          "Bán tháo khi thị trường giảm — luôn sai",
+          "Đặt lệnh mua giá rẻ hơn thị trường",
+          "Đầu tư vàng khi thị trường khủng hoảng"
+        ],
+        "answer": 0,
+        "explain": "Trong xu hướng giảm, 'rẻ' có thể trở thành 'rẻ hơn nữa'. Chờ tín hiệu đảo chiều + KL xác nhận."
+      },
+      {
+        "q": "Sau khi PHÁ kháng cự với khối lượng lớn, mức kháng cự cũ thường trở thành gì?",
+        "options": ["Kháng cự mạnh hơn", "Vùng hỗ trợ mới", "Không còn ý nghĩa", "Vùng cấm giao dịch"],
+        "answer": 1,
+        "explain": "Người từng bán ở đó tiếc rẻ, mua lại khi giá thử lại mức cũ — tạo nhu cầu giữ giá."
+      },
+      {
+        "q": "3 yếu tố xác nhận một tín hiệu kỹ thuật là gì?",
+        "options": [
+          "Tin tức + mạng xã hội + cảm tính",
+          "Giá + Khối lượng + Vị trí (hỗ trợ/kháng cự)",
+          "P/E + EPS + ROE",
+          "Màu nến + số nến + thời gian"
+        ],
+        "answer": 1,
+        "explain": "Đây là bộ lọc cơ bản trước khi tin bất kỳ tín hiệu kỹ thuật nào."
+      }
+    ]
+  },
+  {
+    "id": "duong-trung-binh-ma",
+    "title": "Bài 5 · Đường trung bình động MA/EMA — xương sống của phân tích kỹ thuật",
+    "level": "Cơ bản",
+    "minutes": 11,
+    "summary": "MA20, MA50, MA200 là gì? Vì sao 'giá trên MA200' là một trong những chỉ báo bền vững nhất của thị trường?",
+    "sections": [
+      {
+        "h": "1. MA là gì — làm mượt nhiễu để thấy xu hướng",
+        "p": [
+          "Đường trung bình động (Moving Average — MA) của N phiên = trung bình cộng giá đóng cửa của N phiên gần nhất, vẽ liên tục thành đường. MA20 là trung bình 20 ngày giao dịch (~1 tháng), MA50 (~1 quý), MA200 (~1 năm).",
+          "Tác dụng: giá riêng lẻ gồ ghề nhiễu loạn; MA làm mượt giúp mắt thấy HƯỚNG chung ngay lập tức. MA dốc lên = xu hướng tăng; đi ngang = thị trường do dự; dốc xuống = xu hướng giảm.",
+          "EMA (Exponential MA) là bản 'nhanh' của MA: phiên gần đây có trọng số lớn hơn nên EMA phản ứng kịp thời hơn nhưng nhiễu cũng hơn. SMA (simple) mượt và chậm hơn. Với người mới: dùng SMA cho khung dài, EMA khi cần nhạy ngắn hạn."
+        ]
+      },
+      {
+        "h": "2. Ba đường MA kinh điển và ý nghĩa của chúng",
+        "list": [
+          "MA20 — nhịp thở ngắn hạn: giá trên MA20 và MA20 dốc lên = sóng ngắn đang đẹp; điều chỉnh chạm MA20 bật lên là điểm mua phổ biến của trader ngắn hạn.",
+          "MA50 — huyết mạch trung hạn: tách khỏi MA20, các quỹ trung hạn theo dõi đường này; vùng MA50 là nơi 'mua dip' lần 2 thường được quan tâm.",
+          "MA200 — ranh giới tăng/giảm dài hạn: giá TRÊN MA200 = chế độ tăng dài hạn (bull territory); DƯỚI = chế độ giảm (bear territory). Nhiều nhà đầu tư định chế chỉ dùng đúng một quy tắc này."
+        ]
+      },
+      {
+        "h": "3. Hai tín hiệu giao cắt nổi tiếng",
+        "list": [
+          "Golden cross: MA50 cắt LÊN MA200 → xác nhận chuyển sang xu hướng tăng dài hạn. Hiếm (vài năm 1 lần trên mỗi mã) nhưng rất được tin tưởng.",
+          "Death cross: MA50 cắt XUỐNG MA200 → xác nhận xu hướng giảm dài hạn.",
+          "Biến thể ngắn hạn: MA20 cắt MA50 (như engine gợi ý trên web dùng) bắt bước ngoặt nhanh hơn nhưng nhiễu hơn — luôn cần khối lượng + vị trí xác nhận (nguyên tắc Bài 4)."
+        ],
+        "p2": [
+          "Điểm yếu duy nhất nhưng nghiêm trọng của MA: nó TRỄ (lagging) — đường MA nói cho bạn xu hướng ĐANG là gì, không dự đoán tương lai. Trong thị trường đi ngang, MA giao cắt liên tục và tạo hàng loạt tín hiệu giả. Cách dùng đúng: MA là BỘ LỌC bối cảnh (được phép mua không?) hơn là cò súng lệnh."
+        ]
+      },
+      {
+        "h": "4. Thực hành trên web này",
+        "p": [
+          "Trang chi tiết mỗi mã có các đường MA20/MA50/MA200 và dải Bollinger bật/tắt được. Hãy thử: (1) Tắt hết, đoán xu hướng chỉ bằng nến. (2) Bật MA200: xu hướng dài hạn rõ ra sao? (3) Bật tiếp MA20: sóng ngắn đang ở đâu trong xu hướng dài? Câu chuyện 'vị trí của giá so với các MA' chính là cách các trader đọc biểu đồ mỗi sáng."
+        ],
+        "tip": "Combo đọc nhanh: giá > MA50 > MA200 (xếp tầng) = xu hướng tăng khỏe mạnh. Giá < MA50 < MA200 = xu hướng giảm khỏe mạnh. Các đường quấn vào nhau như mì = thị trường lúng túng, giảm bớt hành động."
+      }
+    ],
+    "keyPoints": [
+      "MA làm mượt giá để lộ xu hướng; EMA nhanh hơn SMA nhưng nhiễu hơn.",
+      "MA20 ngắn hạn, MA50 trung hạn, MA200 dài hạn; giá trên MA200 = lãnh thổ tăng.",
+      "Golden/death cross là tín hiệu dài hạn hiếm nhưng đáng tin; MA20/50 nhanh hơn nhưng cần xác nhận.",
+      "MA trễ theo bản chất: dùng làm bộ lọc bối cảnh, không dùng làm viên đạn bạc."
+    ],
+    "tryIt": {
+      "text": "Mở TSLA khung 2 năm, bật đủ MA20/50/200. Mô tả: giá đang ở đâu so với 3 đường? Các đường đang xếp tầng tăng hay quấn nhau? Engine 'Gợi ý' bên phải sẽ đối chiếu nhận định của bạn.",
+      "link": "/stock/TSLA"
+    },
+    "relatedTerms": ["MA (Đường trung bình)", "EMA", "Golden Cross", "Death Cross"],
+    "quiz": [
+      {
+        "q": "MA200 của một mã đang đi ngang hơi dốc lên, giá vừa bật lên trên MA200. Cách đọc?",
+        "options": ["Chắc chắn tăng gấp đôi", "Cổ phiếu bước vào 'lãnh thổ tăng' dài hạn — tín hiệu bối cảnh tích cực, chưa phải lệnh mua", "Phải bán ngay", "MA200 không có ý nghĩa"],
+        "answer": 1,
+        "explain": "Giá trên MA200 là điều kiện bối cảnh thuận cho các quyết định mua — vẫn cần điểm vào, khối lượng và câu chuyện cơ bản."
+      },
+      {
+        "q": "Vì sao MA được gọi là chỉ báo 'trễ' (lagging)?",
+        "options": [
+          "Vì nó tính bằng giá ĐÃ qua — mô tả quá khứ gần, không thấy trước tương lai",
+          "Vì máy tính chậm",
+          "Vì chỉ dùng được cho cổ phiếu cũ",
+          "Vì dữ liệu luôn thiếu"
+        ],
+        "answer": 0,
+        "explain": "MA = trung bình quá khứ. Nó xác nhận xu hướng chứ không tiên đoán — hiểu giới hạn này giúp bạn không lạm dụng."
+      },
+      {
+        "q": "Golden cross là gì?",
+        "options": ["MA20 cắt lên MA50", "MA50 cắt lên MA200", "Giá cắt MA20", "RSI cắt 70"],
+        "answer": 1,
+        "explain": "Kinh điển là MA50/MA200. MA20 cắt MA50 là biến thể ngắn hạn phổ biến trong engine gợi ý của web."
+      },
+      {
+        "q": "Thị trường đi ngang 6 tháng, MA20 và MA50 giao cắt nhau 5 lần. Kết luận đúng nhất?",
+        "options": [
+          "Có 5 cơ hội mua bán",
+          "Tín hiệu giao cắt trong thị trường đi ngang phần lớn là nhiễu — giảm hành động hoặc chờ phá vỡ hộp",
+          "MA bị hỏng",
+          "Nên chuyển sang mã khác ngay"
+        ],
+        "answer": 1,
+        "explain": "MA sinh ra để bắt xu hướng; không có xu hướng thì nó 'bệnh'. Nhận diện chế độ thị trường trước, chọn công cụ sau."
+      }
+    ]
+  },
+  {
+    "id": "rsi-dong-luong",
+    "title": "Bài 6 · RSI — nhiệt kế động lượng mua/bán",
+    "level": "Trung cấp",
+    "minutes": 10,
+    "summary": "RSI 14 là chỉ báo động lượng phổ biến nhất thế giới. Học cách dùng đúng và tránh cái bẫy kinh điển số 1 của RSI.",
+    "sections": [
+      {
+        "h": "1. RSI đo lường điều gì?",
+        "p": [
+          "RSI (Relative Strength Index, chu kỳ chuẩn 14 phiên) tổng kết sức mạnh các phiên tăng so với các phiên giảm trong 14 phiên gần nhất, xuất ra con số từ 0 đến 100.",
+          "Cách đọc chuẩn: RSI > 70 = vùng QUÁ MUA (áp lực mua đã kéo dài, nguy cơ điều chỉnh); RSI < 30 = vùng QUÁ BÁN (áp lực bán đã kéo dài, khả năng hồi phục); 30–70 = trung tính. Trên web này, bảng RSI nằm ngay dưới nến với 2 đường ngang 30/70 để bạn nhìn cực nhanh."
+        ]
+      },
+      {
+        "h": "2. Cái bẫy kinh điển: 'RSI trên 70 nghĩa là phải bán'",
+        "p": [
+          "Trong DAO ĐỘNG ngang, quy tắc 30/70 hoạt động đẹp: mua khi RSI < 30, giảm dần khi RSI > 70.",
+          "Nhưng trong XU HƯỚNG TĂNG mạnh, RSI có thể 'mắc kẹt' trên 70 nhiều tuần liên tiếp — vì phiên tăng liên tục đổ vào công thức. Ai bán ngay khi RSI chạm 70 sẽ bỏ lỡ nửa sau của sóng tăng. Nguyên tắc sửa lỗi: trong xu hướng tăng, chỉ coi 'RSI < 30' là cơ hội mua hiếm; trong xu hướng giảm, 'RSI > 70' chỉ là nhích nhẹ để thoát.",
+          "Chính vì vậy engine gợi ý trên web không dùng RSI đơn lẻ: nó ghép RSI với xu hướng MA và khối lượng rồi mới kết luận."
+        ],
+        "tip": "Muốn dùng RSI 'bám trend'? Nhiều trader nâng/dịch ngưỡng: trong xu hướng tăng, vùng 'quá bán' dời lên 40–50 thay vì 30. Hãy thử quan sát trên web và tự kiểm chứng."
+      },
+      {
+        "h": "3. Phân kỳ RSI — tín hiệu nâng cao đáng giá",
+        "list": [
+          "Phân kỳ GIẢM (bearish divergence): giá lập ĐỈNH MỚI CAO HƠN, nhưng RSI lại cho đỉnh THẤP HƠN → động lượng tăng đang cạn dù giá còn cao. Cảnh báo điều chỉnh.",
+          "Phân kỳ TĂNG (bullish divergence): giá lập đáy mới THẤP HƠN, RSI đáy CAO HƠN đáy trước → áp lực bán yếu đi. Thường dẫn tới hồi phục.",
+          "Phân kỳ mạnh nhất khi xuất hiện ở vùng cực đoan (RSI < 30 hoặc > 70) và tại hỗ trợ/kháng cự chính."
+        ]
+      },
+      {
+        "h": "4. Check-list dùng RSI đúng cách",
+        "list": [
+          "Bước 1: Xác định chế độ thị trường bằng MA (Bài 5) — xu hướng hay đi ngang?",
+          "Bước 2: Đi ngang → dùng 30/70 phản ứng ngược (mua vùng dưới, bán vùng trên).",
+          "Bước 3: Xu hướng tăng → RSI < 40 là vùng mua dip; đừng bán chỉ vì > 70.",
+          "Bước 4: Tìm phân kỳ ở vùng cực đoan + vị trí hỗ trợ/kháng cự → tín hiệu đảo chiều chất lượng.",
+          "Bước 5: Luôn chờ NẾN xác nhận đóng phiên — RSI trong phiên có thể đổi màu đến phút cuối."
+        ]
+      }
+    ],
+    "keyPoints": [
+      "RSI 0–100 đo động lượng; 30 = quá bán, 70 = quá mua trong thị trường dao động.",
+      "Trong xu hướng mạnh, RSI mắc kẹt ở vùng cực đoan lâu — đây là bẫy số 1 của người mới.",
+      "Phân kỳ RSI–giá là tín hiệu cảnh báo đảo chiều nâng cao, tốt nhất ở vùng cực đoan.",
+      "RSI là một 'phiếu bầu' — kết hợp MA + khối lượng + vị trí như engine gợi ý của web."
+    ],
+    "tryIt": {
+      "text": "Mở AAPL khung 1 năm, theo dõi bảng RSI phía dưới nến. Đếm xem có phiên nào RSI xuống dưới 30 không — và giá đã làm gì sau đó? So sánh với nhận định của mục 'Gợi ý' của web.",
+      "link": "/stock/AAPL"
+    },
+    "relatedTerms": ["RSI", "Quá mua (Overbought)", "Quá bán (Oversold)", "Phân kỳ (Divergence)", "Động lượng (Momentum)"],
+    "quiz": [
+      {
+        "q": "RSI của một mã đang tăng mạnh suốt 2 tháng giao động quanh 75. Điều này cho biết?",
+        "options": ["Chắc chắn sắp giảm 50%", "Động lượng tăng mạnh và kéo dài — RSI 'mắc kẹt' vùng quá mua là bình thường trong xu hướng tăng", "RSI bị lỗi", "Nên bán toàn bộ ngay"],
+        "answer": 1,
+        "explain": "Xu hướng tăng mạnh giữ RSI cao rất lâu. Bán chỉ vì RSI 70 là lỗi kinh điển khiến người ta bỏ lỡ sóng lớn."
+      },
+      {
+        "q": "Giá lập đáy mới THẤP hơn, RSI đáy cao hơn đáy trước. Đây là gì?",
+        "options": ["Phân kỳ giảm — báo hiệu tăng tiếp", "Phân kỳ tăng (bullish divergence) — áp lực bán suy yếu, khả năng hồi phục", "Tín hiệu bán", "Không có ý nghĩa"],
+        "answer": 1,
+        "explain": "Giá xuống mà động lượng xuống yếu hơn = phe bán cạn hơi. Đúng là bullish divergence."
+      },
+      {
+        "q": "RSI hoạt động đẹp nhất theo quy tắc 30/70 trong loại thị trường nào?",
+        "options": ["Xu hướng tăng mạnh", "Xu hướng giảm mạnh", "Dao động đi ngang", "Mọi lúc như nhau"],
+        "answer": 2,
+        "explain": "Thị trường đi ngang là sân nhà của RSI 30/70; xu hướng mạnh là kẻ thù của nó."
+      },
+      {
+        "q": "Theo bài, thứ tự hành động đúng trước khi dùng tín hiệu RSI là gì?",
+        "options": [
+          "Xác định chế độ thị trường bằng MA trước, rồi chọn cách đọc RSI phù hợp",
+          "Mua ngay khi RSI < 30",
+          "Bán ngay khi RSI > 70",
+          "Đóng web"
+        ],
+        "answer": 0,
+        "explain": "Bối cảnh (trend/đi ngang) quyết định cách diễn giải RSI — luôn xác định bối cảnh trước."
+      }
+    ]
+  },
+  {
+    "id": "macd-hoi-tu-phan-ky",
+    "title": "Bài 7 · MACD — bắt bước ngoặt động lượng",
+    "level": "Trung cấp",
+    "minutes": 11,
+    "summary": "Hiểu 3 thành phần MACD, 2 loại tín hiệu, và vì sao MACD + RSI là cặp bài trùng của dân phân tích.",
+    "sections": [
+      {
+        "h": "1. Mở hộp MACD: 3 thành phần",
+        "p": [
+          "MACD (Moving Average Convergence Divergence — hội tụ/phân kỳ trung bình động) xây từ EMA: Đường MACD = EMA(12) − EMA(26): khoảng cách giữa 2 EMA — dương khi sóng ngắn mạnh hơn sóng dài. Đường Signal = EMA(9) của đường MACD — phiên bản 'mượt' làm mốc so sánh. Histogram = MACD − Signal: cột xanh/đỏ cho thấy ai đang chiếm ưu thế và đang dương hay yếu đi.",
+          "Trên web này, bảng MACD nằm dưới cùng trang chi tiết: cột histogram quanh vạch 0, 2 đường đan nhau phía trên."
+        ]
+      },
+      {
+        "h": "2. Hai loại tín hiệu của MACD",
+        "list": [
+          "Giao cắt MACD/Signal: MACD cắt LÊN Signal (histogram đổi từ âm sang dương) → động lượng tăng khởi động — tín hiệu mua ngắn hạn phổ biến nhất. Cắt XUỐNG → động lượng giảm.",
+          "Giao cắt vạch 0: đường MACD vượt lên 0 = EMA12 vượt EMA26 → xác nhận ở tầng trung hạn; thường là pha 2 của một đợt tăng (phần 'ngon' nhất thường là từ giao cắt Signal đến khi vượt 0).",
+          "Phân kỳ MACD–giá: giống phân kỳ RSI (Bài 6) — giá đỉnh mới mà MACD đỉnh thấp hơn = cảnh báo. MACD chậm hơn RSI nên phân kỳ của nó đáng tin hơn nhưng đến muộn hơn."
+        ]
+      },
+      {
+        "h": "3. Điểm mạnh, điểm yếu và cách bù",
+        "p": [
+          "Điểm mạnh: MACD lọc được phần lớn nhiễu nhỏ vì gộp 2 EMA; đặc biệt hiệu quả bắt sự CHUYỂN HƯỚNG giữa các đợt sóng trung hạn trên khung ngày/tuần.",
+          "Điểm yếu giống mọi chỉ báo trễ: trong thị trường đi ngang, MACD quấn quanh vạch 0 và phát hàng loạt tín hiệu giả lỗ nhịp. Cũng vì trễ, đỉnh/đáy tuyệt đối không bao giờ là MACD.",
+          "Cách bù (đúng chuẩn thực hành): (1) chỉ hành động khi có xu hướng (dùng MA200 làm cửa ải — Bài 5), (2) yêu cầu RSI đồng thuận (Bài 6), (3) chờ khối lượng xác nhận (Bài 4). Engine gợi ý của web chính là tổ hợp này."
+        ],
+        "tip": "Công thức ghi nhớ vị trí histogram: histogram tăng cao dần = sóng tăng đang 'hết sức'; histogram dương nhưng cụt xuống = sóng vẫn tăng nhưng đang mất tốc — lúc nào cũng đọc histogram theo chiều 'đang mạnh lên hay yếu đi', không chỉ 'dương hay âm'."
+      },
+      {
+        "h": "4. Kịch bản thực tế: đọc một đợt sóng hoàn chỉnh",
+        "p": [
+          "Giả sử mã XYZ sau 3 tháng giảm: (1) RSI chạm 25 — quá bán. (2) Vài tuần sau MACD cắt lên Signal DƯỚI vạch 0 → động lượng đảo lên nhưng xu hướng chưa đổi. (3) MACD vượt vạch 0 cùng lúc giá vượt MA50 với KL lớn → các tầng xác nhận cộng dồn, xác suất tiếp tục tăng cao nhất. (4) Đỉnh sóng: giá lập đỉnh mới, MACD đỉnh thấp hơn (phân kỳ giảm) → chốt lời từng phần. Hãy thử 'phát lại' kịch bản này trên một mã thật bằng cách cuộn biểu đồ về quá khứ."
+        ]
+      }
+    ],
+    "keyPoints": [
+      "MACD = EMA12 − EMA26; Signal = EMA9 của nó; Histogram = MACD − Signal.",
+      "2 tín hiệu chính: cắt Signal (ngắn hạn) và cắt vạch 0 (trung hạn); phân kỳ để cảnh báo đảo chiều.",
+      "MACD trễ và tệ trong thị trường đi ngang — bù bằng MA200, RSI và khối lượng.",
+      "Đọc histogram theo chiều mạnh lên/yếu đi, không chỉ dương/âm."
+    ],
+    "tryIt": {
+      "text": "Mở MSFT khung 1 năm trên web: tìm lần gần nhất histogram MACD chuyển từ âm sang dương (cột đỏ chuyển xanh). Giá đã đi sao trong 2–4 tuần sau đó? Ghi nhận và so với mục Gợi ý.",
+      "link": "/stock/MSFT"
+    },
+    "relatedTerms": ["MACD", "Đường tín hiệu (Signal line)", "Histogram", "Phân kỳ (Divergence)"],
+    "quiz": [
+      {
+        "q": "Đường MACD được tính thế nào?",
+        "options": ["Giá × khối lượng", "EMA(12) − EMA(26)", "RSI 14 phiên", "SMA20 + 2 độ lệch chuẩn"],
+        "answer": 1,
+        "explain": "MACD là hiệu của 2 EMA; Signal là EMA9 của chính đường MACD."
+      },
+      {
+        "q": "MACD cắt LÊN Signal phía DƯỚI vạch 0 có nghĩa là gì?",
+        "options": [
+          "Xu hướng đã chắc chắn đổi thành tăng",
+          "Động lượng tăng đang khởi động sớm — cần thêm xác nhận để tin (vì còn dưới vạch 0)",
+          "Tín hiệu bán",
+          "Không bao giờ xảy ra"
+        ],
+        "answer": 1,
+        "explain": "Dưới vạch 0, xu hướng trung hạn vẫn giảm — tín hiệu cắt Signal là 'đèn vàng sớm', không phải đèn xanh."
+      },
+      {
+        "q": "MACD yếu nhất trong loại thị trường nào?",
+        "options": ["Xu hướng tăng mạnh", "Xu hướng giảm mạnh", "Đi ngang dao động", "Thị trường mới mở"],
+        "answer": 2,
+        "explain": "Đi ngang làm MACD quấn quanh 0, sinh chuỗi tín hiệu giả — giống mọi chỉ báo trễ khác."
+      },
+      {
+        "q": "Histogram dương nhưng các cột đang cụt dần xuống. Cách đọc?",
+        "options": ["Sóng tăng đang mất tốc độ", "Sóng tăng đang mạnh lên", "Sắp giảm 50%", "Dữ liệu lỗi"],
+        "answer": 0,
+        "explain": "Histogram đo khoảng cách MACD–Signal: cụt xuống = lợi thế của phe mua đang hẹp lại — động lượng giảm dù giá chưa giảm."
+      }
+    ]
+  },
+  {
+    "id": "bollinger-bands",
+    "title": "Bài 8 · Bollinger Bands — đo 'sức ép' biến động",
+    "level": "Trung cấp",
+    "minutes": 10,
+    "summary": "Dải Bollinger co lại như lò xo trước mọi cú bùng nổ. Học cách đọc biến động thay vì chỉ nhìn giá.",
+    "sections": [
+      {
+        "h": "1. Cấu trúc: 3 dải quanh MA20",
+        "p": [
+          "Bollinger Bands (BB) gồm: dải GIỮA = SMA20; dải TRÊN = SMA20 + 2×độ lệch chuẩn của giá 20 phiên; dải DƯỚI = SMA20 − 2×độ lệch chuẩn. Độ lệch chuẩn đo mức 'giàn' của giá quanh trung bình — tức BIẾN ĐỘNG (volatility).",
+          "Theo thống kê, với phân phối chuẩn thì khoảng ±2 độ lệch chuẩn chứa ~95% kết quả: nghĩa là giá chỉ thoát ra ngoài dải 5% số phiên. Vì vậy khi giá chạm/vượt dải, đó là sự kiện 'hiếm' đáng chú ý — không phải ngày thường."
+        ]
+      },
+      {
+        "h": "2. Hai trạng thái của dải: co lại và mở ra",
+        "list": [
+          "SQUEEZE (dải CO HẸP lại): biến động thấp đến mức 'lò xo bị nén'. Sau giai đoạn nén lâu, thường đến một cú bùng nổ giá (chiều nào chưa biết). Trader chuyên BB dùng squeeze để CHUẨN BỊ, không phải để đoán hướng.",
+          "BULGE (dải MỞ RỘNG): biến động bùng nổ — xu hướng đang chạy mạnh, thường xuất hiện tại các bước ngoặt thoát khỏi vùng tích lũy dài.",
+          "Hướng mở của dải thường đi cùng hướng sóng giá → sau breakout, dải mở theo hướng sóng là xác nhận thêm."
+        ],
+        "tip": "Công thức ghi nhớ: 'Dải hẹp = thị trường đang nín thở; dải nở = thị trường đang hét'. Người mới thường chỉ nhìn giá — người có kinh nghiệm nhìn cả 'độ rộng hô hấp' của thị trường."
+      },
+      {
+        "h": "3. Dùng BB đúng — và đừng hiểu sai",
+        "p": [
+          "Sai lầm phổ biến: 'Giá chạm dải dưới → mua ngay'. Đúng hơn: giá chạm dải dưới trong XU HƯỚNG NGANG = vùng phản ứng thống kê (thường bật về giữa); nhưng trong XU HƯỚNG GIẢM, giá có thể 'đi dọc' dải dưới nhiều phiên — dải dưới không phải đáy tự động.",
+          "Đàng hoàng nhất với BB là chiến lược về GIỮA (mean reversion) trong thị trường dao động: quan tâm mua gần dải dưới, chốt gần giữa/dải trên, cắt lỗ khi giá ĐÓNG phiên ngoài dải dưới (breakout thất bại).",
+          "Tín hiệu mạnh: giá chạm dải + khối lượng đột biến + nến đảo chiều (Bài 3) tại hỗ trợ chính — tổ hợp này chính là một trong các quy tắc engine gợi ý của web."
+        ]
+      },
+      {
+        "h": "4. So sánh nhanh 3 chỉ báo bạn vừa học",
+        "list": [
+          "MA (Bài 5): XU HƯỚNG — đường ray. Trả lời: 'ta đang đi hướng nào?'",
+          "RSI (Bài 6): ĐỘNG LƯỢNG — nhiệt kế. Trả lời: 'đà mua/bán đang mạnh hay cạn?'",
+          "MACD (Bài 7): BƯỚC NGOẶT — kim đồng hồ chuyển hướng. Trả lời: 'đà đang đổi chiều chưa?'",
+          "BB (Bài này): BIẾN ĐỘNG — vòng đai thở. Trả lời: 'thị trường đang nín thở hay đang bùng nổ?'"
+        ],
+        "p2": [
+          "Bốn câu hỏi trên dùng chung một lúc = bạn có bức tranh kỹ thuật đầy đủ. Đó chính là lý do trang chi tiết của web hiển thị cả 4 nhóm cho mỗi mã — và mục 'Gợi ý' tổng hợp chúng thành 1 kết luận kèm giải thích."
+        ]
+      }
+    ],
+    "keyPoints": [
+      "BB = SMA20 ± 2 độ lệch chuẩn; đo biến động chứ không đo hướng.",
+      "Dải co hẹp (squeeze) thường tiền đề bùng nổ; dải mở = sóng đang chạy.",
+      "Chạm dải dưới KHÔNG tự động là lệnh mua — đúng nhất trong thị trường dao động.",
+      "4 chỉ báo = 4 câu hỏi: hướng (MA), đà (RSI), bước ngoặt (MACD), biến động (BB)."
+    ],
+    "tryIt": {
+      "text": "Mở GOOGL khung 6 tháng, bật dải Bollinger: tìm đoạn dải co hẹp nhất rồi xem điều gì xảy ra ngay sau đó. Tiếp theo tắt BB, bật MA200 và đọc kết luận mục Gợi ý để thấy tổ hợp 4 chỉ báo hoạt động.",
+      "link": "/stock/GOOGL"
+    },
+    "relatedTerms": ["Bollinger Bands", "Biến động (Volatility)", "Độ lệch chuẩn", "Hồi quy trung bình (Mean reversion)"],
+    "quiz": [
+      {
+        "q": "Dải Bollinger đo lường điều gì chính yếu?",
+        "options": ["Hướng xu hướng", "Mức biến động quanh trung bình", "Khối lượng", "Cổ tức"],
+        "answer": 1,
+        "explain": "BB chuẩn hóa biến động qua độ lệch chuẩn — hướng vẫn phải đọc bằng MA/nến."
+      },
+      {
+        "q": "Dải BB co rất hẹp sau 2 tháng đi ngang. Cách hiểu đúng?",
+        "options": [
+          "Chắc chắn sắp tăng",
+          "Biến động đang bị nén — thường có bùng nổ sắp đến, nhưng phải chờ giá + KL xác nhận hướng",
+          "Công ty sắp phá sản",
+          "Không có ý nghĩa gì"
+        ],
+        "answer": 1,
+        "explain": "Squeeze báo 'chuẩn bị nổ' chứ không chỉ hướng. Hành động sau khi có breakout thật với KL."
+      },
+      {
+        "q": "Trong xu hướng GIẢM mạnh, giá liên tục chạm dải dưới. Nên hiểu thế nào?",
+        "options": ["Đáy đã đến, mua", "Giá có thể 'trượt' dọc dải dưới nhiều phiên — dải dưới không phải lệnh mua tự động", "BB hỏng", "Chỉ bán ra"],
+        "answer": 1,
+        "explain": "BB sinh ra cho dao động; xu hướng mạnh buộc phải đọc bằng công cụ xu hướng (MA) và nhân quả cung cầu."
+      },
+      {
+        "q": "Bốn chỉ báo MA/RSI/MACD/BB lần lượt trả lời 4 câu hỏi nào?",
+        "options": [
+          "Hướng / Động lượng / Bước ngoặt / Biến động",
+          "Giá / KL / Vốn hóa / Cổ tức",
+          "Mua / Bán / Giữ / Đứng ngoài",
+          "Ngắn / Trung / Dài / Siêu dài"
+        ],
+        "answer": 0,
+        "explain": "Ghi nhớ khung 4 câu hỏi này — đó là cách trang chi tiết của web sắp xếp thông tin cho bạn."
+      }
+    ]
+  }
+]

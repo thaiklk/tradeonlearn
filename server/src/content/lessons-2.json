@@ -1,0 +1,751 @@
+[
+  {
+    "id": "bao-cao-tai-chinh-1-can-doi",
+    "title": "Bài 9 · Đọc báo cáo tài chính (1): Bảng cân đối kế toán",
+    "level": "Trung cấp",
+    "minutes": 14,
+    "summary": "Bức ảnh 'tài sản – nợ – vốn chủ' của doanh nghiệp tại một thời điểm. Nơi phát hiện công ty 'giàu' hay 'nợ nần' thật sự.",
+    "sections": [
+      {
+        "h": "1. Vì sao phân tích cơ bản bắt đầu từ đây?",
+        "p": [
+          "Phân tích kỹ thuật (Bài 3–8) cho bạn THỜI ĐIỂM; phân tích cơ bản (Bài 9–13) cho bạn CÂU HỎI QUAN TRỌNG NHẤT: 'Doanh nghiệp này có đáng sở hữu không? Giá hiện tại hợp lý không?'. Biểu đồ nói cho bạn người TA đang làm gì; báo cáo tài chính nói cho bạn CÔNG TY đang làm gì.",
+          "Doanh nghiệp niêm yết phải công bố báo cáo tài chính (BCTC) theo quý/năm. Tại Việt Nam: xem trên cafef.vn, vietstock.vn hoặc website công ty (đảm bảo lấy bản 'đã kiểm toán' cho báo cáo năm). Tại Mỹ: bảng 10-Q (quý) và 10-K (năm) trên sec.gov. Ba báo cáo chính: (1) Bảng cân đối kế toán — bài này, (2) Báo cáo kết quả kinh doanh — Bài 10, (3) Báo cáo lưu chuyển tiền tệ — Bài 11. Ba bảng ghép lại = phim hoàn chỉnh về sức khỏe doanh nghiệp."
+        ]
+      },
+      {
+        "h": "2. Phương trình nền tảng: TÀI SẢN = NỢ + VỐN CHỦ",
+        "p": [
+          "Bảng cân đối kế toán (Balance Sheet) chụp một 'tấm ảnh' tại một thời điểm (thường cuối quý/cuối năm) gồm 3 khối:",
+          "TÀI SẢN (Assets) — công ty có gì: tiền mặt, hàng tồn kho, các khoản phải thu (khách nợ công ty), nhà xưởng, máy móc, đầu tư... Chia thành ngắn hạn (dùng trong 12 tháng) và dài hạn.",
+          "NỢ PHẢI TRẢ (Liabilities) — công ty nợ ai: nợ ngân hàng, nợ nhà cung cấp, phải trả lương/thuế, trái phiếu... cũng chia ngắn hạn và dài hạn.",
+          "VỐN CHỦ SỞ HỮU (Equity) — phần THẬT của cổ đông = Tài sản − Nợ. Nếu thanh lý toàn bộ, trả hết nợ, phần còn lại thuộc về bạn với tư cách cổ đông."
+        ],
+        "tip": "Hình dung cả gia đình 3 người cùng đẩy 1 chiếc xe tải: Tài sản là chiếc xe, Nợ là người đẩy hộ (đòi lại công), Vốn chủ là sức lực thật của công ty. Cân đối kế toán luôn cân 2 vế — vì vậy nó tên là 'cân đối'."
+      },
+      {
+        "h": "3. Ví dụ số cụ thể: Công ty Bánh Ngọt ABC",
+        "list": [
+          "TÀI SẢN: 1.000 tỷ = Tiền & tương đương 200 + Hàng tồn kho 150 + Phải thu khách hàng 150 + Nhà xưởng & máy móc 500.",
+          "NỢ: 400 tỷ = Nợ ngắn hạn (nợ nhà cung cấp, lương, thuế) 250 + Nợ dài hạn (vay ngân hàng) 150.",
+          "VỐN CHỦ = 1.000 − 400 = 600 tỷ.",
+          "Đọc nhanh: mỗi 1 đồng vốn chủ, công ty mượn thêm 0,67 đồng nợ (Nợ/Vốn = 400/600 ≈ 67%) — mức an toàn với ngành sản xuất."
+        ],
+        "p2": [
+          "Giờ bạn thử phản ứng: cùng ngành có Công ty XYZ tài sản 1.000 tỷ nhưng nợ 850 tỷ → vốn chủ chỉ 150 tỷ. XYZ 'to' ngang ABC nhưng gánh nợ gần gấp 3 lần tỷ lệ — khi lãi suất tăng hoặc kinh tế khó, XYZ nguy hiểm hơn nhiều. Cùng một cột 'Tài sản', chất lượng hoàn toàn khác nhau — đó là lý do phải đọc bảng này."
+        ]
+      },
+      {
+        "h": "4. Checklist 5 dòng nên nhìn đầu tiên",
+        "list": [
+          "Tiền & tương đương tiền: đủ trải qua 12 tháng khó khăn không? Tiền ít + nợ ngắn hạn nhiều = ngẹt thở.",
+          "Nợ vay / Vốn chủ (Debt-to-Equity): sản xuất/điện nước dưới ~100% là thoải mái; trên 200% cần lý do rất tốt. Ngân hàng là ngoại lệ (kinh doanh bằng tiền nên nợ cao là bản chất).",
+          "Hệ số thanh toán hiện hành (Current Ratio = tài sản ngắn hạn / nợ ngắn hạn): trên 1,5 là lành mạnh; dưới 1 nghĩa là thiếu tài sản ngắn hạn trang trải nợ đến hạn.",
+          "Hàng tồn kho & phải thu tăng nhanh hơn doanh thu: hàng bán chậm, khách chậm trả — 'lợi nhuận đẹp nhưng tiền chưa về' (sẽ thấy rõ ở Bài 11).",
+          "Goodwill (lợi thế thương mại): tài sản 'vô hình' phát sinh khi mua công ty khác giá cao hơn giá trị sổ sách. Goodwill/vốn chủ quá lớn (trên ~30–40%) là dấu hiệu đã trả đắt các thương vụ M&A — có ngày phải xóa sổ làm giảm lợi nhuận."
+        ]
+      },
+      {
+        "h": "5. Bẫy thường gặp khi đọc bảng cân đối",
+        "p": [
+          "Bẫy 1 — 'Tài sản nhiều là khỏe': tài sản chỉ tốt khi SINH LỢI NHUẬN; nhà máy khổng lồ chạy cầm chừng vẫn là gánh nặng khấu hao.",
+          "Bẫy 2 — Quên so sánh cùng ngành: siêu thị nợ nhà cung cấp lớn là mô hình kinh doanh (vay mềm), chứ không hẳn là rủi ro.",
+          "Bẫy 3 — Nhìn 1 thời điểm: hãy xem 3–5 năm liên tiếp. Vốn chủ tăng đều qua các năm là bằng chứng accumulation (tích lũy) thật — trừ khi công ty phát hành thêm cổ phiếu liên tục làm loãng cổ đông cũ (kiểm tra dòng 'thặng dư vốn cổ phần')."
+        ]
+      }
+    ],
+    "keyPoints": [
+      "Balance Sheet = tấm ảnh tại một thời điểm: Tài sản = Nợ + Vốn chủ.",
+      "Vốn chủ sở hữu là phần THẬT thuộc cổ đông sau khi trả hết nợ.",
+      "5 điểm nhìn đầu tiên: tiền mặt, Nợ/Vốn, current ratio, tồn kho & phải thu, goodwill.",
+      "Luôn so cùng ngành và xem xu hướng 3–5 năm, không nhìn 1 thời điểm."
+    ],
+    "tryIt": {
+      "text": "Mở trang chi tiết VNM rồi thẻ 'Phân tích cơ bản': web tự lấy P/B, Nợ/Vốn (D/E)... của cổ phiếu Mỹ. Với mã Việt, hãy mở cafef.vn → mã VNM → 'Bảng cân đối kế toán' và thử chỉ ra: tiền mặt, nợ ngắn hạn và vốn chủ gần nhất. So sánh với FPT xem ai 'gánh nợ' nhẹ hơn.",
+      "link": "/stock/VNM"
+    },
+    "relatedTerms": ["Bảng cân đối kế toán (Balance Sheet)", "Vốn chủ sở hữu (Equity)", "Nợ phải trả (Liabilities)", "Hệ số thanh toán hiện hành (Current Ratio)", "Goodwill"],
+    "quiz": [
+      {
+        "q": "Vốn chủ sở hữu được tính thế nào?",
+        "options": ["Tổng tài sản + Tổng nợ", "Tổng tài sản − Tổng nợ", "Lợi nhuận − Cổ tức", "Doanh thu − Giá vốn"],
+        "answer": 1,
+        "explain": "Vốn chủ = phần tài sản còn lại của cổ đông sau khi thanh toán mọi khoản nợ."
+      },
+      {
+        "q": "Công ty có tài sản 2.000 tỷ, nợ 1.700 tỷ. Điều đáng chú ý nhất là gì?",
+        "options": [
+          "Tài sản lớn nên rất khỏe",
+          "Vốn chủ chỉ 300 tỷ — đòn bẩy rất cao (Nợ/Vốn ≈ 5,7 lần), rủi ro lớn khi kinh tế xấu",
+          "Lợi nhuận chắc chắn cao",
+          "Không có gì đáng chú ý"
+        ],
+        "answer": 1,
+        "explain": "Quy mô tài sản không tự nói lên sức khỏe; CẤU TRÚC tài trợ (nợ vs vốn) mới là điều cần đọc."
+      },
+      {
+        "q": "Current ratio = 0,8 nghĩa là gì?",
+        "options": [
+          "Công ty sinh lời 80%",
+          "Tài sản ngắn hạn nhỏ hơn nợ ngắn hạn — thanh khoản căng thẳng",
+          "Đang nợ 80% thị trường",
+          "Tốt hơn current ratio 1,5"
+        ],
+        "answer": 1,
+        "explain": "Dưới 1 = không đủ tài sản ngắn hạn trả nợ đến hạn trong 12 tháng — tín hiệu cần đào sâu dòng tiền."
+      },
+      {
+        "q": "Doanh thu tăng 10%/năm nhưng phải thu khách hàng tăng 40%/năm. Cách đọc đúng?",
+        "options": [
+          "Khách hàng tăng là tốt",
+          "Có thể công ty 'đẩy hàng' bằng bán chịu — doanh thu trên giấy, tiền khó đòi về — cần kiểm tra lưu chuyển tiền tệ",
+          "Công ty đang giảm rủi ro",
+          "Không liên quan"
+        ],
+        "answer": 1,
+        "explain": "Phải thu phình nhanh hơn doanh thu là một trong những 'còi cảnh báo' kinh điển về chất lượng doanh thu — Bài 11 sẽ xác nhận bằng dòng tiền."
+      }
+    ]
+  },
+  {
+    "id": "bao-cao-tai-chinh-2-ket-qua",
+    "title": "Bài 10 · Đọc báo cáo tài chính (2): Báo cáo kết quả kinh doanh",
+    "level": "Trung cấp",
+    "minutes": 13,
+    "summary": "Doanh thu – giá vốn – chi phí – lợi nhuận – EPS. Học cách 'đọc giữa các dòng' chất lượng lợi nhuận.",
+    "sections": [
+      {
+        "h": "1. Báo cáo kết quả kinh doanh là bộ phim của một giai đoạn",
+        "p": [
+          "Nếu Bảng cân đối là TẤM ẢNH thì Báo cáo kết quả kinh doanh (Income Statement / P&L) là BỘ PHIM: nó ghi lại trong 1 quý/1 năm doanh thu bán được bao nhiêu, trừ các loại chi phí, cuối cùng còn lại bao nhiêu lợi nhuận cho cổ đông.",
+          "Cấu trúc 'thác nước' chuẩn: Doanh thu (Revenue) → trừ Giá vốn hàng bán (COGS) = LỢI NHUẬN GỘP (Gross Profit) → trừ chi phí bán hàng & quản lý = LỢI NHUẬN HOẠT ĐỘNG (Operating Profit) → trừ lãi vay + cộng thu nhập khác, trừ thuế = LỢI NHUẬN TRƯỚC THUẾ → LỢI NHUẬN RÒNG (Net Profit) → chia cho số cổ phiếu = EPS."
+        ]
+      },
+      {
+        "h": "2. Ví dụ tính trọn bộ: Công ty ABC năm 2025",
+        "list": [
+          "Doanh thu: 800 tỷ. Giá vốn: 480 tỷ → Lợi nhuận gộp = 320 tỷ → Biên gộp = 320/800 = 40%.",
+          "Chi phí bán hàng + quản lý: 180 tỷ → Lợi nhuận hoạt động = 140 tỷ → Biên hoạt động = 17,5%.",
+          "Lãi vay: 20 tỷ → Lợi nhuận trước thuế = 120 tỷ. Thuế 20% = 24 tỷ → LỢI NHUẬN RÒNG = 96 tỷ → Biên ròng = 12%.",
+          "Số cổ phiếu lưu hành: 20 triệu cp → EPS = 96 tỷ / 20 triệu = 48.000 đ/cp. Nếu giá cổ phiếu đang 960.000đ → P/E = 20 lần."
+        ],
+        "tip": "Hãy tự tay tính lại ví dụ trên một lần. Phân tích tài chính không phải thuộc lòng công thức, mà là thành thạo vài phép chia này: mỗi mức lợi nhuận / doanh thu = BIÊN; mỗi mức lợi nhuận / số cổ phiếu = EPS."
+      },
+      {
+        "h": "3. Đọc chất lượng: 4 câu hỏi vàng",
+        "list": [
+          "Tăng trưởng đều không? So sánh doanh thu & lợi nhuận ròng 3–5 năm: đều đặn 10–20%/năm quý hơn 'năm +50%, năm −30%'.",
+          "Biên có ổn định/tăng không? Biên gộp giảm liên tục = mất quyền định giá (cạnh tranh gay gắt, bán rẻ để giữ khách). Biên tăng = sản phẩm đang mạnh hơn (Apple suốt 20 năm nâng biên gộp từ ~30% lên ~45%).",
+          "Lợi nhuận đến từ đâu? Nếu 'thu nhập khác' (bán đất, bán công ty con, đánh giá lại tài sản) chiếm phần lớn lợi nhuận năm → lợi nhuận 'một lần', năm sau không lặp lại được — tách riêng khi định giá.",
+          "Chi phí có gì bất thường? Chi phí 'quản lý' tăng đột biến, chi phí tài chính (lãi vay) ăn mòn gần hết lợi nhuận hoạt động — đều là điểm cần đặt câu hỏi."
+        ]
+      },
+      {
+        "h": "4. EPS và sự thật cần nhớ",
+        "p": [
+          "EPS (Earnings Per Share) = Lợi nhuận ròng dành cho cổ đông thường / số cổ phiếu lưu hành. EPS là nguyên liệu của P/E (Bài 12) — chỉ số định giá quan trọng nhất.",
+          "Nhưng EPS có thể bị 'làm đẹp': (1) Công ty phát hành thêm nhiều cổ phiếu → EPS cũ bị pha loãng; (2) các khoản 'thu nhập khác' gộp vào; (3) thay đổi chính sách khấu hao/kỹ thuật kế toán hợp pháp nhưng làm lợi nhuận đẹp hơn. Vì vậy KHÔNG bao giờ kết luận từ 1 dòng EPS — luôn xem kèm dòng tiền (Bài 11) và so sánh nhiều năm.",
+          "Diluted EPS (EPS pha loãng) tính thêm cả quyền chọn/cổ phiếu có thể chuyển đổi — khách quan hơn basic EPS; trang 'Phân tích cơ bản' trên web này cho thấy EPS trailing của các mã Mỹ để bạn luyện mắt."
+        ]
+      },
+      {
+        "h": "5. Bảng so sánh nhanh ABC vs đối thủ",
+        "list": [
+          "ABC: doanh thu +12%/năm, biên gộp 40%, biên ròng 12%, EPS 48k — tăng trưởng khỏe, quyền lực định giá tốt.",
+          "Đối thủ XYZ: doanh thu +25%/năm nhưng biên gộp 18%, biên ròng 2%, EPS 6k — tăng trưởng nhanh bằng cách bán rẻ, lợi nhuận mỏng; khi cạnh tranh khốc liệt thêm, XYZ dễ lỗ.",
+          "Bài học: DOANH THU là chuyện quy mô, BIÊN LỢI NHUẬN là chuyện chất lượng. Cổ phiếu dài hạn tốt thường có cả hai."
+        ]
+      }
+    ],
+    "keyPoints": [
+      "P&L = bộ phim theo thác nước: Doanh thu → LN gộp → LN hoạt động → LN ròng → EPS.",
+      "Các BIÊN (gộp, hoạt động, ròng) đo chất lượng; so sánh cùng ngành và nhiều năm.",
+      "Cảnh giác lợi nhuận đến từ 'thu nhập khác' và EPS bị pha loãng.",
+      "Doanh thu = quy mô, biên lợi nhuận = chất lượng — muốn bền cần cả hai."
+    ],
+    "tryIt": {
+      "text": "Mở thẻ 'Phân tích cơ bản' của MSFT trên web: đọc biên lợi nhuận ròng, tăng trưởng doanh thu, EPS. Sau đó mở KO (Coca-Cola) so sánh — công ty nào 'dày' biên hơn? Đó chính là bài tập phân tích đầu tiên của bạn.",
+      "link": "/stock/MSFT"
+    },
+    "relatedTerms": ["EPS", "Biên lợi nhuận (Profit Margin)", "Lợi nhuận gộp (Gross Profit)", "Doanh thu (Revenue)", "P/E"],
+    "quiz": [
+      {
+        "q": "Doanh thu 500 tỷ, giá vốn 350 tỷ. Biên gộp là bao nhiêu?",
+        "options": ["70%", "30%", "35%", "150 tỷ"],
+        "answer": 1,
+        "explain": "LN gộp = 150 tỷ; biên gộp = 150/500 = 30%."
+      },
+      {
+        "q": "Điều nào cho thấy 'chất lượng' lợi nhuận cao?",
+        "options": [
+          "Lợi nhuận năm nay tăng chủ yếu do bán một mảnh đất",
+          "Lợi nhuận hoạt động cốt lõi tăng đều 3 năm liền kèm biên ổn định",
+          "EPS tăng vì giảm chi phí quảng cáo khiến doanh thu giảm",
+          "Lợi nhuận tăng nhờ hoàn thuế một lần"
+        ],
+        "answer": 1,
+        "explain": "Nguyên tắc: ưu tiên lợi nhuận từ hoạt động kinh doanh cốt lõi, lặp lại được, bền vững."
+      },
+      {
+        "q": "Công ty A: doanh thu +25%/năm, biên ròng 2%. Công ty B: +10%/năm, biên ròng 18%. Về 'chất lượng', nhận xét đúng?",
+        "options": [
+          "A chắc chắn tốt hơn vì tăng trưởng gấp đôi",
+          "B có lợi nhuận 'dày', an toàn hơn khi ngành gặp khó; A dễ bị biến thành lỗ khi cạnh tranh tăng",
+          "Hai công ty như nhau",
+          "Biên không quan trọng bằng doanh thu"
+        ],
+        "answer": 1,
+        "explain": "Biên mỏng = không có 'đệm' chống sốc. Tăng trưởng doanh thu không tự chuyển thành lợi nhuận cho cổ đông."
+      },
+      {
+        "q": "EPS là gì và vì sao quan trọng?",
+        "options": [
+          "Lợi nhuận ròng trên mỗi cổ phiếu — nguyên liệu tính P/E",
+          "Cổ tức trên mỗi cổ phiếu",
+          "Giá trên mỗi cổ phiếu",
+          "Doanh thu trên mỗi nhân viên"
+        ],
+        "answer": 0,
+        "explain": "EPS kết nối lợi nhuận doanh nghiệp với giá cổ phiếu cá nhân — cây cầu giữa 2 thế giới."
+      }
+    ]
+  },
+  {
+    "id": "bao-cao-tai-chinh-3-luu-chuyen-tien",
+    "title": "Bài 11 · Đọc báo cáo tài chính (3): Lưu chuyển tiền tệ — 'lợi nhuận là quan điểm, tiền là sự thật'",
+    "level": "Trung cấp",
+    "minutes": 13,
+    "summary": "Báo cáo khó 'làm đẹp' nhất. Nơi lộ ra công ty thật sự kiếm tiền hay chỉ 'kiếm lợi nhuận trên giấy'.",
+    "sections": [
+      {
+        "h": "1. Vì sao lợi nhuận ≠ tiền?",
+        "p": [
+          "Lợi nhuận kế toán ghi nhận khi BÁN (phát sinh hóa đơn), chưa cần THU ĐƯỢC tiền. Công ty bán chịu 100 tỷ → doanh thu +100 tỷ, lợi nhuận tăng, nhưng két sắt chưa có đồng nào; thay vào đó là khoản 'phải thu' trên bảng cân đối. Ngược lại, trả tiền trước cho nhà cung cấp 6 tháng vốn → tiền ra nhưng chi phí chưa ghi hết.",
+          "Báo cáo lưu chuyển tiền tệ (Cash Flow Statement) bỏ qua các 'quan điểm kế toán', chỉ theo dõi tiền THẬT vào – ra két sắt trong kỳ. Đây là báo cáo khó 'trang điểm' nhất — và là nơi nhiều vụ gian lận lộ diện: lợi nhuận xấu xí có thể che giấu bằng kế toán, nhưng két sắt rỗng thì không."
+        ]
+      },
+      {
+        "h": "2. Ba dòng tiền: OCF – CFI – CFF",
+        "list": [
+          "Dòng tiền HỌAT ĐỘNG (Operating Cash Flow — OCF): tiền tạo ra từ kinh doanh cốt lõi: thu của khách, trả lương, trả nhà cung cấp. Đây là 'máy tim' — công ty khỏe mạnh có OCF dương và lớn, tăng đều qua các năm.",
+          "Dòng tiền ĐẦU TƯ (Investing — CFI): mua bán tài sản dài hạn: nhà xưởng, máy móc, mua công ty khác (CAPEX). Thường ÂM ở công ty đang tăng trưởng — âm ở đây không xấu nếu tiền được đầu tư vào năng lực sinh lời.",
+          "Dòng tiền TÀI CHÍNH (Financing — CFF): vay/trả nợ, phát hành/mua lại cổ phiếu, TRẢ CỔ TỨC. Công ty ổn định thường CFF âm (trả nợ dần + chia cổ tức) — dấu hiệu tự chủ."
+        ],
+        "tip": "Ghi nhớ chu kỳ 'tuổi' doanh nghiệp: Công ty trẻ: OCF còn yếu, CFI âm lớn (đang xây), CFF dương (vay + gọi vốn). Công ty trưởng thành: OCF lớn, CFI âm vừa phải, CFF âm (trả nợ + cổ tức). Nếu công ty 'già' mà vẫn phải gọi vốn liên tục (CFF dương mãi) — hỏi lại năng lực tự sinh tồn."
+      },
+      {
+        "h": "3. Hai phép thử sức khỏe bằng tiền mặt",
+        "list": [
+          "Phép thử 1 — OCF so với Lợi nhuận ròng: lành mạnh khi OCF ≈ hoặc > lợi nhuận ròng (nhiều năm liên tục). Nếu lợi nhuận ròng dương đều 3 năm nhưng OCF âm liên tục → 'lợi nhuận trên giấy': hoặc khách không trả tiền, hoặc tồn kho chất đống, hoặc tệ hơn — số kế toán đáng nghi. Đây là một trong những bộ lọc hiệu quả nhất của phân tích cơ bản.",
+          "Phép thử 2 — Dòng tiền TỰ DO (FCF = OCF − CAPEX): số tiền còn lại SAU khi duy trì và mở rộng cơ sở vật chất — tiền thật sự 'dư' để trả nợ, mua lại cp, chia cổ tức. FCF dương đều đặn là oxy của cổ đông; Apple/Microsoft tạo FCF hàng chục tỷ đô mỗi năm dù CAPEX rất lớn."
+        ],
+        "p2": [
+          "Trên thẻ 'Phân tích cơ bản' của web này (với mã Mỹ), bạn thấy ngay Free Cashflow và Total Cash/Total Debt — hai con số của chính hai phép thử trên."
+        ]
+      },
+      {
+        "h": "4. Case study mini: đọc 3 năm của 'Công ty Tá Diệu'",
+        "list": [
+          "Năm 1: LN ròng 50 tỷ, OCF 45 tỷ (≈ LN) — đẹp. FCF = 45 − 20 (capex) = +25 tỷ.",
+          "Năm 2: LN ròng 60 tỷ, OCF chỉ 10 tỷ (khách chậm trả + tồn kho tăng mạnh) — ĐÈN VÀNG đầu tiên.",
+          "Năm 3: LN ròng 70 tỷ, OCF −15 tỷ, phải vay thêm 100 tỷ (CFF dương) — lợi nhuận vẫn tăng nhưng két sắt cạn, công ty 'tăng trưởng bằng tín dụng'. Nếu năm 4 ngành khó khăn → chuỗi domino sụp.",
+          "Bài học: P&L một mình kể chuyện 'một mặt'; ghép Cash Flow mới thấy phim từ cả hai góc máy."
+        ]
+      },
+      {
+        "h": "5. Tóm gọn phương pháp đọc 3 báo cáo trong 10 phút",
+        "list": [
+          "Bước 1 (Bài 9): Vốn chủ có tăng đều? Nợ/Vốn hợp lý so ngành? Tiền mặt đủ sống 12 tháng?",
+          "Bước 2 (Bài 10): Doanh thu & lợi nhuận tăng đều 3–5 năm? Biên ổn định/đẹp hơn đối thủ?",
+          "Bước 3 (Bài này): OCF ≥ LN ròng? FCF dương? Không phải gọi vốn liên tục?",
+          "Đủ 3 bước đạt → công ty 'đáng đưa vào danh sách xem xét'. Bước tiếp theo: giá có đang rẻ? — chuyển sang Bài 12."
+        ]
+      }
+    ],
+    "keyPoints": [
+      "Lợi nhuận ghi khi bán; tiền chỉ về khi thu — OCF cho thấy khoảng cách đó.",
+      "OCF dương ổn định & ≥ lợi nhuận ròng là bộ lọc chất lượng số 1.",
+      "FCF = OCF − CAPEX là tiền 'tự do' thật sự dành cho cổ đông.",
+      "Trình tự đọc chuẩn: Cân đối → KQKD → Lưu chuyển tiền, rồi mới định giá."
+    ],
+    "tryIt": {
+      "text": "Mở AAPL → thẻ 'Phân tích cơ bản' trên web: tìm Free Cashflow, Total Cash, Total Debt. Apple có đang tạo FCF khổng lồ và cầm nhiều tiền hơn nợ không? Đó là lý do nó được mệnh danh 'máy in tiền'.",
+      "link": "/stock/AAPL"
+    },
+    "relatedTerms": ["Dòng tiền (Cash Flow)", "OCF (Operating Cash Flow)", "FCF (Free Cash Flow)", "CAPEX", "Thanh khoản (Liquidity)"],
+    "quiz": [
+      {
+        "q": "FCF được tính thế nào?",
+        "options": ["LN ròng − cổ tức", "OCF − CAPEX", "Doanh thu − chi phí", "OCF + CFF"],
+        "answer": 1,
+        "explain": "Tiền từ kinh doanh trừ đầu tư cơ sở vật chất = tiền tự do thực sự khả dụng cho cổ đông."
+      },
+      {
+        "q": "3 năm liên tiếp: LN ròng dương tăng đều, OCF âm. Kết luận thận trọng đúng?",
+        "options": [
+          "Công ty tốt vì lợi nhuận tăng",
+          "Lợi nhuận chưa chuyển thành tiền — cảnh báo nghiêm trọng về chất lượng lợi nhuận",
+          "OCF không quan trọng",
+          "Nên vay tiền mua mã này"
+        ],
+        "answer": 1,
+        "explain": "Đây là mô hình 'lợi nhuận trên giấy' kinh điển — bộ lọc OCF/LN giúp tránh nhiều quả bom nổ chậm."
+      },
+      {
+        "q": "Công ty tăng trưởng CFI âm lớn chủ yếu do xây nhà xưởng mới. Điều này cho biết?",
+        "options": ["Công ty đang thua lỗ", "Đang đầu tư vào năng lực tương lai — cần xem OCF có đủ 'nuôi' khoản đầu tư đó không", "Tài chính xấu", "Sắp phá sản"],
+        "answer": 1,
+        "explain": "ÂM ở CFI với mục đích mở rộng là bình thường ở công ty tăng trưởng; chất lượng xét bằng OCF và FCF tổng thể."
+      },
+      {
+        "q": "Vì sao nói báo cáo tiền tệ 'khó làm đẹp' hơn báo cáo lợi nhuận?",
+        "options": [
+          "Vì nó viết tay",
+          "Vì chỉ ghi tiền thật vào–ra két sắt, ít chỗ cho các ước tính và quan điểm kế toán",
+          "Vì được ngân hàng kiểm soát",
+          "Vì không ai đọc nó"
+        ],
+        "answer": 1,
+        "explain": "P&L chứa nhiều ước tính (khấu hao, dự phòng, ghi nhận doanh thu...); dòng tiền là dữ kiện vật lý của ngân hàng."
+      }
+    ]
+  },
+  {
+    "id": "chi-so-dinh-gia",
+    "title": "Bài 12 · Bộ chỉ số định giá: P/E, P/B, P/S và ROE, ROA — định giá một cổ phiếu",
+    "level": "Trung cấp",
+    "minutes": 15,
+    "summary": "Bài trọng tâm: bạn đã biết công ty tốt (Bài 9–11). Giờ trả lời câu hỏi cuối: GIÁ HIỆN TẠI có đáng mua không?",
+    "sections": [
+      {
+        "h": "1. Ý nghĩa thật của P/E — chỉ số vua",
+        "p": [
+          "P/E (Price to Earnings) = Giá thị trường / EPS. Ví dụ: giá 960.000đ, EPS 48.000đ → P/E = 20.",
+          "Cách hiểu số 20 đó: thị trường sẵn sàng trả 20 đồng cho mỗi 1 đồng lợi nhuận MỖI NĂM của công ty. Nếu lợi nhuận đứng yên, bạn cần 20 năm 'thu lại' phần giá đã trả qua lợi nhuận — đại khái thế (thực tế còn có tăng trưởng và lãi suất).",
+          "P/E thấp (dưới ~10–12): thị trường định giá 'rẻ' — HOẶC thị trường biết điều bạn chưa biết (doanh nghiệp sắp gặp khó). P/E cao (trên ~30–40): kỳ vọng tăng trưởng rất lớn — nếu tăng trưởng đến, bạn thắng lớn; không đến, giá rơi mạnh. P/E = 0 hoặc âm: công ty đang LỖ — các chỉ số định giá khác (P/S, P/B) sẽ thay phiên làm việc."
+        ],
+        "tip": "P/E chỉ có nghĩa khi so sánh: (1) với TRUNG BÌNH NGÀNH (ngân hàng ~8–12, bán lẻ ~15–20, công nghệ ~25–40), (2) với LỊCH SỬ chính mã đó (P/E 5 năm qua của nó 15–25, giờ 12 → đang rẻ so với chính nó), (3) với TỐC ĐỘ tăng trưởng (mục 4). So P/E ngân hàng với P/E công nghệ là so cam với cà rốt."
+      },
+      {
+        "h": "2. P/B và P/S — khi P/E 'tê liệt'",
+        "list": [
+          "P/B (Price to Book) = Giá / Giá trị sổ sách vốn chủ (mỗi cổ phiếu). Ý nghĩa: bạn trả mấy lần 'tài sản ròng' của công ty. Hữu ích nhất cho ngành nặng tài sản: ngân hàng, bảo hiểm, sản xuất, bất động sản. P/B dưới 1 = mua 'rẻ hơn giá trị sổ sách' — nhưng hãy hỏi TẠI SAO rẻ (có thể tài sản xấu, ROE thấp).",
+          "P/S (Price to Sales) = Giá / Doanh thu mỗi cp. Dùng cho công ty tăng trưởng chưa có lãi (startup đã IPO). P/S 3 = trả 3 đồng cho 1 đồng doanh thu. An toàn hơn P/E khi lợi nhuận âm, nhưng đừng quên: DOANH THU KHÔNG PHẢI LỢI NHUẬN — công ty có thể bán nhiều mà lỗ dài.",
+          "PEG = P/E / tốc độ tăng trưởng EPS (%) — cầu nối giá với tăng trưởng: PEG ≈ 1 cân đối; dưới 1 = tăng trưởng chưa được định giá đủ; trên 2 = đắt so với tăng trưởng. Ví dụ: P/E 30 nhưng tăng trưởng 35%/năm → PEG 0,86: chưa đắt!"
+        ]
+      },
+      {
+        "h": "3. ROE, ROA — đo chất lượng 'máy kiếm tiền'",
+        "list": [
+          "ROE (Return on Equity) = LN ròng / Vốn chủ sở hữu: mỗi 1 đồng vốn của cổ đồng tạo bao nhiêu đồng lợi nhuận. ROE > 15% liên tục là tốt, > 20% là xuất sắc — mốc các 'quỷ chất lượng' hay dùng.",
+          "ROA (Return on Assets) = LN ròng / Tổng tài sản: máy kiếm tiền tính trên TOÀN BỘ tài sản (kể cả tiền đi vay). ROA cao cho thấy hoạt động cốt lõi thật sự hiệu quả, không chỉ nhờ đòn bẩy.",
+          "Cảnh báo đòn bẩy: ROE cao có thể đến từ... nợ khổng lồ thay vì kinh doanh giỏi. Ví dụ: vốn chủ 100, nợ 900 → tài sản 1.000; LN 15 → ROE 15% nhưng ROA chỉ 1,5%. Kiểm tra Nợ/Vốn (Bài 9) trước khi vỗ tay cho ROE. Công thức DuPont mở rộng: ROE = Biên lợi nhuận × Vòng quay tài sản × Đòn bẩy tài chính — ba bánh xe của ROE."
+        ]
+      },
+      {
+        "h": "4. Ghép tất cả: cách định giá 'đủ dùng' cho người mới",
+        "p": [
+          "Bước 1 — Chọn doanh nghiệp tốt (đã có từ Bài 9–11: vốn chủ tăng, biên đẹp, OCF ≥ LN).",
+          "Bước 2 — Ước EPS năm tới: lấy EPS 4 quý gần nhất, nhân với kỳ vọng tăng trưởng hợp lý (dùng tăng trưởng 3 năm qua làm mốc, giảm bớt 20–30% cho an toàn).",
+          "Bước 3 — Chọn P/E hợp lý: trung bình P/E lịch sử của chính mã hoặc trung bình ngành — chọn số THẤP HƠN trong hai.",
+          "Bước 4 — Giá hợp lý = EPS dự phóng × P/E hợp lý. Ví dụ: EPS tới 55k × P/E 16 = 880k. Giá thị trường đang 960k → hơi đắt; 700k → có 'biên an toàn' ~26%.",
+          "Bước 5 — Chỉ mua khi giá thị trường thấp hơn giá hợp lý ít nhất 15–25% (biên an toàn — margin of safety): phòng sai số trong chính các ước tính của bạn, vì bạn chắc chắn sẽ sai đôi chỗ."
+        ],
+        "tip": "Công thức 5 bước trên là xương sống của 'quy trình ra quyết định' ở Bài 13. Đừng tìm sự chính xác ảo — phân tích cơ bản là bộ lọc xác suất, không phải quả cầu tiên tri."
+      },
+      {
+        "h": "5. Bẫy định giá kinh điển",
+        "list": [
+          "Value trap (bẫy giá rẻ): P/E 5, P/B 0,8 nhưng doanh thu suy giảm 5 năm, ROE 4% — 'rẻ' vì nó đang hư. Chỉ số thấp + nền tảng hỏng = không phải cơ hội.",
+          "Story trap (bẫy câu chuyện): P/E 80 vì 'công nghệ tương lai' nhưng doanh thu chưa bao giờ đủ trả chi phí — câu chuyện không phải dòng tiền.",
+          "So sai chuẩn: so P/E công ty chu kỳ (thép, hàng không) ở đáy chu kỳ — P/E thấp nhất thường đúng lúc lợi nhuận đã ở đỉnh, sắp rơi.",
+          "Quên lãi suất: khi lãi suất không rủi ro tăng, P/E hợp lý của mọi thứ giảm xuống — cổ phiếu 'đắt' hơn trong môi trường lãi suất cao."
+        ]
+      }
+    ],
+    "keyPoints": [
+      "P/E = giá / EPS; chỉ có nghĩa khi so với ngành, lịch sử và tăng trưởng (PEG).",
+      "P/B cho ngành nặng tài sản; P/S cho công ty chưa có lãi.",
+      "ROE > 15% tốt nhưng phải kiểm tra NỢ; DuPont: ROE = biên × vòng quay × đòn bẩy.",
+      "Định giá đủ dùng: EPS dự phóng × P/E hợp lý, mua khi có biên an toàn 15–25%.",
+      "Tránh 4 bẫy: value trap, story trap, so sai chu kỳ, quên lãi suất."
+    ],
+    "tryIt": {
+      "text": "Bài tập thực chiến: mở thẻ 'Phân tích cơ bản' của 3 mã MSFT, KO, NVDA trên web. Ghi ra P/E, P/E dự phóng, ROE, Biên lợi nhuận của từng mã. Câu hỏi: mã nào 'rẻ' nhất theo P/E? Mã nào 'đắt' nhất — và tăng trưởng (revenueGrowth/earningsGrowth) có bù lại không? Tính nháp PEG cho NVDA.",
+      "link": "/stock/NVDA"
+    },
+    "relatedTerms": ["P/E", "P/B", "P/S", "PEG", "ROE", "ROA", "Biên an toàn (Margin of Safety)", "Value trap"],
+    "quiz": [
+      {
+        "q": "Giá 500.000đ, EPS 25.000đ. P/E bằng bao nhiêu và nghĩa là gì?",
+        "options": ["5 — trả 5 đồng cho 1 đồng lợi nhuận mỗi năm", "20 — trả 20 đồng cho 1 đồng lợi nhuận mỗi năm", "25 — hoàn vốn trong 25 năm", "0,05 — rất rẻ"],
+        "answer": 1,
+        "explain": "500/25 = 20. Bạn trả 20 lần lợi nhuận hàng năm — 'thu hồi' qua lợi nhuận khoảng 20 năm nếu không tăng trưởng."
+      },
+      {
+        "q": "P/E của một ngân hàng là 9, của một công ty cloud là 65. Kết luận đúng?",
+        "options": [
+          "Ngân hàng rẻ hơn hẳn — mua ngân hàng",
+          "Chưa kết luận được: mỗi ngành có dải P/E bình thường riêng; phải so trong ngành + với tăng trưởng",
+          "Công ty cloud đắt — bán",
+          "P/E không dùng được cho ngân hàng"
+        ],
+        "answer": 1,
+        "explain": "So P/e chéo ngành là lỗi phổ biến nhất. Ngân hàng P/E 9 có thể đúng giá; cloud 65 với tăng trưởng 50%/năm có thể vẫn hợp lý (PEG < 1,5)."
+      },
+      {
+        "q": "ROE 22% nhưng Nợ/Vốn = 350%. Nhận xét đúng?",
+        "options": [
+          "ROE cao là đủ tốt",
+          "ROE cao có thể được 'thổi phồng' bằng đòn bẩy nợ — cần xem ROA và chất lượng lợi nhuận",
+          "Công ty chắc chắn an toàn",
+          "Nợ không ảnh hưởng ROE"
+        ],
+        "answer": 1,
+        "explain": "Đòn bẩy khuếch đại ROE cả khi lợi nhuận lẫn khi lỗ. ROA thấp + nợ cao = ROE 'đội nợ'."
+      },
+      {
+        "q": "EPS dự phóng 60k, P/E hợp lý 15, giá thị trường 630k. Theo phương pháp 5 bước, quyết định hợp lý?",
+        "options": [
+          "Mua ngay vì công ty tốt",
+          "Giá hợp lý = 900k... nhưng chờ đã: 60 × 15 = 900k, giá 630k rẻ hơn 30% → có biên an toàn, đủ điều kiện xem xét mua (kèm bước 6: kỹ thuật & rủi ro)",
+          "Không bao giờ mua",
+          "Bán"
+        ],
+        "answer": 1,
+        "explain": "Đúng: 900k hợp lý, giá 630k = biên an toàn ~30% vượt ngưỡng 25%. Lưu ý đáp án nhắc: còn phải qua khâu điểm vào & quản trị rủi ro (Bài 13–14)."
+      },
+      {
+        "q": "'Value trap' là gì?",
+        "options": [
+          "Cổ phiếu tăng chậm nhưng đều",
+          "Cổ phiếu RẺ VÌ nền tảng kinh doanh đang hỏng — rẻ mà vẫn không đáng mua",
+          "Cổ phiếu bị định giá sai tạm thời",
+          "Cổ phiếu ngân hàng"
+        ],
+        "answer": 1,
+        "explain": "Chỉ số định giá thấp + nền tảng xấu = bẫy. Muốn rẻ 'có nghĩa' phải đi kèm nền tảng tốt (Bài 9–11) — không có shortcut."
+      }
+    ]
+  },
+  {
+    "id": "quy-trinh-ra-quyet-dinh",
+    "title": "Bài 13 · Quy trình 7 bước ra quyết định mua/bán — tổng hợp mọi thứ",
+    "level": "Nâng cao",
+    "minutes": 15,
+    "summary": "Bài quan trọng nhất của khóa học: ráp kỹ thuật + cơ bản + định giá + rủi ro thành MỘT quy trình ra quyết định có kỷ luật.",
+    "sections": [
+      {
+        "h": "1. Vì sao cần quy trình, không phải 'trực giác'?",
+        "p": [
+          "Các quỹ lớn không giỏi hơn bạn vì thông minh hơn — họ giỏi vì có QUY TRÌNH và kỷ luật lặp lại. Não người dưới áp lực tiền bạc mắc sẵn các lỗi hệ thống (sợ mất, FOMO, bảo vệ quan điểm — chi tiết ở Bài 15). Quy trình viết sẵn chính là 'phiên bản lạnh não' của bạn: các quyết định được nghĩ lúc bình tĩnh, chỉ được THỰC HIỆN lúc thị trường cuồng loạn.",
+          "Quy trình 7 bước dưới đây gộp toàn bộ khóa học. Hãy copy vào sổ tay hoặc ghi chú — và dùng nó cho MỖI quyết định mua/bán, kể cả trong ví giả lập trên web này. Mục đích luyện tập: biến 7 bước thành phản xạ."
+        ]
+      },
+      {
+        "h": "2. Bước 1–2: Chuẩn bị & sàng lọc",
+        "list": [
+          "BƯỚC 1 — Xác định mục tiêu & khung thời gian: tích sản dài hạn 5–10 năm (chiến lược: mua công ty tốt giữ lâu) hay đầu tư trung hạn 3–12 tháng (chiến lược: kỹ thuật nhiều hơn)? Mỗi câu trả lời cho ra quy tắc hoàn toàn khác. Người mới nên chọn 80% dài hạn + 20% luyện tay.",
+          "BƯỚC 2 — Sàng lọc vũ trụ (universe): chỉ theo dõi 20–40 mã mình hiểu (khó với ~1.600 mã VN + 6.000 mã Mỹ). Tiêu chí sàng: ngành mình hiểu/có lợi thế; doanh thu/vốn hóa đủ lớn (thanh khoản tốt — KL giao dịch ngày > vài tỷ đồng / >1 triệu cp); chưa có scandal kế toán. Công cụ: danh sách Khám phá trên Dashboard, watchlist của bạn, mục Biến động mạnh."
+        ]
+      },
+      {
+        "h": "3. Bước 3–4: Phân tích cơ bản & định giá (trái tim của quyết định)",
+        "list": [
+          "BƯỚC 3 — Kiểm tra nền tảng (Bài 9–11): Doanh thu & LN tăng đều 3–5 năm? Biên ổn định/đẹp hơn đối thủ? OCF ≥ LN ròng? Nợ/Vốn hợp lý ngành? ROE > 15% không phải nhờ đòn bẩy? — Ít nhất 4/5 câu trả lời CÓ mới đi tiếp.",
+          "BƯỚC 4 — Định giá (Bài 12): EPS dự phóng × P/E hợp lý = giá hợp lý. Giá thị trường phải thấp hơn ít nhất 15–25% (biên an toàn). GHI RA giấy: luận điểm mua 3 dòng — 'Tôi mua vì: (1)... (2)... (3)...'. Nếu viết không ra 3 dòng thuyết phục → chưa đủ hiểu để mua.",
+          "Mẹo ghi luận điểm: điều kiện ĐẢO NGƯỢC luận điểm cũng phải viết — 'Tôi sẽ sai nếu: biên gộp giảm 2 quý liền / công ty phát hành thêm 10% cp / ngành bị thu hồi chính sách...'. Đây là điều kiện thoát vị thế TRƯỚC khi cần dùng."
+        ]
+      },
+      {
+        "h": "4. Bước 5–6: Chọn điểm vào & quản trị rủi ro",
+        "list": [
+          "BƯỚC 5 — Chọn điểm vào bằng kỹ thuật (Bài 3–8): đọc bối cảnh: giá so MA200? MA20/50 đang xếp tầng hay quấn? RSI vùng nào? Khối lượng có xác nhận? Điểm vào phổ biến của người mới: điều chỉnh về vùng hỗ trợ/MA50 của một mã đang trong xu hướng tăng dài hạn + nến đảo chiều + KL xác nhận. KHÔNG mua đuổi khi RSI > 70 chỉ vì sợ bỏ lỡ.",
+          "BƯỚC 6 — Kích thước vị thế & cắt lỗ TRƯỚC KHI MUA: quy tắc rủi ro mỗi lệnh ≤ 1–2% tài khoản (Bài 14). Xác định giá cắt lỗ kỹ thuật (dưới vùng hỗ trợ vừa phá — vị trí mà luận điểm bị coi là SAI, không phải số tiền bạn 'chịu được lỗ'). Số lượng cp = (Tài sản × 1%) / (Giá vào − Giá stop). Mục tiêu lãi/rủi ro tối thiểu 2:1 — tức chỉ nhận các thương vụ tiềm năng gấp đôi phần rủi ro.",
+          "Ví dụ số: tài sản 100 triệu, rủi ro 1% = 1 triệu. Mua 50k, stop 45k → rủi ro 5k/cp → mua tối đa 200 cp (10 triệu = 10% tài sản). Mục tiêu bán 60k (+5k) để đạt R:R = 1:1... chưa đủ — hãy chờ điểm vào có mục tiêu 60–65k."
+        ]
+      },
+      {
+        "h": "5. Bước 7: Theo dõi, ghi chép & khi nào bán",
+        "list": [
+          "BƯỚC 7 — Vận hành: mỗi tuần dành 30 phút xem: luận điểm còn đúng không (công ty vẫn tốt? ngành ổn?), giá có tuân thủ kế hoạch? Cập nhật NHẬT KÝ trên trang Giao dịch giả lập: mỗi lệnh ghi (mã, ngày, lý do mua 3 dòng, stop, mục tiêu) và SAU ĐÓ ghi lại kết quả + 1 điều học được.",
+          "Bán khi MỘT trong 3 điều xảy ra: (1) Luận điểm sai — cắt lỗ không nuối tiếc, đây là 'phí bảo hiểm' của nghề; (2) Đạt mục tiêu/giá vượt giá hợp lý rõ rệt — chốt từng phần; (3) Có cơ hội tốt hơn rõ ràng — hoán đổi. KHÔNG bán chỉ vì giá giảm mà luận điểm nguyên vẹn — đó là lúc phân biệt 'giá' và 'giá trị'."
+        ],
+        "tip": "Nhật ký là tài sản lớn nhất của bạn sau 6 tháng — vừa là công cụ học (thấy lỗi lặp lại), vừa là dữ liệu thống kê (tỷ lệ thắng, R:R trung bình) mà không 'cảm giác' nào thay thế được."
+      },
+      {
+        "h": "6. Sơ đồ tổng thể (in não vào đây)",
+        "p": [
+          "MỤC TIÊU → SÀNG LỌC 20–40 mã hiểu → CƠ BẢN 4/5 điểm → ĐỊNH GIÁ có biên an toàn + 3 dòng luận điểm → KỸ THUẬT chọn điểm vào → RỦI RO 1–2% + stop + R:R 2:1 → VẬN HÀNH theo nhật ký → BÁN theo 3 luật. Mỗi lần deviate (lệch khỏi quy trình) — ghi vào nhật ký — bạn sẽ thấy số tiền 'phí lệch quy trình' lớn thế nào sau 20 lệnh đầu tiên.",
+          "Chúc mừng: đến đây bạn đã đủ kiến thức để tự ra quyết định có căn cứ. Hai bài cuối (14–15) là 'áo giáp' bảo vệ bạn sống sót đủ lâu để kinh nghiệm tự tích lũy."
+        ]
+      }
+    ],
+    "keyPoints": [
+      "Quy trình viết sẵn = quyết định lúc lạnh não, thực hiện lúc thị trường nóng.",
+      "3 câu lõi trước khi mua: nền tảng tốt (4/5)? Giá có biên an toàn? Viết được 3 dòng luận điểm?",
+      "Kỹ thuật chỉ để chọn ĐIỂM VÀO; kích thước vị thế và stop tính TRƯỚC khi mua; R:R ≥ 2:1.",
+      "Bán theo 3 luật: luận điểm sai / đạt mục tiêu / cơ hội tốt hơn — không bán theo cảm xúc.",
+      "Nhật ký giao dịch là công cụ học nhanh nhất: mọi lệnh đều có bài học trả giá rẻ (tiền ảo)."
+    ],
+    "tryIt": {
+      "text": "Chạy thử TOÀN BỘ quy trình trên web: chọn 1 mã Mỹ (VD: KO), đọc thẻ Phân tích cơ bản + Gợi ý kỹ thuật, viết 3 dòng luận điểm vào sổ, rồi đặt lệnh mua trong ví giả lập với stop-loss ghi rõ. Hẹn 2 tuần sau đọc lại nhật ký.",
+      "link": "/trading"
+    },
+    "relatedTerms": ["Biên an toàn (Margin of Safety)", "Tỷ lệ Lãi/Rủi ro (Risk-Reward)", "Cắt lỗ (Stop-loss)", "Nhật ký giao dịch", "Luận điểm đầu tư (Investment Thesis)"],
+    "quiz": [
+      {
+        "q": "Theo quy trình, thứ tự đúng của 7 bước là?",
+        "options": [
+          "Mua → xem tin → hy vọng → bán",
+          "Mục tiêu → sàng lọc → cơ bản → định giá → kỹ thuật chọn điểm → rủi ro & stop → vận hành theo nhật ký",
+          "Kỹ thuật → định giá → mua tất cả",
+          "Nghe tin → mua → đặt stop"
+        ],
+        "answer": 1,
+        "explain": "Cơ bản quyết định MUA GÌ, định giá quyết định GIÁ NÀO, kỹ thuật quyết định KHI NÀO, rủi ro quyết định BAO NHIÊU — thứ tự này không được đảo lung tung."
+      },
+      {
+        "q": "Vì sao phải viết 'Tôi sẽ sai nếu...' cùng lúc với luận điểm mua?",
+        "options": [
+          "Để bi quan",
+          "Để có điều kiện thoát vị thế khớp với lý do vào — tránh bị cảm xúc giữ chân khi mọi thứ đã thay đổi",
+          "Vì giao diện bắt buộc",
+          "Để khoe"
+        ],
+        "answer": 1,
+        "explain": "Luận điểm vào + điều kiện sai = bản hợp đồng với chính mình, không cần 'ý chí' lúc thị trường lao dốc."
+      },
+      {
+        "q": "Tài sản 50 triệu, rủi ro tối đa 1%/lệnh, mua giá 20.000đ, stop 18.000đ. Số cp tối đa được phép mua?",
+        "options": ["2.500 cp", "500 cp", "250 cp", "25 cp"],
+        "answer": 2,
+        "explain": "Rủi ro cho phép = 1% × 50 triệu = 500.000đ. Mỗi cp rủi ro 20.000 − 18.000 = 2.000đ. Vậy tối đa 500.000 / 2.000 = 250 cp (vị thế 5 triệu = 10% tài sản, nhưng rủi ro thực chỉ 1%). Chọn 2.500 cp = rủi ro 5 triệu (10%/lệnh) — vượt xa quy tắc."
+      },
+      {
+        "q": "Giá giảm 8% nhưng luận điểm đầu tư nguyên vẹn, chưa chạm stop-loss. Hành động đúng theo quy trình?",
+        "options": [
+          "Bán ngay vì giảm là sai",
+          "GIỮ theo kế hoạch — giá xuống không phải lý do bán nếu luận điểm còn đúng và stop chưa bị chạm",
+          "Bán rồi mua lại rẻ hơn",
+          "Vay thêm tiền mua gấp"
+        ],
+        "answer": 1,
+        "explain": "Phân biệt GIÁ và GIÁ TRỊ: nếu doanh nghiệp không đổi, giá giảm chỉ là tiếng ồn (thậm chí là cơ hội). Điều kiện bán là luận điểm sai/mục tiêu đạt — không phải màu đỏ trên bảng giá."
+      },
+      {
+        "q": "R:R (risk-reward) 2:1 nghĩa là gì và vì sao quan trọng?",
+        "options": [
+          "Lãi gấp đôi lỗ dự kiến — giúp bạn thắng ít hơn nửa số lệnh vẫn có lãi tổng",
+          "Mua 2 lần bán 1 lần",
+          "Rủi ro gấp đôi phần thưởng",
+          "Tỷ lệ cổ tức"
+        ],
+        "answer": 0,
+        "explain": "Với R:R 2:1, thắng chỉ ~35–40% số lệnh bạn vẫn sinh lời ròng — 'cấu trúc' thương vụ quan trọng không kém việc đoán đúng hướng."
+      }
+    ]
+  },
+  {
+    "id": "quan-tri-rui-ro",
+    "title": "Bài 14 · Quản trị rủi ro & đa dạng hóa — nghệ thuật sống sót",
+    "level": "Nâng cao",
+    "minutes": 12,
+    "summary": "Trong đầu tư, không thua là điều kiện để thắng. Quy tắc 1–2%, position sizing, phân bổ danh mục và tái cân bằng.",
+    "sections": [
+      {
+        "h": "1. Toán học mất mát: vì sao 'không lỗ lớn' quan trọng hơn 'thắng lớn'",
+        "p": [
+          "Con số cần thuộc: mất 20% → cần +25% để hòa; mất 50% → cần +100% (gấp đôi!); mất 80% → cần +400%. Vết nứt lớn rất khó hàn: cổ phiếu từ 100 rơi xuống 50, để trở về 100 phải tăng gấp đôi trong khi một cổ phiếu tốt tăng 15%/năm đã là xuất sắc.",
+          "Kết luận thực hành: nhiệm vụ số 1 của người mới không phải tìm cổ phiếu x2 — mà là TRÁNH các cú -50%. Bạn chỉ cần sống sót 5 năm đầu trong khi kỹ năng tích lũy — phần còn lại của sự nghiệp đầu tư sẽ tự trả công."
+        ]
+      },
+      {
+        "h": "2. Quy tắc 1–2% và position sizing (đã gặp ở Bài 13)",
+        "list": [
+          "Quy tắc: mỗi lệnh chỉ rủi ro tối đa 1–2% TỔNG tài sản (tính từ giá vào đến giá stop-loss — không phải số tiền mua!).",
+          "Công thức: Số cp = (Tài sản × 1%) / (Giá vào − Giá stop). Ví dụ 100 triệu, vào 25k, stop 23k → rủi ro/cp 2k → tối đa 500 cp (12,5 triệu).",
+          "Tại sao 1%? Chuỗi 5 lệnh sai liên tiếp (chuyện THƯỜNG xảy ra với mọi người) chỉ làm bạn -5% — còn cứu được tâm lý và tài khoản để tiếp tục. Rủi ro 20%/lệnh: 5 lệnh sai = sạch tài khoản + mất luôn niềm tin.",
+          "Chú ý phân biệt: 1% RỦI RO ≠ 1% tài sản mua. Một lệnh 30% tài sản nhưng stop sát chỉ rủi ro 3% — và ngược lại, lệnh 5% tài sản không stop là rủi ro vô hạn."
+        ]
+      },
+      {
+        "h": "3. Đa dạng hóa — 'trứng không cùng một giỏ' nhưng đúng cách",
+        "list": [
+          "Mua 5 mã cùng ngành thép KHÔNG phải đa dạng hóa — khi chu kỳ quay đầu, cả 5 rơi cùng lúc như một mã. Đa dạng hóa ĐÚNG là rải qua các NGÀNH khác nhau và các kiểu rủi ro khác nhau (chu kỳ/phòng thủ, trong/ngoài nước, cổ phiếu/trái phiếu/tiền mặt).",
+          "Con số thực dụng cho người mới: 5–10 mã ở 3–4 ngành trở lên. Ít hơn: rủi ro tập trung. Nhiều hơn 15 mã: bạn không theo nổi chất lượng từng công ty (danh mục kiểu 'vườn thú' nuôi cho vui).",
+          "Phân bổ theo mức độ hiểu & độ tin cậy: mã hiểu sâu & tin cậy nhất chiếm tỷ trọng lớn hơn — nhưng không mã nào vượt 15–20% tài sản.",
+          "Giữ 5–10% tiền mặt để tận dụng các cú 'sale' thị trường — tiền mặt cũng là một vị thế."
+        ]
+      },
+      {
+        "h": "4. Tái cân bằng (rebalancing) — kỷ luật tự động mua thấp bán cao",
+        "p": [
+          "Đặt mục tiêu phân bổ ban đầu, ví dụ: 40% cổ phiếu tăng trưởng, 30% cổ phiếu cổ tức/phòng thủ, 20% trái phiếu/tiết kiệm, 10% tiền mặt. Sau 6–12 tháng, khối lượng tăng giá sẽ phá tỷ lệ (ví dụ tăng trưởng thành 55%).",
+          "Tái cân bằng = bán bớt lớp thắng nhiều, bổ sung lớp bị bỏ lại để trở về tỷ lệ gốc. Nghe ngược cảm xúc (bán thứ đang thắng!) nhưng về toán học đó chính là 'bán cao — mua thấp' một cách máy móc, không cần dự đoán. Nghiên cứu phổ biến: kiểm tra lại 6 tháng/lần hoặc khi lệch tỷ lệ quá ±20%."
+        ],
+        "tip": "Dùng trang Giao dịch giả lập của web để thử: xây 1 danh mục 6 mã theo tỷ lệ bạn chọn, giữ nguyên 2 tháng, rồi tái cân bằng — bạn sẽ tự thấy cơ chế này 'khó mà đúng' cỡ nào."
+      },
+      {
+        "h": "5. Bản đồ rủi ro ngoài giá cả",
+        "list": [
+          "Rủi ro thanh khoản: mã giao dịch loãng — lúc muốn bán không ai mua, phải bán 'chợ đen' giá bẹp. Chỉ giao dịch mã KL ngày lớn.",
+          "Rủi ro tập trung cổ đông lớn/margin: mã bị 'đội giá' bằng đòn bẩy — khi margin gọi vốn, giá rơi không đỡ.",
+          "Rủi ro vĩ mô: lãi suất tăng (cổ phiếu định giá xuống), tỷ giá (doanh nghiệp nhập khẩu), quy định thay đổi. Không dự đoán được — chỉ giảm phơi nhiễm bằng đa dạng hóa.",
+          "Rủi ro CHÍNH BẠN: giao dịch quá nhiều vì chán, không đủ kiên nhẫn chờ kế hoạch. Đây là rủi ro lớn nhất của đa số người mới — chuyển sang Bài 15."
+        ]
+      }
+    ],
+    "keyPoints": [
+      "Toán mất mát: -50% cần +100% để hòa — tránh lỗ lớn là ưu tiên số 1.",
+      "Rủi ro tối đa 1–2%/lệnh tính đến stop-loss; 1% rủi ro ≠ 1% tài sản mua.",
+      "Đa dạng đúng = rải ngành + kiểu rủi ro; 5–10 mã, không mã nào >15–20%.",
+      "Tái cân bằng định kỳ = bán cao mua thấp bằng kỷ luật thay vì dự đoán.",
+      "Rủi ro lớn nhất thường nằm ở người ra quyết định — không phải thị trường."
+    ],
+    "tryIt": {
+      "text": "Bài tập trên ví giả lập: chia 100.000$ thành 6 mã ở 3 ngành khác nhau (không mã nào quá 20%). Ghi rõ tỷ trọng + stop mỗi mã. Mua hết trong trang Giao dịch — đây là 'danh mục học việc' đầu tiên của bạn.",
+      "link": "/trading"
+    },
+    "relatedTerms": ["Position Sizing", "Stop-loss", "Đa dạng hóa (Diversification)", "Tái cân bằng (Rebalancing)", "Rủi ro thanh khoản"],
+    "quiz": [
+      {
+        "q": "Tài khoản mất 50% giá trị. Cần tăng bao nhiêu % để trở về mức cũ?",
+        "options": ["50%", "75%", "100%", "150%"],
+        "answer": 2,
+        "explain": "Từ 50 → 100 = gấp đôi = +100%. Đây là lý do 'không lỗ lớn' quan trọng hơn 'thắng lớn'."
+      },
+      {
+        "q": "Tài sản 200 triệu, vào lệnh giá 40k, stop 36k, rủi ro tối đa 1%. Số cp tối đa?",
+        "options": ["50.000 cp", "5.000 cp", "50 cp", "500 cp"],
+        "answer": 3,
+        "explain": "1% × 200 triệu = 2 triệu. Rủi ro/cp = 4k. 2.000.000/4.000 = 500 cp (vị thế 20 triệu = 10% tài sản nhưng chỉ rủi ro 1%)."
+      },
+      {
+        "q": "Đa dạng hóa ĐÚNG CÁCH là gì?",
+        "options": [
+          "Mua 8 mã thép khác nhau",
+          "Rải tài sản qua các ngành và kiểu rủi ro khác nhau (chu kỳ/phòng thủ, CP/trái phiếu/tiền mặt)",
+          "Mua 30 mã ngẫu nhiên",
+          "Đầu tư toàn bộ vào ETF"
+        ],
+        "answer": 1,
+        "explain": "Đa dạng hóa chống RỦI RO TẬP TRUNG — các tài sản không nên cùng gục cùng một lý do."
+      },
+      {
+        "q": "Tái cân bằng định kỳ buộc bạn làm điều gì ngược cảm xúc?",
+        "options": [
+          "Bán bớt lớp tài sản thắng nhiều và bổ sung lớp lạc hậu",
+          "Giữ nguyên mã thắng để 'ăn theo'",
+          "Bán hết khi thị trường giảm",
+          "Vay tiền mua thêm"
+        ],
+        "answer": 0,
+        "explain": "Đúng — và đó chính là bản chất 'bán cao mua thấp' tự động, không cần dự đoán đỉnh đáy."
+      }
+    ]
+  },
+  {
+    "id": "tam-ly-dau-tu",
+    "title": "Bài 15 · Tâm lý đầu tư & kỷ luật — đối thủ lớn nhất trong gương",
+    "level": "Nâng cao",
+    "minutes": 10,
+    "summary": "Bài cuối cùng nhưng quyết định 50% thành công: nhận diện 5 lỗi tâm lý hệ thống và cách lắp 'phanh an toàn'.",
+    "sections": [
+      {
+        "h": "1. Đối thủ thật của bạn",
+        "p": [
+          "Nghiên cứu hành vi (behavioral finance) chỉ ra: sai lầm của nhà đầu tư không chủ yếu do thiếu thông tin mà do não bộ phản ứng với tiền bởi các chương trình thời đồ đá: sợ mất, chạy theo bầy đàn, quá tự tin. Điểm nguy hiểm: các lỗi này cảm giác như 'quyết định đúng đắn' ngay lúc đó.",
+          "Tin tốt: chúng là HỆ THỐNG — nghĩa là nhận diện được và phòng được bằng quy trình. Bài này giúp bạn gắn 'sensor cảnh báo' vào 5 lỗi phổ biến nhất."
+        ]
+      },
+      {
+        "h": "2. Năm lỗi kinh điển và phanh an toàn",
+        "list": [
+          "FOMO (sợ bỏ lỡ): thấy mã tăng 30%/tuần, mọi người bàn tán → mua đuổi đỉnh. Phanh: quy tắc 'không mua mã chưa qua Bước 3–4 của quy trình Bài 13'. Nếu cơ hội thật, nó vẫn ở đó sau 1 tuần nghiên cứu.",
+          "Sợ mất & nắm giữ lỗ (loss aversion + sunk cost): lỗ 30% nhưng không bán vì 'chưa lỗ là chưa mất gì' + đã bỏ công nghiên cứu. Phanh: câu hỏi định mệnh 'NẾU HÔM NAY TÔI KHÔNG GIỮ CP NÀY, TÔI CÓ MUA NGAY KHKÔNG?' — nếu không, việc bạn đang giữ chỉ là trốn tránh thừa nhận lỗi.",
+          "Quá tự tin sau chuỗi thắng: thắng 3 lệnh liền → tăng gấp rủi ro lên 10%/lệnh → một lệnh xóa sạch. Phanh: quy tắc rủi ro cố định KHÔNG thay đổi theo cảm giác; chỉ tăng dần khi nhật ký 20 lệnh gần nhất ủng hộ.",
+          "Xác nhận có chọn lọc (confirmation bias): đã mua → chỉ đọc tin tốt, chặn tin xấu. Phanh: mỗi quý, cố tình viết 'luận điểm PHẢN ĐỐI' 200 chữ cho từng mã đang giữ — nếu không viết nổi luận điểm phản đối thuyết phục, bạn chưa hiểu đủ hai mặt.",
+          "Hiệu ứng bầy đàn: thị trường lao dốc, mọi người bán → bạn cũng bán đáy. Phanh: kế hoạch bằng văn bản từ Bài 13–14 (điều kiện bán 3 luật) + nhớ thống kê: các cú bán tháo hoảng loạn lịch sử đều là cơ hội mua của thập kỷ sau 12 tháng."
+        ]
+      },
+      {
+        "h": "3. Nhật ký — phòng gym cho kỷ luật",
+        "p": [
+          "Nhật ký giao dịch (đã lắp vào Bài 13) có 3 dòng bắt buộc sau mỗi lệnh ĐÓNG: (1) Kết quả: lãi/lỗ bao nhiêu, R bao nhiêu; (2) Tuân thủ: lệnh này có theo đúng quy trình không? (3) Bài học: 1 câu cụ thể.",
+          "Sau 20–30 lệnh, tự thống kê: tỷ lệ thắng, R trung bình, và quan trọng nhất — LÃI/LỖ giữa nhóm 'đúng quy trình' vs nhóm 'lệch quy trình'. Gần như ai làm bài tập này cũng thấy nhóm lệch quy trình tốn kém khủng khiếp — bằng chứng số liệu riêng bạn sẽ không bao giờ tranh cãi được, khác mọi lời khuyên trên mạng."
+        ],
+        "tip": "Trang Giao dịch giả lập của web ghi lại toàn bộ lịch sử lệnh của bạn — hãy viết phần 'lý do & bài học' vào sổ cá nhân kèm mỗi lệnh, 2 phút mỗi lần."
+      },
+      {
+        "h": "4. Thói quen của nhà đầu tư giỏi (copy nguyên bản)",
+        "list": [
+          "Mỗi tuần 1 buổi 'nghiên cứu tĩnh' cố định (30–60 phút), KHÔNG mở app giao dịch trong lúc này.",
+          "Chỉ ra quyết định giao dịch trong khung giờ cố định (VD: 20h tối) — không quyết định giữa phiên khi adrenaline cao.",
+          "Ngủ đủ trước mỗi quyết định lớn; quy tắc '24 giờ' cho mọi lệnh vượt 10% tài sản.",
+          "Đọc lại 5 lỗi tâm lý này mỗi tháng 1 lần — não đá nhanh lắm."
+        ]
+      },
+      {
+        "h": "5. Chúc mừng bạn hoàn thành khóa học!",
+        "p": [
+          "Bạn đã đi qua: ngôn ngữ thị trường (Bài 1–4) → công cụ kỹ thuật (5–8) → đọc hiểu doanh nghiệp (9–11) → định giá (12) → quy trình quyết định (13) → sống sót (14) → tự chủ tâm lý (15).",
+          "Lộ trình gợi ý từ hôm nay: (1) Làm lại các bài trắc nghiệm chưa đạt; (2) Dùng web 15 phút/người/ngày: đọc Dashboard, theo dõi watchlist; (3) Mỗi tuần 1 mã mới qua đầy đủ 7 bước trên ví giả lập; (4) Sau 3 tháng, đọc lại nhật ký và tự đánh giá. Khi nào 20 lệnh giả lập gần nhất của bạn có kỷ luật 8/10 — bạn đã sẵn sàng cân nhắc tiền thật với số nhỏ. Chúc bạn đầu tư thông minh và kỷ luật!"
+        ]
+      }
+    ],
+    "keyPoints": [
+      "Lỗi tâm lý là HỆ THỐNG — phòng bằng quy trình, không phải ý chí.",
+      "5 lỗi chính: FOMO, sợ mất/nắm giữ lỗ, quá tự tin, xác nhận có chọn lọc, bầy đàn.",
+      "Câu hỏi 'Tôi có mua hôm nay nếu chưa giữ?' đào thoát khỏi sunk cost.",
+      "Nhật ký + thống kê nhóm đúng/lệch quy trình = bằng chứng tự thân thuyết phục nhất.",
+      "Kỷ luật 8/10 trên 20 lệnh giả lập = mốc cân nhắc tiền thật."
+    ],
+    "tryIt": {
+      "text": "Viết 'hiến pháp nhà đầu tư' 10 dòng của riêng bạn (kế thừa từ 15 bài): quy tắc rủi ro, tỷ trọng tối đa, điều kiện bán, giờ quyết định. Dán cạnh chỗ làm việc — và bắt đầu 20 lệnh kỷ luật đầu tiên trên ví giả lập.",
+      "link": "/learn"
+    },
+    "relatedTerms": ["FOMO", "Sunk cost", "Confirmation bias", "Nhật ký giao dịch", "Kỷ luật (Discipline)"],
+    "quiz": [
+      {
+        "q": "Bạn đang giữ 1 mã lỗ 35%, luận điểm đã sai từ lâu nhưng bạn không bán vì 'đã nghiên cứu nhiều'. Đây là lỗi gì?",
+        "options": ["FOMO", "Sunk cost + sợ mất (loss aversion)", "Bầy đàn", "Quá tự tin"],
+        "answer": 1,
+        "explain": "Công sức đã bỏ là chi phí chìm — không nên ảnh hưởng quyết định hiện tại. Câu hỏi cứu vớt: 'Nếu chưa giữ, tôi có mua hôm nay không?'"
+      },
+      {
+        "q": "Cách phòng FOMO hiệu quả nhất theo bài học?",
+        "options": [
+          "Mua nhanh trước khi tăng tiếp",
+          "Mua một ít cho kịp khí thế",
+          "Quy tắc không mua mã chưa qua đủ quy trình nghiên cứu — cơ hội thật vẫn chờ được 1 tuần",
+          "Nhờ bạn quyết định hộ"
+        ],
+        "answer": 2,
+        "explain": "FOMO được chữa bằng quy trình có bước chờ cưỡng chế. Vé Tết không quay lại, cơ hội đầu tư đúng nghĩa thì quay lại nhiều lần."
+      },
+      {
+        "q": "Vì sao thống kê 'nhóm lệnh đúng quy trình vs lệch quy trình' trong nhật ký lại mạnh hơn mọi lời khuyên?",
+        "options": [
+          "Vì nó là dữ liệu từ chính hành vi của bạn — không thể cãi",
+          "Vì ngắn gọn",
+          "Vì ai cũng làm vậy",
+          "Vì números không sai"
+        ],
+        "answer": 0,
+        "explain": "Bằng chứng số liệu cá nhân hóa vượt mọi lý thuyết chung chung — bạn sẽ tự thấy giá của việc 'lệch quy trình' bằng chính tiền ảo của mình."
+      },
+      {
+        "q": "Mốc nào bài học gợi ý để cân nhắc dùng tiền thật (số nhỏ)?",
+        "options": [
+          "Ngay sau khi xong bài 15",
+          "Khi 20 lệnh giả lập gần nhất đạt kỷ luật ~8/10 và nhật ký sạch",
+          "Khi tìm được mã P/E thấp nhất thị trường",
+          "Khi bạn bè cùng mua"
+        ],
+        "answer": 1,
+        "explain": "Kiến thức cần thăng cấp thành HÀNH VI ổn định — 20 lệnh kỷ luật là bài kiểm tra hành vi, không phải kiểm tra trí nhớ."
+      }
+    ]
+  }
+]

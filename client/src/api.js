@@ -1,0 +1,59 @@
+// Helper gọi API backend (đã proxy qua Vite đến localhost:4001)
+async function request(path, options = {}) {
+  const res = await fetch(`/api${path}`, {
+    headers: { 'Content-Type': 'application/json' },
+    ...options,
+  })
+  let data = null
+  try {
+    data = await res.json()
+  } catch {
+    data = null
+  }
+  if (!res.ok) throw new Error(data?.error || `Lỗi HTTP ${res.status}`)
+  return data
+}
+
+export const api = {
+  get: (path) => request(path),
+  post: (path, body) => request(path, { method: 'POST', body: JSON.stringify(body) }),
+  del: (path) => request(path, { method: 'DELETE' }),
+
+  // Thị trường
+  overview: () => request('/market/overview'),
+  search: (q) => request(`/market/search?q=${encodeURIComponent(q)}`),
+  quote: (symbol) => request(`/stocks/${encodeURIComponent(symbol)}/quote`),
+  analysis: (symbol, range = '6mo') =>
+    request(`/stocks/${encodeURIComponent(symbol)}/analysis?range=${range}`),
+  history: (symbol, range = '6mo') =>
+    request(`/stocks/${encodeURIComponent(symbol)}/history?range=${range}`),
+  fundamentals: (symbol) => request(`/stocks/${encodeURIComponent(symbol)}/fundamentals`),
+  popular: () => request('/market/lists/popular'),
+
+  // Watchlist
+  watchlist: () => request('/watchlist'),
+  addWatch: (symbol, name) => request('/watchlist', { method: 'POST', body: JSON.stringify({ symbol, name }) }),
+  removeWatch: (symbol) => request(`/watchlist/${encodeURIComponent(symbol)}`, { method: 'DELETE' }),
+
+  // Giao dịch giả lập
+  account: () => request('/trading/account'),
+  order: (symbol, side, qty) => request('/trading/order', { method: 'POST', body: JSON.stringify({ symbol, side, qty }) }),
+  history: () => request('/trading/history'),
+  resetAccount: () => request('/trading/reset', { method: 'POST' }),
+
+  // Học tập
+  lessons: () => request('/lessons'),
+  lesson: (id) => request(`/lessons/${id}`),
+  submitQuiz: (id, answers) => request(`/lessons/${id}/quiz`, { method: 'POST', body: JSON.stringify({ answers }) }),
+  markRead: (id) => request(`/lessons/${id}/read`, { method: 'POST' }),
+  progress: () => request('/lessons/progress'),
+
+  // Từ điển & tin tức
+  glossary: (q, category) => {
+    const p = new URLSearchParams()
+    if (q) p.set('q', q)
+    if (category) p.set('category', category)
+    return request(`/glossary?${p.toString()}`)
+  },
+  news: (market) => request(`/news?market=${market}`),
+}
