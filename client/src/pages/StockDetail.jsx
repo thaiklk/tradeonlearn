@@ -125,29 +125,27 @@ function HealthMetricsCard({ symbol, fin, quote }) {
 
 function StatsCard({ data }) {
   const { indicators, quote, currency } = data
-  const G = (q) => `/glossary?q=${encodeURIComponent(q)}`
+  const context = { source: quote?.delayed, status: data?.demo ? 'demo' : quote?.delayed ? 'delayed' : 'no-data', unit: currency }
   const rows = [
-    ['Giá hiện tại', fmtPrice(quote?.price, currency), 'Giá mua/bán 1 cổ phiếu tại thời điểm gần nhất'],
-    ['Thay đổi hôm nay', `${fmtPrice(quote?.change, currency)} (${fmtPct(quote?.changePercent)})`, 'So với giá ĐÓNG CỬA hôm trước — không phải so với lúc bạn mua'],
-    ['Cao nhất phiên', fmtPrice(quote?.dayHigh, currency), 'Mức giá đỉnh trong phiên hôm nay'],
-    ['Thấp nhất phiên', fmtPrice(quote?.dayLow, currency), 'Mức giá đáy trong phiên hôm nay'],
-    ['Khối lượng', quote?.volume != null ? `${fmtCompact(quote.volume)} cp` : '—', 'Số cổ phiếu đổi chủ hôm nay — "nhiên liệu" của biến động'],
-    ['RSI (14)', indicators?.rsi14 != null ? indicators.rsi14.toFixed(1) : '—', 'Động lượng 0–100: dưới 30 bán nhiều quá, trên 70 mua nóng quá (Bài 6)', 'RSI'],
-    ['MA20', fmtPrice(indicators?.ma20, currency), 'Trung bình giá 20 phiên (~1 tháng) — nhịp ngắn hạn (Bài 5)', 'MA (Đường trung bình)'],
-    ['MA50', fmtPrice(indicators?.ma50, currency), 'Trung bình giá 50 phiên (~1 quý) — trung hạn (Bài 5)', 'MA (Đường trung bình)'],
-    ['MA200', indicators?.ma200 != null ? fmtPrice(indicators.ma200, currency) : 'chưa đủ dữ liệu', 'Trung bình giá 200 phiên (~1 năm) — cần đủ 200 phiên lịch sử mới tính được (Bài 5)', 'MA (Đường trung bình)'],
+    ['Giá hiện tại', 'price', fmtPrice(quote?.price, currency)],
+    ['Thay đổi hôm nay', 'change', `${fmtPrice(quote?.change, currency)} (${fmtPct(quote?.changePercent)})`],
+    ['Cao nhất phiên', 'high', fmtPrice(quote?.dayHigh, currency)],
+    ['Thấp nhất phiên', 'low', fmtPrice(quote?.dayLow, currency)],
+    ['Khối lượng', 'volume', quote?.volume != null ? `${fmtCompact(quote.volume)} cp` : '—'],
+    ['RSI (14)', 'rsi14', indicators?.rsi14 != null ? indicators.rsi14.toFixed(1) : '—'],
+    ['MA20', 'ma20', fmtPrice(indicators?.ma20, currency)],
+    ['MA50', 'ma50', fmtPrice(indicators?.ma50, currency)],
+    ['MA200', 'ma200', indicators?.ma200 != null ? fmtPrice(indicators.ma200, currency) : 'chưa đủ dữ liệu'],
   ]
   return (
     <div className="card">
-      <div className="card-title">📊 Số liệu chính <span style={{ fontSize: 10, textTransform: 'none' }}>(chạm/chuột vào từng dòng để giải thích)</span></div>
+      <div className="card-title">📊 Số liệu chính <span style={{ fontSize: 10, textTransform: 'none' }}>(bấm vào tên hoặc trị số để học)</span></div>
       <table className="table">
         <tbody>
-          {rows.map(([k, v, tip, term]) => (
-            <tr key={k} title={tip}>
-              <td className="muted" style={{ cursor: 'help' }}>
-                {k}{term ? <Link to={G(term)} style={{ fontSize: 10, marginLeft: 4 }}>? </Link> : null}
-              </td>
-              <td className="right num">{v}</td>
+          {rows.map(([label, metricKey, value]) => (
+            <tr key={label}>
+              <td className="muted"><ExplainableValue metricKey={metricKey} value={label} /></td>
+              <td className="right num"><ExplainableValue metricKey={metricKey} value={value} ctx={context} /></td>
             </tr>
           ))}
         </tbody>
@@ -301,14 +299,14 @@ function PeersCard({ symbol }) {
       )}
       <div style={{ overflowX: 'auto' }}>
         <table className="table" style={{ minWidth: 420 }}>
-          <thead><tr><th>Mã</th>{rows.map(([n]) => <th key={n} className="right">{n}</th>)}</tr></thead>
+          <thead><tr><th>Mã</th>{rows.map(([n, k]) => <th key={n} className="right"><ExplainableValue metricKey={k} value={n} /></th>)}</tr></thead>
           <tbody>
             {p.peers.map((x) => (
               <tr key={x.symbol}><td><b>{x.symbol}</b></td>{rows.map(([n, k]) => (
-                <td key={k} className={`right num ${(k === 'debtToEquity') ? (x[k] <= (p.median[k] ?? 0) ? 'up' : 'down') : (x[k] >= (p.median[k] ?? 0) ? 'up' : 'down')}`}>{x[k] != null ? x[k].toLocaleString('vi-VN') : '—'}</td>
+                <td key={k} className={`right num ${(k === 'debtToEquity') ? (x[k] <= (p.median[k] ?? 0) ? 'up' : 'down') : (x[k] >= (p.median[k] ?? 0) ? 'up' : 'down')}`}><ExplainableValue metricKey={k} value={x[k] != null ? x[k].toLocaleString('vi-VN') : '—'} ctx={{ symbol: x.symbol, source: p.source, status: 'demo', unit: '%', compare: `Median của nhóm đang so sánh: ${p.median[k] != null ? p.median[k].toLocaleString('vi-VN') : '—'}%. Màu chỉ là quy tắc học tập, không phải kết luận mua/bán.` }} /></td>
               ))}</tr>
             ))}
-            <tr style={{ borderTop: '2px solid var(--border)' }}><td className="muted"><b>Median</b></td>{rows.map(([n, k]) => <td key={k} className="right num">{p.median[k] != null ? p.median[k].toLocaleString('vi-VN') : '—'}</td>)}</tr>
+            <tr style={{ borderTop: '2px solid var(--border)' }}><td className="muted"><b><ExplainableValue metricKey="median" value="Median" /></b></td>{rows.map(([n, k]) => <td key={k} className="right num"><ExplainableValue metricKey={k} value={p.median[k] != null ? p.median[k].toLocaleString('vi-VN') : '—'} ctx={{ source: p.source, status: 'demo', unit: '%', compare: 'Đây là trung vị của nhóm, không phải ngưỡng tốt/xấu tuyệt đối.' }} /></td>)}</tr>
           </tbody>
         </table>
       </div>
@@ -453,8 +451,8 @@ export default function StockDetail() {
                 {data?.demo && <span className="badge demo">DỮ LIỆU MÔ PHỎNG</span>}
                 {data?.quote?.delayed && !data?.demo && <span className="badge gray">{data.quote.delayed}</span>}
                 {live2 ? (
-                  <span className="badge green" title={updatedAt ? `Nhận lúc ${updatedAt.toLocaleTimeString('vi-VN')}` : ''}>
-                    ● {live2.delayed || 'trực tiếp'} {updatedAt ? updatedAt.toLocaleTimeString('vi-VN') : ''}
+                  <span className={`badge ${data?.demo || live2.delayed ? 'gray' : 'green'}`} title={updatedAt ? `Nhận lúc ${updatedAt.toLocaleTimeString('vi-VN')}` : ''}>
+                    ● {data?.demo ? 'dữ liệu mô phỏng' : live2.delayed || 'cập nhật theo nguồn'} {updatedAt ? updatedAt.toLocaleTimeString('vi-VN') : ''}
                   </span>
                 ) : (
                   <span className="badge gray">○ cập nhật định kỳ</span>
@@ -471,7 +469,7 @@ export default function StockDetail() {
                 <ExplainableValue metricKey="changePercent" value={fmtPct(changePct)} ctx={{ symbol: symbol.toUpperCase() }} />
               </div>
               <div className="muted" style={{ fontSize: 11.5, fontWeight: 400, marginTop: 2 }}>
-                % so với đóng cửa hôm trước · nguồn {live2?.delayed || data?.quote?.delayed || '—'} (giá có thể chậm hơn thị trường)
+                % so với đóng cửa hôm trước · nguồn {live2?.delayed || data?.quote?.delayed || 'chưa xác định'} (độ mới phụ thuộc nhà cung cấp)
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -571,7 +569,7 @@ export default function StockDetail() {
                 market={data.market}
                 currency={currency}
                 live={live2}
-                liveCandles={data.market === 'US' && !data.demo}
+                liveCandles={false}
               />
             </ErrorBoundary>
           ) : (
@@ -583,18 +581,17 @@ export default function StockDetail() {
       {/* Sidebar */}
       <div>
         <div className="card">
-          <div className="card-title">💡 Gợi ý đầu tư (học tập)</div>
+          <div className="card-title">📌 Đọc sau BCTC: tín hiệu kỹ thuật</div>
           <div className="muted" style={{ fontSize: 11.5, marginBottom: 10 }}>
-            🤖 Đây là MÁY TÍNH tổng hợp 4 chỉ báo kỹ thuật (RSI, MA, MACD, khối lượng — Bài 4-8), hoàn toàn KHÁC với
-            phần phân tích doanh nghiệp ở trên. Chỉ để học cách đọc tín hiệu — không phải lời khuyên.
+            Đây là bài học phụ về RSI, MA, MACD và khối lượng. Hãy hoàn thành doanh thu, lợi nhuận, dòng tiền, nợ và định giá ở phần bên trái trước;
+            chỉ báo kỹ thuật không thể thay thế phân tích doanh nghiệp và không phải lời khuyên mua/bán.
           </div>
           {data && (
             <>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                 {overallBadge(data.overall)}
                 <span className="muted num" style={{ fontSize: 12 }}>
-                  Điểm tín hiệu: {data.score > 0 ? '+' : ''}
-                  {data.score}
+                  Điểm tín hiệu: <ExplainableValue metricKey="technicalScore" value={`${data.score > 0 ? '+' : ''}${data.score}`} ctx={{ symbol: symbol.toUpperCase(), source: live2?.delayed || data?.quote?.delayed, status: data?.demo ? 'demo' : 'delayed' }} />
                 </span>
               </div>
               <div className="score-meter">

@@ -2,16 +2,35 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../api.js'
 import { useApi } from '../hooks.js'
+import ExplainableValue from '../components/ExplainableValue.jsx'
 
 // Phase 5 — So sánh 3-5 doanh nghiệp + median + 7 red-flags rule-based
 const AVAILABLE = ['AAPL', 'MSFT', 'KO', 'FPT', 'VNM']
 const METRICS = [
-  ['P/E (giá live/EPS)', 'pe'], ['P/B', 'pb'], ['ROE %', 'roe'], ['Biên ròng %', 'netMargin'],
-  ['Tăng trưởng DT %', 'revenueGrowth'], ['Nợ/Vốn %', 'debtToEquity'], ['OCF/LN %', 'ocfToNi'], ['FCF', 'fcf'],
+  ['P/E (giá/EPS)', 'pe'], ['P/B', 'pb'], ['ROE', 'roe'], ['Biên ròng', 'netMargin'],
+  ['Tăng trưởng doanh thu', 'revenueGrowth'], ['Nợ/Vốn chủ', 'debtToEquity'], ['OCF/Lợi nhuận ròng', 'ocfToNi'], ['FCF', 'fcf'],
 ]
 // với các chỉ số "càng thấp càng tốt"
 const LOWER_BETTER = new Set(['pe', 'pb', 'debtToEquity'])
 const SEV_CLASS = { 'cao': 'red', 'trung bình': 'amber', 'thấp': 'gray' }
+const PERCENT_METRICS = new Set(['roe', 'netMargin', 'revenueGrowth', 'debtToEquity', 'ocfToNi'])
+const MULTIPLE_METRICS = new Set(['pe', 'pb'])
+
+const number = (value) => (Number.isFinite(value) ? value.toLocaleString('vi-VN', { maximumFractionDigits: 1 }) : '—')
+const metricUnit = (key, item) => (PERCENT_METRICS.has(key) ? '%' : MULTIPLE_METRICS.has(key) ? 'lần' : key === 'fcf' ? item?.unit || 'tỷ' : '')
+const metricValue = (key, value) => number(value)
+
+function redFlagMetricKey(flag) {
+  const text = `${flag.title} ${flag.evidence}`.toLowerCase()
+  if (text.includes('ocf/ln')) return 'ocfToNi'
+  if (text.includes('phải thu')) return 'receivables'
+  if (text.includes('tồn kho')) return 'inventory'
+  if (text.includes('biên lợi nhuận')) return 'netMargin'
+  if (text.includes('nợ')) return 'totalLiabilities'
+  if (text.includes('goodwill')) return 'goodwill'
+  if (text.includes('số cổ phiếu') || text.includes('số cp')) return 'shares'
+  return null
+}
 
 export default function Compare() {
   const [selected, setSelected] = useState(['AAPL', 'MSFT', 'KO'])
@@ -22,6 +41,20 @@ export default function Compare() {
 
   const toggle = (s) =>
     setSelected((cur) => (cur.includes(s) ? cur.filter((x) => x !== s) : cur.length >= 5 ? cur : [...cur, s]))
+
+  const hasMixedCurrency = data?.items && new Set(data.items.map((it) => it.currency)).size > 1
+  const contextFor = (key, item, medianValue) => ({
+    symbol: item?.symbol,
+    period: key === 'pe' || key === 'pb' ? 'FY2025 mẫu + báo giá gần nhất' : 'FY2025 (BCTC mẫu)',
+    source: data?.source,
+    status: 'demo',
+    unit: metricUnit(key, item),
+    compare: key === 'fcf' && hasMixedCurrency
+      ? 'FCF của các công ty đang dùng tiền tệ khác nhau, nên không so trực tiếp với median nhóm. Hãy so FCF theo xu hướng của cùng một công ty hoặc quy đổi cùng tiền tệ trước.'
+      : medianValue == null
+      ? 'Chưa có đủ dữ liệu để lấy mốc trung vị của nhóm.'
+      : `Median của nhóm đang chọn: ${metricValue(key, medianValue)} ${metricUnit(key, item)}. ${LOWER_BETTER.has(key) ? 'Với chỉ số này, thấp hơn median thường nhẹ hơn, nhưng vẫn phải xem lý do.' : 'Với chỉ số này, cao hơn median có thể tốt hơn, nhưng không thay thế việc đọc BCTC.'}`,
+  })
 
   return (
     <div style={{ maxWidth: 940, margin: '0 auto' }}>
@@ -65,39 +98,70 @@ export default function Compare() {
                 <tr>
                   <th>Chỉ số</th>
                   {data.items.map((it) => <th key={it.symbol} className="right"><Link to={`/stock/${it.symbol}`}>{it.symbol}</Link></th>)}
+                  <th className="right">
+                    <ExplainableValue metricKey="median" ctx={{ source: data.source, status: 'demo', period: 'FY2025 (BCTC mẫu)' }}>
+                      Median nhóm ⓘ
+                    </ExplainableValue>
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {METRICS.map(([label, key]) => (
                   <tr key={key}>
-                    <td className="muted">{label}</td>
+                    <td>
+                      <ExplainableValue
+                        metricKey={key}
+                        className="muted"
+                        ctx={{ source: data.source, status: 'demo', unit: metricUnit(key), period: 'FY2025 (BCTC mẫu)' }}
+                      >
+                        {label} ⓘ
+                      </ExplainableValue>
+                    </td>
                     {data.items.map((it) => {
                       const m = data.median[key]
-                      const better = m != null && it[key] != null && (LOWER_BETTER.has(key) ? it[key] <= m : it[key] >= m)
+                      const comparable = key !== 'fcf' || !hasMixedCurrency
+                      const better = comparable && m != null && it[key] != null && (LOWER_BETTER.has(key) ? it[key] <= m : it[key] >= m)
                       return (
-                        <td key={it.symbol} className={`right num ${m != null && it[key] != null ? (better ? 'up' : 'down') : ''}`}>
-                          {it[key] != null ? it[key].toLocaleString('vi-VN') : '—'}
+                        <td key={it.symbol} className={`right num ${comparable && m != null && it[key] != null ? (better ? 'up' : 'down') : ''}`}>
+                          {it[key] != null ? (
+                            <ExplainableValue
+                              metricKey={key}
+                              value={metricValue(key, it[key])}
+                              ctx={contextFor(key, it, m)}
+                            >
+                              {metricValue(key, it[key])} {metricUnit(key, it)}
+                            </ExplainableValue>
+                          ) : '—'}
                         </td>
                       )
                     })}
+                    <td className="right num">
+                      {key === 'fcf' && hasMixedCurrency ? (
+                        <span className="muted" title="Không cộng hoặc lấy median FCF giữa VND và USD">Khác tiền tệ</span>
+                      ) : data.median[key] != null ? (
+                        <ExplainableValue
+                          metricKey={key}
+                          value={metricValue(key, data.median[key])}
+                          ctx={{
+                            symbol: 'Nhóm đã chọn',
+                            period: 'FY2025 (BCTC mẫu)',
+                            source: data.source,
+                            status: 'demo',
+                            unit: metricUnit(key, data.items[0]),
+                            compare: 'Median là mốc tham khảo của nhóm hiện tại, không phải chuẩn đúng/sai hay giá mục tiêu.',
+                          }}
+                        >
+                          <b>{metricValue(key, data.median[key])} {metricUnit(key, data.items[0])}</b>
+                        </ExplainableValue>
+                      ) : '—'}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <div style={{ overflowX: 'auto' }}>
-            <table className="table" style={{ minWidth: 560 }}>
-              <tbody>
-                <tr>
-                  <td className="muted" style={{ minWidth: 150 }}><b>Median nhóm</b></td>
-                  {METRICS.map(([label, key]) => (
-                    <td key={key} className="right num"><b>{data.median[key] != null ? data.median[key].toLocaleString('vi-VN') : '—'}</b></td>
-                  ))}
-                </tr>
-              </tbody>
-            </table>
-          </div>
           <div className="tip-box">💡 {data.question} — chỉ số xanh = đẹp hơn median, đỏ = kém hơn median (P/E, P/B, Nợ/Vốn thì thấp hơn median là tốt).</div>
+          {hasMixedCurrency && <div className="muted" style={{ fontSize: 12, marginTop: 8 }}>Lưu ý: nhóm đang có cả USD và VND. Chỉ so trực tiếp các tỷ số (% và lần); FCF được giữ nguyên đơn vị từng công ty nên không có median chung.</div>}
         </div>
       )}
 
@@ -118,14 +182,7 @@ export default function Compare() {
                 <div className="muted" style={{ fontSize: 13 }}>Không quy tắc nào kích hoạt trên số liệu hiện có — không có nghĩa là "an toàn tuyệt đối", chỉ là chưa có dấu hiệu trong 7 quy tắc.</div>
               )}
               {it.redFlags.map((f, i) => (
-                <div key={i} className={`signal ${f.severity === 'cao' ? 'bear' : 'neutral'}`} style={{ borderColor: f.severity === 'cao' ? 'var(--red)' : f.severity === 'trung bình' ? 'var(--amber)' : 'var(--border)' }}>
-                  <div className="s-title">
-                    <span className={`badge ${SEV_CLASS[f.severity] || 'gray'}`}>{f.severity}</span>
-                    <span>{f.title}</span>
-                  </div>
-                  <div className="s-detail">📐 Bằng chứng: {f.evidence}</div>
-                  <div className="s-detail">🔍 {f.note}</div>
-                </div>
+                <RedFlag key={i} flag={f} item={it} source={data.source} />
               ))}
             </div>
           ))}
@@ -142,6 +199,33 @@ export default function Compare() {
           </div>
         </div>
       )}
+    </div>
+  )
+}
+
+function RedFlag({ flag, item, source }) {
+  const metricKey = redFlagMetricKey(flag)
+  const context = metricKey ? {
+    symbol: item.symbol,
+    period: 'FY2025 và các kỳ gần nhất (BCTC mẫu)',
+    source,
+    status: 'demo',
+    unit: metricUnit(metricKey, item),
+    compare: flag.note,
+  } : null
+
+  return (
+    <div className={`signal ${flag.severity === 'cao' ? 'bear' : 'neutral'}`} style={{ borderColor: flag.severity === 'cao' ? 'var(--red)' : flag.severity === 'trung bình' ? 'var(--amber)' : 'var(--border)' }}>
+      <div className="s-title">
+        <span className={`badge ${SEV_CLASS[flag.severity] || 'gray'}`}>{flag.severity}</span>
+        {metricKey ? (
+          <ExplainableValue metricKey={metricKey} ctx={context}>{flag.title} ⓘ</ExplainableValue>
+        ) : <span>{flag.title}</span>}
+      </div>
+      <div className="s-detail">
+        📐 Bằng chứng: {metricKey ? <ExplainableValue metricKey={metricKey} value={flag.evidence} ctx={context}>{flag.evidence} ⓘ</ExplainableValue> : flag.evidence}
+      </div>
+      <div className="s-detail">🔍 {flag.note}</div>
     </div>
   )
 }

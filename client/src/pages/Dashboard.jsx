@@ -5,6 +5,7 @@ import { usePolling, useApi, useQuoteStream } from '../hooks.js'
 import { fmtPct, fmtPrice, fmtMoney, timeAgo } from '../format.js'
 import StockSearch from '../components/StockSearch.jsx'
 import AnalysisCharts from '../components/PriceCharts.jsx'
+import ExplainableValue from '../components/ExplainableValue.jsx'
 import { ErrorBoundary } from '../App.jsx'
 
 // Đường sparkline SVG nhẹ từ chuỗi giá đóng cửa
@@ -53,12 +54,18 @@ function IndexCard({ name, symbol, price, changePercent, market }) {
         </button>
       </span>
       {info && <div className="muted" style={{ fontSize: 11.5, margin: '4px 0' }}>{INDEX_INFO[name] || 'Chỉ số thị trường — giỏ cổ phiếu tiêu biểu dùng đo sức khỏe cả thị trường.'}</div>}
-      <Link to={`/stock/${symbol}`} style={{ textDecoration: 'none' }}>
-        <span className={`idx-value num ${cls}`}>{price != null ? price.toLocaleString('vi-VN', { maximumFractionDigits: 2 }) : '—'}</span>
-        <span className={`idx-sub num ${cls}`}>
-          {changePercent > 0 ? '▲' : changePercent < 0 ? '▼' : '•'} {fmtPct(changePercent)}
-        </span>
-      </Link>
+      <ExplainableValue
+        metricKey="indexPoints"
+        value={price != null ? price.toLocaleString('vi-VN', { maximumFractionDigits: 2 }) : '—'}
+        ctx={{ source: 'Chỉ số thị trường', period: 'Phiên hiện tại' }}
+        className={`idx-value num ${cls}`}
+      />
+      <ExplainableValue
+        metricKey="changePercent"
+        value={`${changePercent > 0 ? '▲' : changePercent < 0 ? '▼' : '•'} ${fmtPct(changePercent)}`}
+        ctx={{ source: 'Chỉ số thị trường', period: 'So với phiên trước' }}
+        className={`idx-sub num ${cls}`}
+      />
       <Sparkline symbol={symbol} />
     </div>
   )
@@ -117,7 +124,10 @@ function QuickChart() {
           <span className={`badge ${data?.market === 'VN' ? 'vn' : 'us'}`}>{data?.market || ''}</span>
         </span>
         <span className={`num ${(q?.changePercent ?? data?.quote?.changePercent) >= 0 ? 'up' : 'down'}`} style={{ fontWeight: 800 }}>
-          {fmtPrice(q?.price ?? data?.quote?.price, data?.currency)} ({fmtPct(q?.changePercent ?? data?.quote?.changePercent)})
+          <ExplainableValue metricKey="price" value={fmtPrice(q?.price ?? data?.quote?.price, data?.currency)} ctx={{ symbol, source: q ? 'Luồng giá cập nhật' : 'Dữ liệu biểu đồ' }} />
+          {' '}(
+          <ExplainableValue metricKey="changePercent" value={fmtPct(q?.changePercent ?? data?.quote?.changePercent)} ctx={{ symbol, period: 'So với phiên trước' }} />
+          )
         </span>
       </div>
       {data ? (
@@ -294,17 +304,17 @@ export default function Dashboard() {
         <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap' }}>
           <div>
             <div className="muted" style={{ fontSize: 12, fontWeight: 700 }}>VÍ GIẢ LẬP USD</div>
-            <div className="big num">{account ? fmtMoney(account.totalUsd) : '...'}</div>
+            <div className="big num">{account ? <ExplainableValue metricKey="portfolioValue" value={fmtMoney(account.totalUsd)} ctx={{ source: 'Ví giả lập', currency: 'USD' }} /> : '...'}</div>
             <div className={`num ${account?.profitUsd >= 0 ? 'up' : 'down'}`} style={{ fontSize: 13 }}>
-              {account ? `${fmtMoney(account.profitUsd)} (${fmtPct(account.profitUsdPercent)})` : ''}
+              {account ? <><ExplainableValue metricKey="pnl" value={fmtMoney(account.profitUsd)} ctx={{ source: 'Ví giả lập', currency: 'USD' }} /> ({fmtPct(account.profitUsdPercent)})</> : ''}
             </div>
             <div className="muted" style={{ fontSize: 11, marginTop: 2 }}>💵 Tiền ẢO để luyện — không phải tiền thật</div>
           </div>
           <div>
             <div className="muted" style={{ fontSize: 12, fontWeight: 700 }}>VÍ GIẢ LẬP VND</div>
-            <div className="big num">{account ? fmtMoney(account.totalVnd, 'VND') : '...'}</div>
+            <div className="big num">{account ? <ExplainableValue metricKey="portfolioValue" value={fmtMoney(account.totalVnd, 'VND')} ctx={{ source: 'Ví giả lập', currency: 'VND' }} /> : '...'}</div>
             <div className={`num ${account?.profitVnd >= 0 ? 'up' : 'down'}`} style={{ fontSize: 13 }}>
-              {account ? `${fmtMoney(account.profitVnd, 'VND')} (${fmtPct(account.profitVndPercent)})` : ''}
+              {account ? <><ExplainableValue metricKey="pnl" value={fmtMoney(account.profitVnd, 'VND')} ctx={{ source: 'Ví giả lập', currency: 'VND' }} /> ({fmtPct(account.profitVndPercent)})</> : ''}
             </div>
           </div>
           <Link to="/trading" className="btn primary">Mua/Bán giả lập →</Link>
@@ -354,11 +364,11 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <div className="muted" style={{ fontSize: 12 }}>Bài kiểm tra</div>
-                  <div className="big num">{progress.quizzesDone}</div>
+                  <div className="big num"><ExplainableValue metricKey="taskScore" value={progress.quizzesDone} ctx={{ source: 'Tiến độ học tập', note: 'Số bài kiểm tra đã hoàn thành' }} /></div>
                 </div>
                 <div>
                   <div className="muted" style={{ fontSize: 12 }}>Điểm trung bình</div>
-                  <div className="big num">{progress.avgScorePercent != null ? progress.avgScorePercent + '%' : '—'}</div>
+                  <div className="big num">{progress.avgScorePercent != null ? <ExplainableValue metricKey="taskScore" value={progress.avgScorePercent + '%'} ctx={{ source: 'Tiến độ học tập', note: 'Điểm trung bình các bài kiểm tra' }} /> : '—'}</div>
                 </div>
               </div>
               <Link to="/learn" className="btn" style={{ marginTop: 14 }}>Tiếp tục học →</Link>

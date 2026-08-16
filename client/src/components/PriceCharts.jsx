@@ -220,7 +220,7 @@ export default function AnalysisCharts({
     }
   }, [candles, series, toggles])
 
-  // 📡 LIVE: mỗi tick giá (~5s qua SSE) → cập nhật cây nến cuối / lăn sang nến mới (khung 1 ngày)
+  // Báo giá mới chỉ được vá nến khi upstream cung cấp OHLCV đáng tin cậy.
   useEffect(() => {
     const lb = lastBarRef.current
     if (!live?.price || !lb) return
@@ -286,6 +286,7 @@ export default function AnalysisCharts({
       <div className="muted" style={{ fontSize: 12 }}>
         💡 Mẹo học: <b>bấm vào bất kỳ cây nến / điểm RSI / cột MACD</b> để mở hướng dẫn đọc chi tiết đúng thời điểm đó —
         kèm bài học & thuật ngữ liên quan.
+        {live?.price != null && !liveCandles && <> Giá tham chiếu đang cập nhật riêng; nến, RSI và MACD vẫn tính tới cây nến hoàn tất gần nhất.</>}
       </div>
 
       {guide && (

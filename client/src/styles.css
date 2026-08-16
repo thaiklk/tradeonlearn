@@ -158,20 +158,45 @@ a:hover { text-decoration: underline; }
 }
 .navbar-inner {
   max-width: 1280px; margin: 0 auto; padding: 10px 20px;
-  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(220px, 280px); align-items: center; gap: 12px;
 }
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; color: var(--text); }
 .brand:hover { text-decoration: none; }
 .brand .logo { font-size: 24px; }
 .brand small { display: block; font-size: 11px; font-weight: 500; color: var(--muted); line-height: 1; }
-.nav-links { display: flex; gap: 4px; flex-wrap: wrap; }
+.nav-links { display: flex; align-items: center; gap: 3px; min-width: 0; }
 .nav-links a {
   padding: 7px 13px; border-radius: 999px; color: var(--muted); font-weight: 600; font-size: 13.5px;
-  border: 1px solid transparent;
+  border: 1px solid transparent; white-space: nowrap;
 }
 .nav-links a:hover { color: var(--text); text-decoration: none; background: var(--panel); }
 .nav-links a.active { color: #fff; background: var(--accent-soft); border-color: #4f8cff55; }
-.nav-search { margin-left: auto; min-width: 260px; }
+.nav-search { min-width: 0; width: 100%; }
+.nav-more { position: relative; flex: 0 0 auto; }
+.nav-more summary {
+  list-style: none; cursor: pointer; padding: 7px 13px; border-radius: 999px; color: var(--muted); font-weight: 600; font-size: 13.5px;
+  border: 1px solid transparent; white-space: nowrap;
+}
+.nav-more summary::-webkit-details-marker { display: none; }
+.nav-more summary:hover, .nav-more[open] summary { color: var(--text); background: var(--panel); border-color: var(--border-soft); }
+.nav-more-menu {
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 70; min-width: 216px; padding: 6px;
+  background: #111a2b; border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow);
+}
+.nav-more-menu a { display: block; padding: 8px 10px; border-radius: 7px; }
+
+@media (max-width: 1180px) {
+  .navbar-inner { grid-template-columns: auto minmax(0, 1fr); }
+  .nav-search { grid-column: 1 / -1; width: min(100%, 380px); justify-self: end; }
+}
+
+@media (max-width: 700px) {
+  .navbar-inner { grid-template-columns: 1fr; padding: 9px 14px; gap: 8px; }
+  .nav-links { overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-search { grid-column: auto; width: 100%; }
+  .nav-more-menu { right: auto; left: 0; }
+}
 
 /* ---------- Cards & layout ---------- */
 .card {
@@ -193,7 +218,7 @@ a:hover { text-decoration: underline; }
 .grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
 .grid.side { grid-template-columns: minmax(0, 1fr) 360px; align-items: start; }
 @media (max-width: 1000px) {
-  .grid.side { grid-template-columns: 1fr; }
+  .grid.side { grid-template-columns: minmax(0, 1fr); }
   .grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
   .grid.cols-3 { grid-template-columns: 1fr 1fr; }
 }
@@ -249,8 +274,8 @@ a:hover { text-decoration: underline; }
   font-size: 14px; font-family: inherit; outline: none;
 }
 .input:focus { border-color: var(--accent); }
-label.field { display: block; margin-bottom: 12px; }
-label.field span { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 5px; }
+label.field, .field { display: block; margin-bottom: 12px; }
+label.field span, .field > span { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 5px; }
 
 /* ---------- Tables ---------- */
 .table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -293,6 +318,14 @@ label.field span { display: block; font-size: 12px; font-weight: 700; color: var
 .stock-price { font-size: 30px; font-weight: 800; }
 .range-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
 .chart-legend { display: flex; gap: 6px; flex-wrap: wrap; }
+
+@media (max-width: 640px) {
+  .stock-head { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 12px; }
+  .stock-head > div:first-child { min-width: 0; }
+  .stock-head > div:nth-child(2) { min-width: 0; text-align: right !important; }
+  .stock-head > div:last-child { grid-column: 1 / -1; flex-direction: row !important; align-items: center; justify-content: space-between; }
+  .stock-price { font-size: 26px; }
+}
 
 /* ---------- Signal cards ---------- */
 .signal {

@@ -41,6 +41,8 @@ export default function ExplainableValue({ metricKey, children, value, ctx = {},
         className={`ev ${className}`}
         style={style}
         aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-controls={open ? `metric-help-${idRef.current}` : undefined}
         aria-label={`Giải thích: ${def.labelVi}`}
         onClick={() => setOpen(true)}
       >
@@ -50,6 +52,7 @@ export default function ExplainableValue({ metricKey, children, value, ctx = {},
       {open && (
         <div className="ev-overlay" onClick={() => { setOpen(false); btnRef.current?.focus() }}>
           <div
+            id={`metric-help-${idRef.current}`}
             role="dialog"
             aria-modal="true"
             aria-label={def.labelVi}

@@ -193,9 +193,14 @@ router.get('/peers/compare', async (req, res) => {
       redFlags: computeRedFlags(fx),
     })
   }
-  const med = (k) => { const s = items.map((x) => x[k]).filter(Number.isFinite).sort((a, b) => a - b); return s.length ? s[Math.floor(s.length / 2)] : null }
+  const med = (k) => {
+    const s = items.map((x) => x[k]).filter(Number.isFinite).sort((a, b) => a - b)
+    if (!s.length) return null
+    const mid = Math.floor(s.length / 2)
+    return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2
+  }
   res.json({
-    status: 'demo + giá live', source: 'Bộ số liệu mẫu giáo dục (BCTC) + báo giá live', fetchedAt: new Date().toISOString(),
+    status: 'demo + báo giá có thể trễ', source: 'Bộ số liệu mẫu giáo dục (BCTC) + báo giá theo nguồn (có thể trễ)', fetchedAt: new Date().toISOString(),
     items, median: { pe: med('pe'), pb: med('pb'), roe: med('roe'), netMargin: med('netMargin'), revenueGrowth: med('revenueGrowth'), debtToEquity: med('debtToEquity'), ocfToNi: med('ocfToNi'), fcf: med('fcf') },
     question: 'Công ty nào tốt hơn, VÌ SAO? Dùng median làm mốc — đừng kết luận chỉ vì 1 chỉ số đẹp.',
     disclaimer: 'Red-flags chỉ là điểm cần kiểm tra thêm trong BCTC thật — không khẳng định gian lận, không phải khuyến nghị đầu tư.',
@@ -247,7 +252,12 @@ router.get('/:symbol/financials', async (req, res) => {
 
 // So sánh ngang hàng + median (Phase 5 foundation) — dùng tỷ số từ /financials + giá live
 const PEER_MAP = { AAPL: ['AAPL', 'MSFT', 'KO'], MSFT: ['MSFT', 'AAPL', 'KO'], KO: ['KO', 'AAPL', 'MSFT'], FPT: ['FPT', 'VNM'], VNM: ['VNM', 'FPT'] }
-const med = (a) => { const s = a.filter(Number.isFinite).sort((x, y) => x - y); return s.length ? s[Math.floor(s.length / 2)] : null }
+const med = (a) => {
+  const s = a.filter(Number.isFinite).sort((x, y) => x - y)
+  if (!s.length) return null
+  const mid = Math.floor(s.length / 2)
+  return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2
+}
 // đơn vị chuẩn: fixture VN tính bằng nghìn tỷ ₫, sharesB bằng tỷ cp → EPS ra NGHÌN ₫; giá thị trường là ₫.
 // epsOf luôn trả về ĐỒNG BẢN TỆ CỦA GIÁ (₫ hoặc $) để P/E = giá/eps đúng trực tiếp.
 const epsOf = (fx, i) => { const r = fx.rows, n = i ?? r.revenue.length - 1; const raw = r.netIncome[n] / r.sharesB[n]; return fx.c === 'VND' ? +(raw * 1000).toFixed(0) : +raw.toFixed(2) }
@@ -275,7 +285,7 @@ router.get('/:symbol/peers', async (req, res) => {
   }
   res.json({
     symbol, status: out.length ? 'demo' : 'no-data',
-    source: 'So sánh trên bộ số liệu mẫu giáo dục + giá live', fetchedAt: new Date().toISOString(),
+    source: 'So sánh trên bộ số liệu mẫu giáo dục + báo giá theo nguồn (có thể trễ)', fetchedAt: new Date().toISOString(),
     peers: out,
     median: out.length ? { roe: med(out.map((x) => x.roe)), netMargin: med(out.map((x) => x.netMargin)), debtToEquity: med(out.map((x) => x.debtToEquity)), revenueGrowth: med(out.map((x) => x.revenueGrowth)), ocfToNi: med(out.map((x) => x.ocfToNi)) } : null,
     note: 'Câu hỏi phân tích: công ty nào tốt hơn VÌ SAO — dùng median làm mốc, không kết luận nhanh.',

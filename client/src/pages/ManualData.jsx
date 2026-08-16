@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api } from '../api.js'
 import { useApi } from '../hooks.js'
+import ExplainableValue from '../components/ExplainableValue.jsx'
 
 // Phase 7 — Nhập tay BCTC Việt Nam (từ cafef/vietstock, báo cáo ĐÃ KIỂM TOÁN)
 // Nguyên tắc: dữ liệu "người học nhập" — tách biệt, không bao giờ gọi là live
@@ -68,6 +69,9 @@ export default function ManualData() {
         mẫu dưới. Mọi số liệu sẽ được gắn nhãn <span className="badge demo">DỮ LIỆU NGƯỜI HỌC NHẬP</span> — tách biệt
         hoàn toàn với dữ liệu live, chỉ phục vụ luyện phân tích. Xem <Link to="/learn/bao-cao-tai-chinh-1-can-doi">Bài 9-11</Link> để biết mỗi dòng nghĩa là gì.
       </p>
+      <div className="tip-box" style={{ marginTop: 0 }}>
+        <b>Làm như một analyst mới:</b> (1) kiểm tra đúng công ty và đúng kỳ báo cáo, (2) ghi lại đơn vị ngay từ đầu, (3) chỉ nhập số từ báo cáo đã kiểm toán hoặc công bố chính thức. Bấm vào tên cột hoặc trị số trong bảng dưới để xem định nghĩa, công thức, ví dụ và bẫy thường gặp.
+      </div>
       <div className="card">
         <div className="card-title">
           <span>1. Mã & nguồn</span>
@@ -83,7 +87,7 @@ export default function ManualData() {
         <div className="card-title">2. Dán CSV (dòng 1 = header mẫu; có thể dán nhiều năm)</div>
         <textarea className="input mono" rows={5} style={{ fontSize: 12.5 }} placeholder={TEMPLATE} value={csv} onChange={(e) => setCsv(e.target.value)} />
         <div className="muted" style={{ fontSize: 12, margin: '6px 0 10px' }}>
-          Cột: kỳ, {COLS.map((c) => c[1]).join(', ')} — điền được cột nào thì điền, bỏ trống phần còn lại.
+          Cột: kỳ, {COLS.map(([metricKey, label], index) => <span key={metricKey}>{index > 0 ? ', ' : ''}<ExplainableValue metricKey={metricKey} value={label} /></span>)} — điền được cột nào thì điền, bỏ trống phần còn lại. Giá trị nên là số thuần, không chèn ký hiệu tiền tệ; CAPEX nhập số dương để web tự hiểu là tiền đầu tư ra.
         </div>
         <button className="btn primary" style={{ width: '100%' }} disabled={!active} onClick={submit}>💾 Lưu {active || ''} (nhãn: người học nhập)</button>
         {msg && <div className={msg.type === 'ok' ? 'quiz-result pass' : 'error-box'} style={{ marginTop: 10 }}>{msg.text}</div>}
@@ -94,20 +98,30 @@ export default function ManualData() {
           <div className="card-title"><span>3. Đã nhập cho {active}</span><span className="badge demo">DỮ LIỆU NGƯỜI HỌC NHẬP</span></div>
           <div style={{ overflowX: 'auto' }}>
             <table className="table" style={{ minWidth: 640 }}>
-              <thead><tr><th>Kỳ</th><th>DT</th><th>LN ròng</th><th>Biên ròng</th><th>ROE</th><th>Nợ/Vốn</th><th>OCF/LN</th><th>FCF</th><th></th></tr></thead>
+              <thead><tr>
+                <th>Kỳ</th>
+                <th className="right"><ExplainableValue metricKey="revenue" value="DT" /></th>
+                <th className="right"><ExplainableValue metricKey="netIncome" value="LN ròng" /></th>
+                <th className="right"><ExplainableValue metricKey="netMargin" value="Biên ròng" /></th>
+                <th className="right"><ExplainableValue metricKey="roe" value="ROE" /></th>
+                <th className="right"><ExplainableValue metricKey="debtToEquity" value="Nợ/Vốn" /></th>
+                <th className="right"><ExplainableValue metricKey="ocfToNi" value="OCF/LN" /></th>
+                <th className="right"><ExplainableValue metricKey="fcf" value="FCF" /></th>
+                <th></th>
+              </tr></thead>
               <tbody>
                 {data.entries.map((e) => {
                   const r = ratiosOf(e.data)
                   return (
                     <tr key={e.id}>
                       <td><b>{e.period}</b><div className="muted" style={{ fontSize: 11 }}>{(e.source || '').slice(0, 40)}</div></td>
-                      <td className="right num">{e.data.revenue ?? '—'}</td>
-                      <td className="right num">{e.data.netIncome ?? '—'}</td>
-                      <td className="right num">{r['Biên ròng %'] ?? '—'}</td>
-                      <td className="right num">{r['ROE %'] ?? '—'}</td>
-                      <td className="right num">{r['Nợ/Vốn %'] ?? '—'}</td>
-                      <td className={`right num ${Number(r['OCF/LN %']) >= 80 ? 'up' : Number(r['OCF/LN %']) < 50 ? 'down' : ''}`}>{r['OCF/LN %'] ?? '—'}</td>
-                      <td className="right num">{r.FCF ?? '—'}</td>
+                      <td className="right num"><ExplainableValue metricKey="revenue" value={e.data.revenue ?? '—'} ctx={{ symbol: active, period: e.period, source: e.source, status: 'manual', unit: 'tỷ đồng' }} /></td>
+                      <td className="right num"><ExplainableValue metricKey="netIncome" value={e.data.netIncome ?? '—'} ctx={{ symbol: active, period: e.period, source: e.source, status: 'manual', unit: 'tỷ đồng' }} /></td>
+                      <td className="right num"><ExplainableValue metricKey="netMargin" value={r['Biên ròng %'] ?? '—'} ctx={{ symbol: active, period: e.period, source: e.source, status: 'manual', unit: '%' }} /></td>
+                      <td className="right num"><ExplainableValue metricKey="roe" value={r['ROE %'] ?? '—'} ctx={{ symbol: active, period: e.period, source: e.source, status: 'manual', unit: '%' }} /></td>
+                      <td className="right num"><ExplainableValue metricKey="debtToEquity" value={r['Nợ/Vốn %'] ?? '—'} ctx={{ symbol: active, period: e.period, source: e.source, status: 'manual', unit: '%' }} /></td>
+                      <td className={`right num ${Number(r['OCF/LN %']) >= 80 ? 'up' : Number(r['OCF/LN %']) < 50 ? 'down' : ''}`}><ExplainableValue metricKey="ocfToNi" value={r['OCF/LN %'] ?? '—'} ctx={{ symbol: active, period: e.period, source: e.source, status: 'manual', unit: '%' }} /></td>
+                      <td className="right num"><ExplainableValue metricKey="fcf" value={r.FCF ?? '—'} ctx={{ symbol: active, period: e.period, source: e.source, status: 'manual', unit: 'tỷ đồng' }} /></td>
                       <td><button className="btn sm ghost" onClick={() => { if (window.confirm(`Xóa kỳ ${e.period}?`)) { api.manualDelete(e.id).then(() => setData({ ...data, entries: data.entries.filter((x) => x.id !== e.id) })) } }}>✕</button></td>
                     </tr>
                   )
@@ -115,7 +129,7 @@ export default function ManualData() {
               </tbody>
             </table>
           </div>
-          <div className="tip-box" style={{ marginTop: 10 }}>💡 Tự kiểm tra: OCF/LN ≥ 80% (tiền thật)? Nợ/Vốn ≤ 100%? ROE ≥ 15%? — đây chính là Health Check bằng số BẢN TAY copy từ báo cáo thật!</div>
+          <div className="tip-box" style={{ marginTop: 10 }}>💡 Tự kiểm tra: <ExplainableValue metricKey="ocfToNi" value="OCF/LN ≥ 80%" /> (tiền thật)? <ExplainableValue metricKey="debtToEquity" value="Nợ/Vốn ≤ 100%" />? <ExplainableValue metricKey="roe" value="ROE ≥ 15%" />? Đây là mốc học tập, luôn cần so với lịch sử và doanh nghiệp cùng ngành trước khi kết luận.</div>
         </div>
       )}
       <div style={{ marginTop: 12 }}>

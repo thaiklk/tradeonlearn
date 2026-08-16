@@ -14,7 +14,7 @@ function WalletCard({ title, emoji, cash, total, profit, profitPct, currency }) 
       <div className="muted" style={{ fontSize: 12 }}>Tổng tài sản</div>
       <div className="big num"><ExplainableValue metricKey="portfolioValue" value={fmtMoney(total, currency)} ctx={{ symbol: title.includes('USD') ? 'ví USD' : 'ví VND', unit: currency }} /></div>
       <div className={`num ${cls}`} style={{ fontSize: 13.5 }}>
-        Lãi/lỗ: <ExplainableValue metricKey="pnl" value={fmtMoney(profit, currency)} ctx={{ unit: currency }} /> ({fmtPct(profitPct)})
+        Lãi/lỗ: <ExplainableValue metricKey="pnl" value={`${fmtMoney(profit, currency)} (${fmtPct(profitPct)})`} ctx={{ unit: currency }} />
       </div>
       <div className="muted num" style={{ fontSize: 12.5, marginTop: 4 }}>Tiền mặt: <ExplainableValue metricKey="cash" value={fmtMoney(cash, currency)} ctx={{ unit: currency }} /></div>
     </div>
@@ -70,7 +70,7 @@ function OrderForm({ prefillSymbol, prefillSide, account, onDone }) {
 
   return (
     <div className="card">
-      <div className="card-title">🛒 Đặt lệnh (giá theo báo giá hiện tại)</div>
+      <div className="card-title">🛒 Đặt lệnh mô phỏng (giá theo báo giá đang có)</div>
       <div className="grid cols-2" style={{ gap: 12 }}>
         <div>
           <label className="field">
@@ -90,8 +90,8 @@ function OrderForm({ prefillSymbol, prefillSide, account, onDone }) {
                 Đang chọn: <b>{symbol}</b>
                 {quote && (
                   <>
-                    {' '}· Giá: <b className="num">{fmtPrice(quote.price, quote.currency)}</b>
-                    {quote.market === 'VN' ? ' (cuối ngày)' : ' (gần thời gian thực)'}
+                    {' '}· Giá: <b className="num"><ExplainableValue metricKey="price" value={fmtPrice(quote.price, quote.currency)} ctx={{ symbol, source: quote.delayed, status: quote.delayed ? 'delayed' : 'no-data' }} /></b>
+                    {` (${quote.delayed || 'cập nhật theo nguồn'})`}
                   </>
                 )}
                 {!quote && (
@@ -117,17 +117,18 @@ function OrderForm({ prefillSymbol, prefillSide, account, onDone }) {
               </button>
             </div>
           </label>
-          <label className="field">
-            <span>SỐ LƯỢNG (cổ phiếu)</span>
+          <div className="field">
+            <span><ExplainableValue metricKey="quantity" value="SỐ LƯỢNG (cổ phiếu)" /></span>
             <input
               className="input num"
               type="number"
               min="1"
+              aria-label="Số lượng cổ phiếu"
               placeholder="VD: 10"
               value={qty}
               onChange={(e) => setQty(e.target.value)}
             />
-          </label>
+          </div>
         </div>
       </div>
 
@@ -146,7 +147,7 @@ function OrderForm({ prefillSymbol, prefillSide, account, onDone }) {
       >
         <span className="muted">Ước tính giá trị lệnh</span>
         <span className="num" style={{ fontWeight: 800, fontSize: 17 }}>
-          {estimate != null ? fmtMoney(estimate, currency) : '—'}
+          {estimate != null ? <ExplainableValue metricKey="orderValue" value={fmtMoney(estimate, currency)} ctx={{ symbol, unit: currency, calc: `${fmtPrice(quote?.price, currency)} × ${qtyNum.toLocaleString('vi-VN')} cổ phiếu` }} /> : '—'}
         </span>
       </div>
 
@@ -169,7 +170,7 @@ function OrderForm({ prefillSymbol, prefillSide, account, onDone }) {
         {busy ? 'Đang khớp lệnh...' : `${side === 'BUY' ? '🟢 MUA' : '🔴 BÁN'} ${qtyNum > 0 ? qtyNum.toLocaleString('vi-VN') + ' cp ' : ''}${symbol || ''}`}
       </button>
       <p className="muted" style={{ fontSize: 12, marginTop: 10 }}>
-        💡 Luyện tập đúng kỷ luật: trước khi bấm, hãy trả lời 3 câu của <Link to="/learn/quy-trinh-ra-quyet-dinh">Bài 13</Link> — mua vì sao? chốt lời ở đâu? cắt lỗ ở đâu?
+        Đây là lệnh <b>giả lập</b>, không gửi ra thị trường. Sau khi đọc doanh nghiệp, hãy trả lời 3 câu của <Link to="/learn/quy-trinh-ra-quyet-dinh">Bài 13</Link>: mua vì sao, điều gì làm luận điểm sai, và dừng lỗ ở đâu?
       </p>
     </div>
   )
@@ -213,9 +214,9 @@ export default function Trading() {
     <div className="grid" style={{ gap: 16 }}>
       <div className="card" style={{ padding: '12px 16px' }}>
         <div className="muted" style={{ fontSize: 13 }}>
-          🎓 <b>Đây là sàn luyện bằng tiền ẢO</b> — bạn được tặng $100.000 + 500 triệu ₫ để mua/bán theo giá thật,
-          tự tính lãi/lỗ mà <b>không mất một đồng thật nào</b>. Lỗi ở đây rẻ nhất: mất tiền ảo, giữ lại kinh nghiệm.
-          Quy trình đúng: viết 3 dòng luận điểm + giá cắt lỗ TRƯỚC, rồi mới bấm lệnh (<Link to="/learn/quy-trinh-ra-quyet-dinh">Bài 13</Link>).
+          🎓 <b>Đây là phòng tập bằng tiền ảo, không phải nơi nhận tín hiệu mua/bán.</b> Hãy dùng nó sau khi bạn đã đọc doanh thu,
+          lợi nhuận, dòng tiền và nợ của doanh nghiệp. Trước mỗi lệnh, viết một luận điểm ngắn, bằng chứng, rủi ro và điều kiện làm bạn đổi ý
+          trong <Link to="/research">Research Workspace</Link>; sau đó mới tập quản trị vị thế ở đây.
         </div>
       </div>
       <div className="grid cols-2">
@@ -250,7 +251,7 @@ export default function Trading() {
         <div className="card-title">
           <span>📦 Vị thế đang nắm giữ ({positions.length})</span>
           <span className="muted" style={{ fontSize: 11, textTransform: 'none' }}>
-            USD đang đầu tư: {fmtMoney(totalUsdPositions)} · VND: {fmtMoney(totalVndPositions, 'VND')}
+            USD đang đầu tư: <ExplainableValue metricKey="investedValue" value={fmtMoney(totalUsdPositions)} ctx={{ unit: 'USD' }} /> · VND: <ExplainableValue metricKey="investedValue" value={fmtMoney(totalVndPositions, 'VND')} ctx={{ unit: 'VND' }} />
           </span>
         </div>
         {positions.length === 0 ? (
@@ -280,13 +281,12 @@ export default function Trading() {
                     </Link>{' '}
                     <span className={`badge ${p.market === 'VN' ? 'vn' : 'us'}`}>{p.market}</span>
                   </td>
-                  <td className="right num">{p.qty.toLocaleString('vi-VN')}</td>
-                  <td className="right num">{fmtPrice(p.avg_price, p.currency)}</td>
-                  <td className="right num">{fmtPrice(p.currentPrice, p.currency)}</td>
-                  <td className="right num">{fmtMoney(p.marketValue, p.currency)}</td>
+                  <td className="right num"><ExplainableValue metricKey="quantity" value={p.qty.toLocaleString('vi-VN')} ctx={{ symbol: p.symbol }} /></td>
+                  <td className="right num"><ExplainableValue metricKey="averageCost" value={fmtPrice(p.avg_price, p.currency)} ctx={{ symbol: p.symbol, unit: p.currency }} /></td>
+                  <td className="right num"><ExplainableValue metricKey="price" value={fmtPrice(p.currentPrice, p.currency)} ctx={{ symbol: p.symbol, unit: p.currency }} /></td>
+                  <td className="right num"><ExplainableValue metricKey="marketValue" value={fmtMoney(p.marketValue, p.currency)} ctx={{ symbol: p.symbol, unit: p.currency, calc: `${fmtPrice(p.currentPrice, p.currency)} × ${p.qty.toLocaleString('vi-VN')} cổ phiếu` }} /></td>
                   <td className={`right num ${p.profit >= 0 ? 'up' : 'down'}`}>
-                    {fmtMoney(p.profit, p.currency)}
-                    <div style={{ fontSize: 12 }}>{fmtPct(p.profitPercent)}</div>
+                    <ExplainableValue metricKey="pnl" value={`${fmtMoney(p.profit, p.currency)} (${fmtPct(p.profitPercent)})`} ctx={{ symbol: p.symbol, unit: p.currency }} />
                   </td>
                   <td className="right">
                     <button className="btn sm sell" onClick={() => sellAll(p)}>
@@ -331,10 +331,10 @@ export default function Trading() {
                   <td>
                     <b>{t.symbol}</b> <span className={`badge ${t.market === 'VN' ? 'vn' : 'us'}`}>{t.market}</span>
                   </td>
-                  <td className="right num">{t.qty.toLocaleString('vi-VN')}</td>
-                  <td className="right num">{fmtPrice(t.price, t.market === 'VN' ? 'VND' : 'USD')}</td>
+                  <td className="right num"><ExplainableValue metricKey="quantity" value={t.qty.toLocaleString('vi-VN')} ctx={{ symbol: t.symbol }} /></td>
+                  <td className="right num"><ExplainableValue metricKey="price" value={fmtPrice(t.price, t.market === 'VN' ? 'VND' : 'USD')} ctx={{ symbol: t.symbol, unit: t.market === 'VN' ? 'VND' : 'USD' }} /></td>
                   <td className="right num" style={{ fontWeight: 700 }}>
-                    {fmtMoney(t.total, t.market === 'VN' ? 'VND' : 'USD')}
+                    <ExplainableValue metricKey="orderValue" value={fmtMoney(t.total, t.market === 'VN' ? 'VND' : 'USD')} ctx={{ symbol: t.symbol, unit: t.market === 'VN' ? 'VND' : 'USD', calc: `${fmtPrice(t.price, t.market === 'VN' ? 'VND' : 'USD')} × ${t.qty.toLocaleString('vi-VN')} cổ phiếu` }} />
                   </td>
                 </tr>
               ))}

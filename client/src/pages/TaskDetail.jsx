@@ -3,6 +3,37 @@ import { Link, useParams } from 'react-router-dom'
 import { api } from '../api.js'
 import { useApi, useQuoteStream } from '../hooks.js'
 import { fmtPrice } from '../format.js'
+import ExplainableValue from '../components/ExplainableValue.jsx'
+
+function metricKeyFor(text = '') {
+  const value = String(text).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+  if (value.includes('roe')) return 'roe'
+  if (value.includes('p/e')) return 'pe'
+  if (value.includes('eps')) return 'eps'
+  if (value.includes('bien') && value.includes('rong')) return 'netMargin'
+  if (value.includes('tang truong') && (value.includes('doanh thu') || value.includes(' dt'))) return 'revenueGrowth'
+  if (value.includes('no/von') || value.includes('d/e')) return 'debtToEquity'
+  if (value.includes('ocf') && value.includes('ln')) return 'ocfToNi'
+  if (value.includes('ocf')) return 'ocf'
+  if (value.includes('fcf')) return 'fcf'
+  if (value.includes('doanh thu')) return 'revenue'
+  if (value.includes('phai thu')) return 'receivables'
+  if (value.includes('ton kho')) return 'inventory'
+  if (value.includes('goodwill')) return 'goodwill'
+  if (value.includes('co tuc') && value.includes('yield')) return 'dividendYield'
+  if (value.includes('ma200')) return 'ma200'
+  if (value.includes('ma50')) return 'ma50'
+  if (value.includes('ma20')) return 'ma20'
+  if (value.includes('rsi')) return 'rsi14'
+  if (value.includes('macd')) return 'macdHistogram'
+  if (value.includes('gia hien tai') || value.includes('gia co phieu')) return 'price'
+  return null
+}
+
+function ExplainableCaseValue({ value, metricKey }) {
+  if (!metricKey) return value
+  return <ExplainableValue metricKey={metricKey} value={String(value)} ctx={{ source: 'Dữ liệu case do phòng phân tích cung cấp' }} />
+}
 
 function EmailCard({ email }) {
   return (
@@ -71,7 +102,7 @@ export default function TaskDetail() {
         <span className="badge gray">{task.role}</span>
         <span className="muted">⏱ ~{task.minutes} phút · +{task.xp} XP</span>
         {task.progress?.done && (
-          <span className="badge green">✓ Đã nộp: {task.progress.score}/{task.progress.total}</span>
+          <span className="badge green">✓ Đã nộp: <ExplainableValue metricKey="taskScore" value={`${task.progress.score}/${task.progress.total}`} ctx={{ source: 'Kết quả task đã nộp' }} /></span>
         )}
       </div>
 
@@ -86,18 +117,21 @@ export default function TaskDetail() {
             <thead>
               <tr>
                 {task.caseTable.columns.map((c) => (
-                  <th key={c}>{c}</th>
+                  <th key={c}><ExplainableCaseValue value={c} metricKey={metricKeyFor(c)} /></th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {task.caseTable.rows.map((row, i) => (
                 <tr key={i}>
-                  {row.map((cell, j) => (
-                    <td key={j} className={j > 0 && j < row.length - 1 ? 'num' : ''}>
-                      {j === 0 ? <b>{cell}</b> : cell}
-                    </td>
-                  ))}
+                  {row.map((cell, j) => {
+                    const metricKey = metricKeyFor(task.caseTable.columns[j]) || metricKeyFor(j === 0 ? cell : row[0])
+                    return (
+                      <td key={j} className={j > 0 && j < row.length - 1 ? 'num' : ''}>
+                        {j === 0 ? <b><ExplainableCaseValue value={cell} metricKey={metricKey} /></b> : <ExplainableCaseValue value={cell} metricKey={metricKey} />}
+                      </td>
+                    )
+                  })}
                 </tr>
               ))}
             </tbody>
@@ -112,8 +146,8 @@ export default function TaskDetail() {
             📡 Dữ liệu làm việc: <b>{symbol}</b>{' '}
             {live && (
               <span className={`num ${live.changePercent >= 0 ? 'up' : 'down'}`}>
-                {fmtPrice(live.price, live.currency)} ({live.changePercent >= 0 ? '+' : ''}
-                {live.changePercent?.toFixed(2)}%)
+                <ExplainableValue metricKey="price" value={fmtPrice(live.price, live.currency)} ctx={{ symbol, source: 'Luồng giá cập nhật' }} /> ({live.changePercent >= 0 ? '+' : ''}
+                <ExplainableValue metricKey="changePercent" value={`${live.changePercent?.toFixed(2)}%`} ctx={{ symbol, period: 'So với phiên trước' }} />)
               </span>
             )}
           </span>
@@ -155,7 +189,7 @@ export default function TaskDetail() {
             <div key={f.id} style={{ marginBottom: 16 }}>
               <label className="field" style={{ marginBottom: 6 }}>
                 <span>
-                  {f.label} <span className="muted-2">({f.points}đ)</span>
+                  {metricKeyFor(f.label) ? <ExplainableValue metricKey={metricKeyFor(f.label)} value={f.label} ctx={{ source: 'Yêu cầu của task' }} /> : f.label} <span className="muted-2">({f.points}đ)</span>
                 </span>
               </label>
               {f.type === 'select' ? (
@@ -209,8 +243,8 @@ export default function TaskDetail() {
       {/* Kết quả & phản hồi mentor */}
       {result && (
         <div className={`quiz-result ${result.passed ? 'pass' : 'fail'}`} style={{ marginTop: 12 }}>
-          {result.passed ? '🎉 ĐẠT' : '📔 CHƯA ĐẠT (cần ≥60%)'} — {result.score}/{result.total} điểm · +{result.xp} XP ·
-          Tổng XP: {result.totalXp} · Cấp bậc: {result.rank.name}
+          {result.passed ? '🎉 ĐẠT' : '📔 CHƯA ĐẠT (cần ≥60%)'} — <ExplainableValue metricKey="taskScore" value={`${result.score}/${result.total} điểm`} ctx={{ source: 'Kết quả mentor chấm' }} /> · +<ExplainableValue metricKey="xp" value={`${result.xp} XP`} ctx={{ source: 'XP nhận từ task' }} /> ·
+          Tổng XP: <ExplainableValue metricKey="xp" value={result.totalXp} ctx={{ source: 'Tổng tiến độ phòng phân tích' }} /> · Cấp bậc: {result.rank.name}
         </div>
       )}
       {result && (
