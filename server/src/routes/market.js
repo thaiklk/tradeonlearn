@@ -129,7 +129,7 @@ const FIN_FIXTURES = {
   FPT: { c: 'VND', u: 'nghìn tỷ ₫', rows: {
     revenue: [28.9, 36.6, 52.6, 62.8], grossProfit: [6.2, 7.6, 10.0, 11.9], operatingIncome: [4.0, 4.9, 6.3, 7.6], netIncome: [4.3, 5.3, 6.1, 7.3],
     totalAssets: [30.4, 37.5, 50.0, 58.0], totalLiabilities: [14.2, 17.4, 24.0, 27.0], equity: [16.2, 20.1, 26.0, 31.0],
-    ocf: [4.6, 5.7, 6.6, 7.9], capex: [-2.1, -2.6, -3.2, -3.8], sharesB: [0.54, 0.54, 0.55, 0.55], dividends: [1.2, 1.5, 1.8, 2.0],
+    ocf: [4.6, 5.7, 6.6, 7.9], capex: [-2.1, -2.6, -3.2, -3.8], sharesB: [1.43, 1.44, 1.45, 1.46], dividends: [1.2, 1.5, 1.8, 2.0],
     receivables: [5.5, 7.3, 11.0, 13.5], inventory: [0.6, 0.8, 1.1, 1.4], goodwill: [0.3, 0.4, 0.5, 0.6] } },
   VNM: { c: 'VND', u: 'nghìn tỷ ₫', rows: {
     revenue: [59.5, 60.5, 61.3, 62.5], grossProfit: [22.0, 21.8, 22.3, 23.0], operatingIncome: [13.5, 12.8, 13.2, 13.8], netIncome: [8.6, 8.0, 8.3, 8.8],
@@ -179,11 +179,11 @@ router.get('/peers/compare', async (req, res) => {
     const r = fx.rows
     const n = r.revenue.length
     const q = await getQuote(sym).catch(() => null)
-    const eps = +(r.netIncome[n - 1] / r.sharesB[n - 1]).toFixed(2)
+    const eps = epsOf(fx)
     items.push({
       symbol: sym, currency: fx.c, unit: fx.u, price: q?.price ?? null,
       pe: q?.price != null ? +(q.price / eps).toFixed(1) : null,
-      pb: q?.price != null ? +((q.price * r.sharesB[n - 1]) / r.equity[n - 1]).toFixed(1) : null,
+      pb: q?.price != null ? pbOf(fx, q.price) : null,
       roe: +((r.netIncome[n - 1] / r.equity[n - 1]) * 100).toFixed(1),
       netMargin: +((r.netIncome[n - 1] / r.revenue[n - 1]) * 100).toFixed(1),
       revenueGrowth: +(((r.revenue[n - 1] / r.revenue[n - 2]) - 1) * 100).toFixed(1),
@@ -235,7 +235,7 @@ router.get('/:symbol/financials', async (req, res) => {
     symbol, market, currency: fx.c, unit: fx.u, status: 'demo', source: 'Bộ số liệu mẫu giáo dục (không phải dữ liệu live) — để học cách đọc BCTC',
     periodEnd: 'FY2025 (mô phỏng)', fetchedAt: new Date().toISOString(),
     years: FY,
-    rows: { ...r, fcf, eps: r.netIncome.map((n, i) => +(n / r.sharesB[i]).toFixed(2)) },
+    rows: { ...r, fcf, eps: r.netIncome.map((_, i) => epsOf(fx, i)) },
     ratios: {
       revenueGrowth: pct(r.revenue), netIncomeGrowth: pct(r.netIncome),
       grossMargin: div(r.grossProfit, r.revenue), operatingMargin: div(r.operatingIncome, r.revenue), netMargin: div(r.netIncome, r.revenue),
@@ -248,6 +248,10 @@ router.get('/:symbol/financials', async (req, res) => {
 // So sánh ngang hàng + median (Phase 5 foundation) — dùng tỷ số từ /financials + giá live
 const PEER_MAP = { AAPL: ['AAPL', 'MSFT', 'KO'], MSFT: ['MSFT', 'AAPL', 'KO'], KO: ['KO', 'AAPL', 'MSFT'], FPT: ['FPT', 'VNM'], VNM: ['VNM', 'FPT'] }
 const med = (a) => { const s = a.filter(Number.isFinite).sort((x, y) => x - y); return s.length ? s[Math.floor(s.length / 2)] : null }
+// đơn vị chuẩn: fixture VN tính bằng nghìn tỷ ₫, sharesB bằng tỷ cp → EPS ra NGHÌN ₫; giá thị trường là ₫.
+// epsOf luôn trả về ĐỒNG BẢN TỆ CỦA GIÁ (₫ hoặc $) để P/E = giá/eps đúng trực tiếp.
+const epsOf = (fx, i) => { const r = fx.rows, n = i ?? r.revenue.length - 1; const raw = r.netIncome[n] / r.sharesB[n]; return fx.c === 'VND' ? +(raw * 1000).toFixed(0) : +raw.toFixed(2) }
+const pbOf = (fx, price) => { const r = fx.rows, n = r.revenue.length - 1; const cap = price * r.sharesB[n]; return +(cap / (fx.c === 'VND' ? 1000 : 1) / r.equity[n]).toFixed(2) }
 
 router.get('/:symbol/peers', async (req, res) => {
   const symbol = String(req.params.symbol).toUpperCase()

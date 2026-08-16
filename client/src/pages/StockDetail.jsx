@@ -157,6 +157,7 @@ function FinancialsCard({ symbol, fin: finProp }) {
   const { data: finSelf } = useApi(() => (finProp ? Promise.resolve(finProp) : api.get(`/stocks/${encodeURIComponent(symbol)}/financials`)), [symbol, finProp])
   const fin = finProp || finSelf
   const [basic, setBasic] = useState(true) // Phase 3: Cơ bản (5 chỉ số + câu hỏi) / Nâng cao (đủ bảng)
+  const [openRow, setOpenRow] = useState(null) // dòng BCTC đang mở giải thích
   if (!fin || fin.status === 'no-data' || !fin.years?.length)
     return (
       <div className="card">
@@ -173,6 +174,28 @@ function FinancialsCard({ symbol, fin: finProp }) {
     ['Nợ phải trả', fin.rows.totalLiabilities], ['Vốn chủ', fin.rows.equity], ['OCF', fin.rows.ocf],
     ['CAPEX', fin.rows.capex], ['FCF', fin.rows.fcf],
   ]
+  // 👇 Giải thích TỪNG DÒNG cho người chưa từng đọc BCTC — bấm tên dòng để mở (ví dụ dùng chính số thật của năm cuối)
+  const F = (x) => (x != null ? x.toLocaleString('vi-VN') : '—')
+  const L = (a) => (a?.length ? a[a.length - 1] : null)
+  const P = (a) => (a?.length > 1 ? a[a.length - 2] : null)
+  const EX = {
+    'Doanh thu': [`Tổng tiền bán được trong năm — quy mô kinh doanh.`, `Số sản phẩm bán ra × giá bán.`, `FPT bán được ${F(L(fin.rows.revenue))} ${fin.unit} năm nay.`, `Doanh thu ≠ tiền đã thu: có thể bán chịu (chưa thu tiền) — luôn đọc cạnh OCF.`],
+    'LN gộp': [`Tiền lời thô sau khi trừ GIÁ VỎN hàng bán.`, `Doanh thu − giá vốn hàng bán.`, `${F(L(fin.rows.revenue))} − giá vốn = còn ${F(L(fin.rows.grossProfit))}.`, `So với doanh thu = biên gộp (quyền lực định giá sản phẩm).`],
+    'LN hoạt động': [`Lời từ nghề chính, chưa trừ lãi vay & thuế.`, `LN gộp − chi phí bán hàng/quản lý.`, `${F(L(fin.rows.grossProfit))} − chi phí = ${F(L(fin.rows.operatingIncome))}.`, `Đây là "sức khỏe cốt lõi" — thu nhập ngoài nghề không tính vào.`],
+    'LN ròng': [`Phần CUỐI CÙNG về tay cổ đông sau MỌI chi phí.`, `LN hoạt động − lãi vay − thuế.`, `${F(L(fin.rows.operatingIncome))} − lãi vay − thuế = ${F(L(fin.rows.netIncome))}.`, `Là số LIỆU KẾ TOÁN — có thể đẹp mà chưa có tiền (so OCF).`],
+    'EPS': [`Lợi nhuận tính trên MỖI CỔ PHIẾU — cây cầu giữa DN và giá CP.`, `LN ròng ÷ số cổ phiếu.`, `${F(L(fin.rows.netIncome))} ${fin.unit} ÷ ${F(L(fin.rows.sharesB))} tỷ cp = ${F(L(fin.rows.eps))} ${fin.currency === 'VND' ? '₫' : '$'}/cp.`, `Phát hành thêm cp làm EPS loãng — theo dõi số cp tăng không.`],
+    'Tài sản': [`Tổng giá trị DN đang SỞ HỮU (tiền, kho, nhà xưởng...).`, `Cộng mọi tài sản ngắn + dài hạn.`, `Toàn bộ gia tài = ${F(L(fin.rows.totalAssets))} ${fin.unit}.`, `Tài sản to chưa chắc tốt — phải SINH LỜI được (xem ROA).`],
+    'Nợ phải trả': [`Tổng DN đang NỢ (nhà cung cấp, ngân hàng...).`, `Cộng nợ ngắn hạn + dài hạn.`, `Đang nợ ${F(L(fin.rows.totalLiabilities))} ${fin.unit}.`, `Nợ không hẳn xấu — vấn đề là dùng nợ làm gì và trả nổi không.`],
+    'Vốn chủ': [`Phần THẬT thuộc cổ đông = Tài sản − Nợ.`, `${F(L(fin.rows.totalAssets))} − ${F(L(fin.rows.totalLiabilities))} = ${F(L(fin.rows.equity))}.`, `Nếu thanh lý hết, trả nợ xong, cổ đông được chừng này.`, `Vốn chủ tăng đều qua năm (do lợi nhuận giữ lại) là dấu hiệu tốt.`],
+    'OCF': [`TIỀN THẬT chảy vào từ buôn bán — khác lợi nhuận kế toán.`, `Tiền thu từ khách − tiền trả lương/nhà cung cấp...`, `Năm nay két sắt thêm ${F(L(fin.rows.ocf))} ${fin.unit} từ kinh doanh.`, `OCF < LN nhiều năm = "lợi nhuận trên giấy" — bẫy số 1 (Bài 11).`],
+    'CAPEX': [`Tiền ĐẦU TƯ mua/sửa tài sản dài hạn (nhà xưởng, máy...).`, `Tổng chi mua sắm trong kỳ (hiện âm cho dễ thấy tiền RA).`, `Vừa chi ${F(Math.abs(L(fin.rows.capex)))} ${fin.unit} đầu tư.`, `CAPEX lớn ở DN tăng trưởng là bình thường — ở DN già là dấu hỏi.`],
+    'FCF': [`Tiền TỰ DO còn lại sau đầu tư — "oxy" cho cổ đông.`, `OCF − CAPEX.`, `${F(L(fin.rows.ocf))} − ${F(Math.abs(L(fin.rows.capex)))} = ${F(L(fin.rows.fcf))} ${fin.unit}.`, `FCF âm nhiều năm ở DN trưởng thành = cảnh báo.`],
+    'Tăng trưởng DT %': [`Doanh thu năm nay hơn năm trước bao nhiêu %.`, `(DT năm nay − năm trước) ÷ năm trước × 100.`, `${F(P(fin.rows.revenue))} → ${F(L(fin.rows.revenue))} = +${L(fin.ratios.revenueGrowth)}%.`, `1 năm tăng mạnh chưa nói gì — xem 3-5 năm liền.`],
+    'Biên ròng %': [`Mỗi 100đ doanh thu giữ lại mấy đồng lãi.`, `LN ròng ÷ Doanh thu × 100.`, `${F(L(fin.rows.netIncome))} ÷ ${F(L(fin.rows.revenue))} = ${L(fin.ratios.netMargin)}%.`, `Mỗi ngành một dải bình thường — chỉ so cùng ngành.`],
+    'ROE %': [`100đ vốn chủ sinh ra mấy đồng lãi/năm.`, `LN ròng ÷ Vốn chủ × 100.`, `${F(L(fin.rows.netIncome))} ÷ ${F(L(fin.rows.equity))} = ${L(fin.ratios.roe)}%.`, `ROE cao có thể do NỢ cao đẩy lên — xem kèm Nợ/Vốn (DuPont).`],
+    'Nợ/Vốn %': [`Mấy đồng nợ trên 1đ vốn thật.`, `Nợ phải trả ÷ Vốn chủ × 100.`, `${F(L(fin.rows.totalLiabilities))} ÷ ${F(L(fin.rows.equity))} = ${L(fin.ratios.debtToEquity)}%.`, `≤100% thường thoải mái (ngân hàng ngoại lệ).`],
+    'OCF/LN %': [`Bao nhiêu % lợi nhuận THÀNH TIỀN THẬT — bộ lọc số 1.`, `OCF ÷ LN ròng × 100.`, `${F(L(fin.rows.ocf))} ÷ ${F(L(fin.rows.netIncome))} = ${L(fin.ratios.ocfToNi)}%.`, `≥80% tốt; <50% kéo dài = phải hỏi sâu (Bài 11).`],
+  }
   const qRows = [
     ['Tăng trưởng DT %', fin.ratios.revenueGrowth, 'Doanh thu đang tăng hay giảm?'], ['Tăng trưởng LN %', fin.ratios.netIncomeGrowth, 'Lợi nhuận cùng chiều doanh thu không?'],
     ['Biên gộp %', fin.ratios.grossMargin, 'Sản phẩm định giá mạnh không?'], ['Biên hoạt động %', fin.ratios.operatingMargin, 'Vận hành hiệu quả không?'], ['Biên ròng %', fin.ratios.netMargin, 'Mỗi 100đ doanh thu giữ lại mấy đồng? (≥10% khá)'],
@@ -197,17 +220,34 @@ function FinancialsCard({ symbol, fin: finProp }) {
       </div>
       <div style={{ overflowX: 'auto' }}>
         <table className="table" style={{ minWidth: 560 }}>
-          <thead><tr><th>Chỉ số</th>{fin.years.map((y) => <th key={y} className="right">{y}</th>)}</tr></thead>
-          <tbody>
-            {rRows.map(([n, arr]) => (
-              <tr key={n}><td className="muted">{n}</td>{(arr || []).map((v, i) => <td key={i} className="right num">{fmt(v)}</td>)}</tr>
-            ))}
-            {qRows.map(([n, arr], i) => (
-              <tr key={n} style={{ borderTop: '2px solid var(--border)' }}><td className="muted">{n}</td>{(arr || []).map((v, j) => (
-                <td key={j} className={`right num ${v != null && (n.includes('Tăng trưởng') || n.includes('ROE') || n.includes('OCF')) ? (v >= 0 ? 'up' : 'down') : ''}`}>{fmt(v)}</td>
-              ))}</tr>
-            )).filter((_, i) => shownQ.includes(qRows[i]))}
-          </tbody>
+              <thead><tr><th>Chỉ số ▸ bấm để giải thích</th>{fin.years.map((y) => <th key={y} className="right">{y}</th>)}</tr></thead>
+              <tbody>
+                {rRows.map(([n, arr]) => {
+                  const label = n === 'EPS' ? `EPS (${fin.currency === 'VND' ? '₫/cp' : '$/cp'})` : n
+                  return [
+                    <tr key={n}>
+                      <td style={{ whiteSpace: 'nowrap' }}>
+                        <button className="btn sm ghost" style={{ padding: '1px 7px', fontSize: 11.5 }} onClick={() => setOpenRow(openRow === n ? null : n)} title="Là gì? Tính thế nào? Ví dụ? Giới hạn?">{openRow === n ? '▾' : '▸'}</button>{' '}
+                        <span className="muted">{label}</span>
+                      </td>
+                      {(arr || []).map((v, i) => <td key={i} className="right num">{fmt(v)}</td>)}
+                    </tr>,
+                    openRow === n && EX[n] && (
+                      <tr key={n + '-ex'}><td colSpan={fin.years.length + 1} style={{ background: '#0d1422', padding: '8px 12px' }}>
+                        <div style={{ fontSize: 12.5 }}><b>Là gì:</b> {EX[n][0]}</div>
+                        <div style={{ fontSize: 12.5 }}><b>Tính:</b> {EX[n][1]}</div>
+                        <div style={{ fontSize: 12.5 }}><b>Ví dụ (số năm cuối):</b> {EX[n][2]}</div>
+                        <div style={{ fontSize: 12.5, color: '#fbd38d' }}><b>⚠️ Giới hạn:</b> {EX[n][3]}</div>
+                      </td></tr>
+                    ),
+                  ]
+                })}
+                {qRows.map(([n, arr], i) => (
+                  <tr key={n} style={{ borderTop: '2px solid var(--border)' }}><td className="muted">{n}</td>{(arr || []).map((v, j) => (
+                    <td key={j} className={`right num ${v != null && (n.includes('Tăng trưởng') || n.includes('ROE') || n.includes('OCF')) ? (v >= 0 ? 'up' : 'down') : ''}`}>{fmt(v)}</td>
+                  ))}</tr>
+                )).filter((_, i) => shownQ.includes(qRows[i]))}
+              </tbody>
         </table>
       </div>
       <div className="muted" style={{ fontSize: 12, marginTop: 8 }}>
@@ -220,11 +260,35 @@ function FinancialsCard({ symbol, fin: finProp }) {
 
 function PeersCard({ symbol }) {
   const { data: p } = useApi(() => api.get(`/stocks/${encodeURIComponent(symbol)}/peers`), [symbol])
+  const [showCols, setShowCols] = useState(false)
   if (!p?.peers?.length) return null
   const rows = [['ROE %', 'roe'], ['Biên ròng %', 'netMargin'], ['Nợ/Vốn %', 'debtToEquity'], ['Tăng trưởng DT %', 'revenueGrowth'], ['OCF/LN %', 'ocfToNi']]
+  const COL_EX = {
+    roe: ['100đ vốn chủ sinh mấy đồng lãi/năm. Ví dụ: 23,5% = 100đ vốn → 23,5đ lãi. Giới hạn: cao có thể do nợ cao.', 'so với'],
+    netMargin: ['Mỗi 100đ doanh thu giữ lại mấy đồng lãi. Ví dụ: 11,6% = bán 100đ lãi 11,6đ. Giới hạn: mỗi ngành một dải — không so chéo ngành.', 'so với'],
+    debtToEquity: ['Mấy đồng nợ / 1đ vốn thật. ≤100% thường thoải mái. Giới hạn: ngân hàng nợ cao là bản chất ngành.', 'thấp hơn median là tốt'],
+    revenueGrowth: ['Doanh thu năm nay hơn năm trước bao nhiêu %. Giới hạn: 1 năm không nói gì — cần 3-5 năm.', 'cao hơn median là tốt'],
+    ocfToNi: ['% lợi nhuận thành tiền thật. ≥80% tốt, <50% kéo dài cần hỏi. Đây là bộ lọc quan trọng nhất bảng này.', 'cao hơn median là tốt'],
+  }
   return (
     <div className="card" style={{ marginTop: 16 }}>
-      <div className="card-title"><span>⚖️ So sánh ngang hàng + median</span><span className="badge demo">DEMO DATA + giá live</span></div>
+      <div className="card-title">
+        <span>⚖️ So sánh ngang hàng + median</span>
+        <span style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <button className="btn sm ghost" onClick={() => setShowCols(!showCols)}>{showCols ? '▲ Thu gọn' : '📘 Giải thích các cột'}</button>
+          <span className="badge demo">DEMO DATA + giá live</span>
+        </span>
+      </div>
+      {showCols && (
+        <div style={{ marginBottom: 10 }}>
+          {rows.map(([n, k]) => (
+            <div key={k} style={{ fontSize: 12.5, padding: '5px 0', borderBottom: '1px solid var(--border-soft)' }}>
+              <b>{n}</b>: {COL_EX[k][0]} <span className="muted">(Trong bảng: {COL_EX[k][1]} median là hướng tốt.)</span>
+            </div>
+          ))}
+          <div style={{ fontSize: 12.5, padding: '5px 0' }}><b>Median</b>: giá trị ĐỨNG GIỮA sau khi sắp xếp nhóm (không phải điểm chuẩn đúng/sai — chỉ là mốc so sánh "trung bình của bọn nó").</div>
+        </div>
+      )}
       <div style={{ overflowX: 'auto' }}>
         <table className="table" style={{ minWidth: 420 }}>
           <thead><tr><th>Mã</th>{rows.map(([n]) => <th key={n} className="right">{n}</th>)}</tr></thead>
@@ -394,6 +458,9 @@ export default function StockDetail() {
               </div>
               <div className={`num ${changePct > 0 ? 'up' : changePct < 0 ? 'down' : ''}`} style={{ fontWeight: 700 }}>
                 {changePct > 0 ? '▲' : changePct < 0 ? '▼' : '•'} {fmtPct(changePct)}
+              </div>
+              <div className="muted" style={{ fontSize: 11.5, fontWeight: 400, marginTop: 2 }}>
+                % so với đóng cửa hôm trước · nguồn {live2?.delayed || data?.quote?.delayed || '—'} (giá có thể chậm hơn thị trường)
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
