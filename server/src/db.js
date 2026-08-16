@@ -59,6 +59,14 @@ export function initDb() {
       lesson_id TEXT PRIMARY KEY,
       read_at TEXT DEFAULT (datetime('now'))
     );
+
+    CREATE TABLE IF NOT EXISTS task_progress (
+      task_id TEXT PRIMARY KEY,
+      score INTEGER NOT NULL,
+      total INTEGER NOT NULL,
+      xp INTEGER NOT NULL DEFAULT 0,
+      submitted_at TEXT DEFAULT (datetime('now'))
+    );
   `)
   db.prepare('INSERT OR IGNORE INTO account (id) VALUES (1)').run()
 }

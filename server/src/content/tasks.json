@@ -1,0 +1,257 @@
+[
+  {
+    "id": "morning-brief",
+    "title": "Task 1 · Bản tin thị trường buổi sáng (Morning Brief)",
+    "level": "Tuần 1 · Intern",
+    "role": "Thực tập sinh phân tích",
+    "minutes": 15,
+    "xp": 30,
+    "symbol": null,
+    "briefEmail": {
+      "from": "Chị Lan — Trưởng phòng Phân tích",
+      "subject": "Hỗ trợ bản tin thị trường sáng nay",
+      "body": [
+        "Chào em, từ mai em sẽ hỗ trợ phòng mình gửi bản tin thị trường buổi sáng cho cả công ty trước 9h.",
+        "Nhiệm vụ hôm nay (làm thử): mở bảng điều khiển Tổng quan, nhìn 6 chỉ số và danh sách Tăng/Giảm mạnh, rồi viết NHANH 3 câu: (1) thị trường Mỹ đang màu gì, (2) thị trường Việt Nam đang màu gì, (3) 1 mã đang biến động mạnh đáng chú ý và vì sao em chọn nó.",
+        "Không cần dài dòng — sếp đọc 15 giây phải hiểu được bối cảnh. Đây là kỹ năng đầu tiên của mọi analyst: tóm tắt bối cảnh (context) trước khi nói chuyện cổ phiếu riêng lẻ."
+      ]
+    },
+    "steps": [
+      "Mở trang 'Tổng quan' (nút trên cùng bên trái). Nhìn 3 thẻ chỉ số Mỹ: S&P 500, NASDAQ, DOW — xanh (▲) hay đỏ (▼)? Đó là 'màu' thị trường Mỹ hôm nay.",
+      "Nhìn 3 thẻ Việt Nam: VN-Index, VN30, HNX-Index — xanh hay đỏ? So sánh: Mỹ và VN cùng chiều hay ngược chiều?",
+      "Xem 2 danh sách 'Tăng mạnh nhất' / 'Giảm mạnh nhất'. Chọn 1 mã có % thay đổi lớn nhất. Bấm vào mã đó xem nhanh: giá hiện tại, biểu đồ nến đang thế nào.",
+      "Viết 3 câu vào form bên dưới theo mẫu: 'Thị trường Mỹ hôm nay X (S&P 500 ±Y%)... Thị trường Việt Nam... Mã Z đang ±W% đáng chú ý vì...'. Câu thứ 3 phải có lý do (khối lượng, tin tức, phiên đảo chiều...).",
+        "Mẹo viết chuẩn công việc: mỗi câu ≤ 30 từ, luôn kèm CON SỐ (%, tên mã). Sếp tin số liệu hơn tính từ."
+    ],
+    "fields": [
+      { "id": "us_market", "label": "Câu 1 — Nhận xét thị trường Mỹ (kèm số liệu)", "type": "text", "minLen": 40, "keywords": [["%"]], "points": 10, "hint": "VD: 'Thị trường Mỹ hôm nay tăng nhẹ, S&P 500 +0.36%, NASDAQ +0.14% nhưng DOW -0.56%'." },
+      { "id": "vn_market", "label": "Câu 2 — Nhận xét thị trường Việt Nam (kèm số liệu)", "type": "text", "minLen": 40, "keywords": [["%"]], "points": 10, "hint": "VD: 'Thị trường VN điều chỉnh sâu, VN-Index -2.07%, HNX-Index -1.18%'." },
+      { "id": "mover", "label": "Câu 3 — Một mã đáng chú ý + lý do", "type": "text", "minLen": 60, "keywords": [["vì", "do", "nên"]], "points": 10, "hint": "Nhớ nêu lý do: khối lượng, biến động %, hoặc quan sát trên biểu đồ." }
+    ],
+    "relatedLessons": ["thi-truong-va-bang-gia", "co-phieu-la-gi"],
+    "mentorNote": "Viết ngắn, có số liệu, có lý do — đó là 3 chữ ký của một bản tin chuẩn."
+  },
+  {
+    "id": "screen-stocks",
+    "title": "Task 2 · Sàng lọc cổ phiếu bằng bộ lọc (Screening)",
+    "level": "Tuần 2 · Intern",
+    "role": "Thực tập sinh phân tích",
+    "minutes": 20,
+    "xp": 40,
+    "symbol": null,
+    "briefEmail": {
+      "from": "Anh Minh — Analyst cấp cao",
+      "subject": "Sàng lọc 3 ứng viên cho danh mục phòng",
+      "body": [
+        "Em giúp anh sàng lọc 3 cổ phiếu Mỹ đạt tiêu chí 'chất lượng hợp lý' của phòng: ROE ≥ 15% (máy kiếm tiền hiệu quả) VÀ P/E < 35 (chưa quá đắt) VÀ Biên lợi nhuận ròng > 10%.",
+        "Bộ số liệu dưới đây do phòng tổng hợp từ báo cáo quý gần nhất của 8 công ty (việc tra báo cáo thật em sẽ tự练 trên cafef/vietstock với mã Việt ở nhà). Em đọc bảng, áp bộ lọc, chọn 3 mã ĐẠT ĐỦ CẢ 3 tiêu chí."
+      ]
+    },
+    "caseTable": {
+      "title": "Số liệu phòng tổng hợp (quý gần nhất)",
+      "columns": ["Mã", "ROE (%)", "P/E", "Biên LN ròng (%)", "Ghi chú"],
+      "rows": [
+        ["MSFT", 38, 33, 36, "Phần mềm đám mây"],
+        ["AAPL", 55, 34, 26, "Thiết bị & dịch vụ"],
+        ["GOOGL", 32, 24, 28, "Quảng cáo + cloud"],
+        ["KO", 40, 24, 23, "Đồ uống toàn cầu"],
+        ["JNJ", 20, 16, 22, "Dược & thiết bị Y tế"],
+        ["TSLA", 8, 90, 7, "Ô tô điện"],
+        ["INTC", -2, 0, -5, "Chip — đang lỗ"],
+        ["WMT", 22, 38, 2.5, "Bán lẻ giá rẻ"]
+      ]
+    },
+    "steps": [
+      "Đọc từng dòng của bảng số liệu phòng cung cấp ở trên (email sếp).",
+      "Với TỪNG dòng kiểm tra 3 điều kiện: ROE ≥ 15? P/E < 35 (P/E = 0 nghĩa là đang lỗ — loại ngay)? Biên ròng > 10?",
+      "Gạch chân những mã ĐẠT đủ cả 3. Lưu ý: đạt 2/3 vẫn là LOẠI (VD: WMT ROE đẹp nhưng P/E 38 và biên 2.5% — bán lẻ vốn mỏng là bình thường, không qua được bộ lọc 'chất lượng').",
+      "Chọn 3 mã trong số các mã ĐẠT (có hơn 3 lựa chọn — chọn 3 em tâm đắc nhất).",
+      "Điền 3 mã vào form + 1 câu vì sao chọn chúng."
+    ],
+    "fields": [
+      { "id": "picks", "label": "3 mã đạt đủ 3 tiêu chí (cách nhau dấu phẩy)", "type": "symbols", "expectedAny": ["MSFT", "AAPL", "GOOGL", "KO", "JNJ"], "minPicks": 3, "points": 24, "hint": "Có 5 mã đạt — chọn 3. Mã loại: TSLA, INTC, WMT." },
+      { "id": "why", "label": "Vì sao em chọn 3 mã này? (1-2 câu)", "type": "text", "minLen": 50, "keywords": [["ROE", "sinh lời"], ["P/E", "đắt", "giá"]], "points": 6 }
+    ],
+    "relatedLessons": ["chi-so-dinh-gia", "bao-cao-tai-chinh-2-ket-qua"],
+    "mentorNote": "Screening là việc hằng tuần của analyst: bộ lọc thu hẹp vũ trụ cổ phiếu còn vài ứng viên đáng nghiên cứu sâu."
+  },
+  {
+    "id": "health-check",
+    "title": "Task 3 · Kiểm tra sức khỏe tài chính 1 doanh nghiệp",
+    "level": "Tuần 3 · Junior",
+    "role": "Phân tích viên cơ bản",
+    "minutes": 25,
+    "xp": 60,
+    "symbol": "MSFT",
+    "briefEmail": {
+      "from": "Chị Lan — Trưởng phòng Phân tích",
+      "subject": "Bảng kiểm sức khỏe Microsoft trước buổi họp",
+      "body": [
+        "Chiều nay phòng mình họp về Microsoft (MSFT). Em làm bảng kiểm sức khỏe tài chính giúp chị.",
+        "Bộ số liệu MSFT quý gần nhất phòng đã tổng hợp ở bảng dưới (nguồn: báo cáo tài chính công bố). Em đọc kỹ, điền vào form và trả lời câu tổng kết. Giá cổ phiếu thì nhìn badge TRỰC TIẾP trên trang MSFT — phần đó là live."
+      ]
+    },
+    "caseTable": {
+      "title": "Số liệu MSFT (quý gần nhất — phòng tổng hợp)",
+      "columns": ["Chỉ số", "Giá trị", "Ý nghĩa nhanh"],
+      "rows": [
+        ["ROE", "38%", "1$ vốn chủ tạo 0.38$ lợi nhuận/năm"],
+        ["P/E (trailing)", "33", "Trả 33$ cho 1$ lợi nhuận/năm"],
+        ["Biên lợi nhuận ròng", "36%", "Mỗi 1$ doanh thu giữ 36¢"],
+        ["Nợ/Vốn (D/E)", "40%", "Nợ thấp hơn vốn chủ — an toàn"],
+        ["Tăng trưởng doanh thu", "15%", "Đà tăng vẫn khỏe"]
+      ]
+    },
+    "steps": [
+      "Đọc từng dòng bảng số liệu + cột 'Ý nghĩa nhanh' — chắc chắn hiểu mỗi con số đo điều gì (xem lại Bài 9–12 nếu lúng túng).",
+      "Điền 5 số liệu vào form bên dưới (đúng đơn vị: % hay lần).",
+      "Đánh giá từng chỉ số: mạnh ở mức nào so với ngưỡng kinh nghiệm (ROE>15 tốt, >20 xuất sắc; P/E ngành công nghệ 25-40 là dải bình thường; D/E<100 thoải mái...).",
+      "Câu tổng kết: theo em MSFT mạnh ở đâu, cần theo dõi gì? (VD: P/E 33 ở mức nào so dải ngành? ROE 38% nói lên gì về chất lượng kinh doanh?)"
+    ],
+    "fields": [
+      { "id": "roe", "label": "ROE của MSFT (%)", "type": "number", "expectedValue": 38, "tolerance": 0.05, "points": 8 },
+      { "id": "pe", "label": "P/E (trailing) của MSFT", "type": "number", "expectedValue": 33, "tolerance": 0.05, "points": 8 },
+      { "id": "margin", "label": "Biên lợi nhuận ròng (%)", "type": "number", "expectedValue": 36, "tolerance": 0.05, "points": 8 },
+      { "id": "de", "label": "Nợ/Vốn (%)", "type": "number", "expectedValue": 40, "tolerance": 0.08, "points": 8 },
+      { "id": "growth", "label": "Tăng trưởng doanh thu (%)", "type": "number", "expectedValue": 15, "tolerance": 0.08, "points": 8 },
+      { "id": "summary", "label": "Tổng kết: 5 chỉ số nói lên gì về MSFT?", "type": "text", "minLen": 100, "keywords": [["ROE", "sinh lời"], ["P/E", "giá", "đắt"], ["nợ", "rủi ro"]], "points": 20, "hint": "Mạnh ở đâu — cần theo dõi gì. Dùng ngôn ngữ Bài 9–12." }
+    ],
+    "relatedLessons": ["bao-cao-tai-chinh-1-can-doi", "bao-cao-tai-chinh-2-ket-qua", "chi-so-dinh-gia"],
+    "mentorNote": "Analyst giỏi không liệt kê số — họ 'kể chuyện' bằng số: mạnh ở X, cần theo dõi Y."
+  },
+  {
+    "id": "valuation",
+    "title": "Task 4 · Định giá & khuyến nghị 1 cổ phiếu",
+    "level": "Tuần 4 · Junior",
+    "role": "Phân tích viên định giá",
+    "minutes": 30,
+    "xp": 80,
+    "symbol": "AAPL",
+    "briefEmail": {
+      "from": "Anh Minh — Analyst cấp cao",
+      "subject": "RE: AAPL — giá hiện tại có đáng mua không?",
+      "body": [
+        "Khách hàng hỏi: 'AAPL giờ có đáng mua không?'. Em làm phép định giá nhanh theo phương pháp phòng (Bài 12): Giá hợp lý ≈ EPS × P/E hợp lý.",
+        "EPS quý gần nhất của AAPL: phòng tổng hợp được 8.57$ (lưu ý: EPS là số từ báo cáo — đứng yên theo quý; còn GIÁ THỊ TRƯỜNG thì nhìn badge ● TRỰC TIẾP trên trang AAPL, cập nhật liên tục). P/E hiện tại ~35 lần.",
+        "Làm đàng hoàng vào form — phần giá hiện tại & kết luận sẽ chấm với dữ liệu live."
+      ]
+    },
+    "steps": [
+      "EPS dùng 8.57$ (số liệu phòng cung cấp).",
+      "Chọn P/E hợp lý: AAPL đang ~35 lần — công ty chất lượng nhưng em nghĩ thị trường có đang trả đắt không? Chọn 25-35 tùy mức thận trọng, ghi lý do vào ô tổng kết.",
+      "Tính Giá hợp lý = EPS × P/E hợp lý. (VD: 8.57 × 28 = 239.96$.)",
+      "Mở trang /stock/AAPL: nhìn badge ● TRỰC TIẾP giá hiện tại — điền ngay con số đó vào form (chấm sai số ±3% vì giá nhảy).",
+      "Quyết định: giá THẤP hơn hợp lý ≥15% → MUA; chênh ±15% → GIỮ/quan sát; CAO hơn ≥15% → ĐẮT. Chọn khuyến nghị."
+    ],
+    "fields": [
+      { "id": "pe_choice", "label": "P/E hợp lý em chọn (25-35, kèm lý do ở ô memo)", "type": "number", "min": 20, "max": 40, "points": 8 },
+      { "id": "fair_value", "label": "Giá hợp lý = 8.57 × P/E hợp lý ($)", "type": "computed", "formula": "8.57*pe_choice", "depends": ["pe_choice"], "tolerance": 0.05, "points": 12 },
+      { "id": "current_price", "label": "Giá hiện tại của AAPL ($) — badge TRỰC TIẾP trên /stock/AAPL", "type": "number", "source": "quote:AAPL:price", "tolerance": 0.04, "points": 12 },
+      { "id": "action", "label": "Khuyến nghị của em", "type": "select", "options": ["MUA (có biên an toàn)", "GIỮ / quan sát thêm", "ĐẮT — chờ điều chỉnh"], "rule": "valuation_verdict", "points": 10 },
+      { "id": "memo", "label": "3 dòng luận điểm cho khách hàng (mua vì sao / sai nếu sao / chốt lời cắt lỗ đâu)", "type": "text", "minLen": 120, "keywords": [["mua", "luận điểm"], ["rủi ro", "sai", "nếu"], ["chốt", "cắt lỗ", "bán"]], "points": 10 }
+    ],
+    "relatedLessons": ["chi-so-dinh-gia", "quy-trinh-ra-quyet-dinh"],
+    "mentorNote": "Định giá không phải dự đoán chính xác — là bộ lọc kỷ luật: chỉ mua khi có biên an toàn đủ dày."
+  },
+  {
+    "id": "entry-point",
+    "title": "Task 5 · Chọn điểm vào bằng phân tích kỹ thuật (real-time)",
+    "level": "Tuần 5 · Junior",
+    "role": "Phân tích viên kỹ thuật",
+    "minutes": 25,
+    "xp": 70,
+    "symbol": "NVDA",
+    "briefEmail": {
+      "from": "Chị Lan — Trưởng phòng Phân tích",
+      "subject": "Timing lệnh mua NVDA cho danh mục phòng",
+      "body": [
+        "Cơ bản của NVDA đã đạt (Task 2-3 em làm tốt). Giờ chọn ĐIỂM VÀO. Em đọc biểu đồ real-time của NVDA và trả lời 5 câu hỏi checklist dưới đây — dùng đúng khung 6 tháng.",
+        "Nhớ quy tắc phòng mình: kỹ thuật chỉ chọn KHI NÀO mua, không thay được câu hỏi CÓ ĐÁNG mua."
+      ]
+    },
+    "steps": [
+      "Mở /stock/NVDA (biểu đồ cập nhật trực tiếp). Bật MA200 để trả lời câu 1: giá đang TRÊN hay DƯỚI MA200 (lãnh thổ tăng/giảm dài hạn)?",
+      "Bật MA20 + MA50: hai đường đang xếp tầng tăng (giá > MA20 > MA50), xếp tầng giảm, hay quấn nhau?",
+      "Nhìn bảng RSI phía dưới: con số hiện tại nằm vùng nào (<30 quá bán / 30-70 trung tính / >70 quá mua)?",
+      "Nhìn bảng MACD: histogram (cột) đang dương hay âm? Cột đang dài ra (mạnh thêm) hay cụt đi (mất tốc)?",
+      "Xem mục '💡 Gợi ý đầu tư' bên phải: tổng hợp của hệ thống là gì? Kết luận của em có đồng thuận không?"
+    ],
+    "fields": [
+      { "id": "vs_ma200", "label": "1. Giá đang ở đâu so với MA200?", "type": "select", "options": ["Trên MA200 — lãnh thổ tăng", "Dưới MA200 — lãnh thổ giảm"], "rule": "vs_ma200", "points": 10 },
+      { "id": "ma_stack", "label": "2. MA20 và MA50 đang thế nào?", "type": "select", "options": ["Xếp tầng tăng (giá > MA20 > MA50)", "Xếp tầng giảm", "Quấn nhau / đi ngang"], "rule": "ma_stack", "points": 10 },
+      { "id": "rsi_zone", "label": "3. RSI hiện tại ở vùng nào?", "type": "select", "options": ["Dưới 30 — quá bán", "30-70 — trung tính", "Trên 70 — quá mua"], "rule": "rsi_zone", "points": 10 },
+      { "id": "macd_now", "label": "4. Histogram MACD đang?", "type": "select", "options": ["Dương — động lượng tăng", "Âm — động lượng giảm"], "rule": "macd_hist", "points": 10 },
+      { "id": "agree", "label": "5. Nhận định của em có đồng thuận với Gợi ý của hệ thống không? Vì sao?", "type": "text", "minLen": 80, "keywords": [["đồng", "khác"]], "points": 10 }
+    ],
+    "relatedLessons": ["duong-trung-binh-ma", "rsi-dong-luong", "macd-hoi-tu-phan-ky"],
+    "mentorNote": "Checklist 5 câu này chính là 'buổi sáng của trader': 2 phút đọc bối cảnh trước mọi quyết định."
+  },
+  {
+    "id": "portfolio",
+    "title": "Task 6 · Xây danh mục & đặt lệnh giả lập đúng kỷ luật",
+    "level": "Tuần 6 · Analyst",
+    "role": "Quản lý danh mục tập sự",
+    "minutes": 35,
+    "xp": 90,
+    "symbol": null,
+    "briefEmail": {
+      "from": "Anh Minh — Analyst cấp cao",
+      "subject": "Danh mục 6 mã cho tài khoản giả lập 100.000$",
+      "body": [
+        "Em được giao quản lý ví giả lập 100.000$ của phòng. Xây danh mục 6 mã theo đúng kỷ luật Bài 14 rồi ĐẶT LỆNH THẬT trong trang Giao dịch:",
+        "Quy tắc phòng: 6 mã, ≥3 ngành khác nhau, không mã nào >20% tài sản, tổng đầu tư ≤80% (giữ 20% tiền mặt), mỗi lệnh phải có giá cắt lỗ ghi sẵn."
+      ]
+    },
+    "steps": [
+      "Chọn 6 mã từ kết quả Task 2 + mã em phân tích ở Task 3-4-5. Đảm bảo ≥3 ngành khác nhau (công nghệ, tiêu dùng, y tế, năng lượng, tài chính...).",
+      "Phân bổ: mỗi mã 10-20% tài sản (VD 6 mã × ~13% = 80%, còn 20% tiền mặt). Viết tỷ trọng vào form.",
+      "Với TỪNG mã: xác định giá cắt lỗ (dưới vùng hỗ trợ gần nhất trên biểu đồ 6 tháng — nhìn nến + MA50) rồi tính số cp = (100.000 × 1%) / (giá vào − giá stop). Điền 1 ví dụ chi tiết vào form.",
+      "Vào trang 'Giao dịch giả lập' → đặt lệnh MUA đủ 6 mã đúng số lượng vừa tính. Chụp lại bằng cách ghi tổng giá trị đã mua.",
+      "Ghi vào form: kế hoạch thoát — khi nào bán (3 luật của Bài 13)."
+    ],
+    "fields": [
+      { "id": "six_picks", "label": "6 mã của danh mục (VD: MSFT, KO, JNJ, XOM, WMT, GOOGL)", "type": "text", "minLen": 20, "points": 15 },
+      { "id": "alloc", "label": "Tỷ trọng từng mã (% tổng tài sản) + ngành", "type": "text", "minLen": 60, "keywords": [["%"]], "points": 15 },
+      { "id": "stop_calc", "label": "1 ví dụ tính số lượng theo stop-loss (mã, giá vào, stop, số cp)", "type": "text", "minLen": 60, "keywords": [["stop", "cắt lỗ"], ["cp", "cổ phiếu"]], "points": 20, "hint": "Số cp = (Tài sản × 1%) / (giá vào − giá stop)." },
+      { "id": "invested", "label": "Tổng tiền đã đầu tư trong ví ($) — sau khi đặt lệnh xong", "type": "number", "source": "account:investedUsdValue", "tolerance": 0.1, "points": 20, "hint": "Trang Giao dịch → 'USD đang đầu tư'. Hệ thống kiểm tra em đã đặt lệnh thật." },
+      { "id": "exit_plan", "label": "Kế hoạch thoát: khi nào bán? (3 luật)", "type": "text", "minLen": 80, "points": 20 }
+    ],
+    "relatedLessons": ["quan-tri-rui-ro", "quy-trinh-ra-quyet-dinh"],
+    "mentorNote": "Danh mục sống bằng KẾ HOẠCH viết sẵn, không bằng phản ứng tức thời trước màn hình đỏ."
+  },
+  {
+    "id": "investment-memo",
+    "title": "Task 7 · Báo cáo khuyến nghị đầu tư hoàn chỉnh (Investment Memo)",
+    "level": "Tuần 7-8 · Analyst",
+    "role": "Phân tích viên chính thức",
+    "minutes": 45,
+    "xp": 120,
+    "symbol": null,
+    "briefEmail": {
+      "from": "Chị Lan — Trưởng phòng Phân tích",
+      "subject": "Memo đầu tiên của em cho ủy ban đầu tư",
+      "body": [
+        "Chúc mừng — em được trình memo đầu tiên trước 'ủy ban đầu tư' (tôi + anh Minh). Chọn 1 mã em tâm đắc nhất từ Task 2-6 và viết báo cáo khuyến nghị 1 trang theo đúng cấu trúc phòng:",
+        "1) Luận điểm MUA 3 dòng · 2) Cơ bản: 4/5 checkpoint đạt · 3) Định giá & biên an toàn · 4) Kỹ thuật: điểm vào hiện tại · 5) Rủi ro & điều kiện 'tôi sẽ sai nếu...' · 6) Kế hoạch: cỡ vị thế, stop, mục tiêu.",
+        "Viết như thể đưa cho người có tiền nhưng không có thời gian đọc."
+      ]
+    },
+    "steps": [
+      "Chọn mã: dùng 1 mã em đã phân tích sâu ở các task trước (dữ liệu phân tích của em đã có sẵn).",
+      "Viết 6 phần theo cấu trúc email sếp. Mỗi phần 2-5 câu, luôn có số liệu thật (ROE, P/E, RSI, giá live...).",
+      "Kiểm tra tự chấm: memo phải chứa đủ từ khóa cấu trúc (luận điểm, định giá, rủi ro, cắt lỗ...) và ≥400 ký tự — sếp không đọc memo 3 dòng.",
+      "Trình bày — hệ thống đóng vai ủy ban, chấm cấu trúc + độ dài + số liệu và trả lời em ngay."
+    ],
+    "fields": [
+      { "id": "ticker", "label": "Mã cổ phiếu khuyến nghị", "type": "text", "minLen": 2, "maxLen": 8, "points": 10 },
+      { "id": "thesis", "label": "1) Luận điểm MUA — 3 dòng", "type": "text", "minLen": 100, "keywords": [["vì", "do"]], "points": 20 },
+      { "id": "fundamentals_part", "label": "2) Cơ bản — 4/5 checkpoint (tăng trưởng, biên, ROE, nợ, dòng tiền)", "type": "text", "minLen": 120, "keywords": [["ROE"], ["P/E"]], "points": 20 },
+      { "id": "valuation_part", "label": "3) Định giá & biên an toàn", "type": "text", "minLen": 100, "keywords": [["giá hợp lý", "biên an toàn", "P/E"]], "points": 20 },
+      { "id": "technicals_part", "label": "4) Kỹ thuật — điểm vào hiện tại", "type": "text", "minLen": 80, "keywords": [["MA", "RSI", "MACD"]], "points": 15 },
+      { "id": "risks_part", "label": "5) Rủi ro & 'tôi sẽ sai nếu...'", "type": "text", "minLen": 80, "keywords": [["sai", "rủi ro"]], "points": 15 },
+      { "id": "plan_part", "label": "6) Kế hoạch: cỡ vị thế, stop, mục tiêu", "type": "text", "minLen": 80, "keywords": [["stop", "cắt lỗ", "mục tiêu"]], "points": 20 }
+    ],
+    "relatedLessons": ["quy-trinh-ra-quyet-dinh", "quan-tri-rui-ro", "tam-ly-dau-tu"],
+    "mentorNote": "Memo tốt = người đọc ra quyết định được mà không cần hỏi lại gì. Đó là tiêu chuẩn em hướng tới."
+  }
+]

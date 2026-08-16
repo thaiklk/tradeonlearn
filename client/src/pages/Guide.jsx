@@ -82,14 +82,20 @@ export default function Guide() {
           <li><b>💡 Gợi ý đầu tư</b> (cột phải): kết luận MUA/BÁN/TRUNG TÍNH từ tổ hợp 4 chỉ báo, mỗi tín hiệu đều kèm giải thích + nút "Học bài liên quan".</li>
           <li><b>🏦 Phân tích cơ bản</b>: P/E, P/B, ROE, biên lợi nhuận, nợ/vốn... kèm chú thích "cách đọc" cho từng chỉ số — nguyên liệu của <Link to="/learn/chi-so-dinh-gia">Bài 12</Link>.</li>
         </ul>
-        <h3 style={{ color: '#cfe0ff' }}>3. Giao dịch giả lập</h3>
+        <h3 style={{ color: '#cfe0ff' }}>3. 💼 Phòng phân tích — "đi làm thật"</h3>
+        <ul className="muted">
+          <li>7 task mô phỏng công việc analyst thật: nhận <b>email sếp giao việc</b> → làm theo <b>hướng dẫn từng bước</b> (dành cho người chưa biết gì) → điền phiếu hoàn thành → <b>mentor chấm bằng dữ liệu live</b>.</li>
+          <li>Làm đúng thứ tự 1→7 (Morning Brief → Screening → Health-check → Định giá → Kỹ thuật → Danh mục → Investment Memo). Sai mục nào sẽ hiện đáp án/số liệu đúng để học — nộp lại được.</li>
+          <li>Tích <b>XP thăng chức</b>: Intern 🌱 → Junior 💼 → Analyst 📊 → Senior 🏆. Giá & biểu đồ trong task cập nhật <b>thời gian thực</b> (badge ● TRỰC TIẾP).</li>
+        </ul>
+        <h3 style={{ color: '#cfe0ff' }}>4. Giao dịch giả lập</h3>
         <ul className="muted">
           <li>Hai ví riêng: USD (thị trường Mỹ) và VND (thị trường Việt Nam) — mua AAPL trừ ví USD, mua VNM trừ ví VND.</li>
           <li>Đặt lệnh theo <b>giá hiện tại</b> (Mỹ: gần thời gian thực; VN: giá cuối ngày). Lệnh KHÔNG khớp khi thiếu tiền/thiếu cp — giống thật.</li>
           <li><b>Vị thế</b> tự tính lãi/lỗ theo giá mới; <b>Lịch sử lệnh</b> ghi lại toàn bộ — đó là "nhật ký giao dịch" thô của bạn (Bài 13 khuyên bạn viết thêm lý do vào sổ).</li>
           <li>Nút ♻️ Reset ví để bắt đầu lại từ đầu (sau khi thử nghiệm chiến lược, ví dụ).</li>
         </ul>
-        <h3 style={{ color: '#cfe0ff' }}>4. Học tập · Từ điển · Tin tức</h3>
+        <h3 style={{ color: '#cfe0ff' }}>5. Học tập · Từ điển · Tin tức</h3>
         <ul className="muted">
           <li><b>Học tập</b>: 15 bài chia 3 cấp độ, tiến độ và điểm cao nhất được lưu tự động trên máy bạn.</li>
           <li><b>Từ điển</b>: 85 thuật ngữ có thể tìm bằng tiếng Anh lẫn tiếng Việt, lọc theo chủ đề.</li>

@@ -9,6 +9,8 @@ import LessonDetail from './pages/LessonDetail.jsx'
 import Glossary from './pages/Glossary.jsx'
 import News from './pages/News.jsx'
 import Guide from './pages/Guide.jsx'
+import Desk from './pages/Desk.jsx'
+import TaskDetail from './pages/TaskDetail.jsx'
 
 // Lưới an toàn: nếu 1 component lỗi, hiện thông báo dễ đọc thay vì màn hình đen
 class ErrorBoundary extends Component {
@@ -53,6 +55,8 @@ export default function App() {
             <Route path="/glossary" element={<Glossary />} />
             <Route path="/news" element={<News />} />
             <Route path="/guide" element={<Guide />} />
+            <Route path="/desk" element={<Desk />} />
+            <Route path="/desk/:id" element={<TaskDetail />} />
           </Routes>
         </ErrorBoundary>
       </main>

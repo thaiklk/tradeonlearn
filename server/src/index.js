@@ -11,6 +11,7 @@ import watchlistRoutes from './routes/watchlist.js'
 import newsRoutes from './routes/news.js'
 import glossaryRoutes from './routes/glossary.js'
 import streamRoutes from './routes/stream.js'
+import taskRoutes from './routes/tasks.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -28,6 +29,7 @@ app.use('/api/lessons', learnRoutes)
 app.use('/api/watchlist', watchlistRoutes)
 app.use('/api/news', newsRoutes)
 app.use('/api/glossary', glossaryRoutes)
+app.use('/api/tasks', taskRoutes)
 app.use('/api', streamRoutes)
 
 // Chế độ production (deploy 1 service duy nhất): phục vụ bản build của client

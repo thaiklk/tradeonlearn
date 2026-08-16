@@ -56,4 +56,9 @@ export const api = {
     return request(`/glossary?${p.toString()}`)
   },
   news: (market) => request(`/news?market=${market}`),
+
+  // Phòng phân tích — task giả lập đi làm thật
+  tasks: () => request('/tasks'),
+  task: (id) => request(`/tasks/${id}`),
+  submitTask: (id, answers) => request(`/tasks/${id}/submit`, { method: 'POST', body: JSON.stringify({ answers }) }),
 }

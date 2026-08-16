@@ -293,6 +293,14 @@ export default function Dashboard() {
                 </div>
               </div>
               <Link to="/learn" className="btn" style={{ marginTop: 14 }}>Tiếp tục học →</Link>
+              <div style={{ marginTop: 10, borderTop: '1px solid var(--border-soft)', paddingTop: 10 }}>
+                <span className="muted" style={{ fontSize: 12.5 }}>
+                  💼 Phòng phân tích: làm task như đi làm thật
+                </span>
+                <div>
+                  <Link to="/desk" className="btn sm" style={{ marginTop: 6 }}>Vào làm việc →</Link>
+                </div>
+              </div>
             </>
           ) : (
             <div className="spinner" />
