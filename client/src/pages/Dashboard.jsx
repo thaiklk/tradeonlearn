@@ -5,6 +5,7 @@ import { usePolling, useApi, useQuoteStream } from '../hooks.js'
 import { fmtPct, fmtPrice, fmtMoney, timeAgo } from '../format.js'
 import StockSearch from '../components/StockSearch.jsx'
 import AnalysisCharts from '../components/PriceCharts.jsx'
+import { ErrorBoundary } from '../App.jsx'
 
 // Đường sparkline SVG nhẹ từ chuỗi giá đóng cửa
 function Sparkline({ symbol, range = '6mo' }) {
@@ -97,16 +98,18 @@ function QuickChart() {
         </span>
       </div>
       {data ? (
-        <AnalysisCharts
-          candles={data.candles}
-          series={data.series}
-          toggles={toggles}
-          ranges={{ intraday: false }}
-          symbol={symbol}
-          market={data.market}
-          currency={data.currency}
-          compact
-        />
+        <ErrorBoundary>
+          <AnalysisCharts
+            candles={data.candles}
+            series={data.series}
+            toggles={toggles}
+            ranges={{ intraday: false }}
+            symbol={symbol}
+            market={data.market}
+            currency={data.currency}
+            compact
+          />
+        </ErrorBoundary>
       ) : (
         <div className="spinner" />
       )}
@@ -212,11 +215,45 @@ export default function Dashboard() {
   const { data: account } = usePolling(() => api.account(), 30000)
   const { data: progress } = useApi(() => api.progress(), [])
   const { data: news } = useApi(() => api.news('vn'), [])
+  const { data: desk } = useApi(() => api.tasks(), [])
 
   const indexes = overview ? [...(overview.usIndexes || []), ...(overview.vnIndexes || [])] : []
+  const nextTask = (desk?.tasks || []).find((t) => !t.progress?.done) || null
 
   return (
     <div className="grid" style={{ gap: 16 }}>
+      {/* 🎯 HERO: định hướng người mới — phân tích doanh nghiệp TRƯỚC, thị trường sau */}
+      <div className="card hero-card" style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', border: '1px solid #4f8cff44' }}>
+        <div style={{ flex: 2, minWidth: 280 }}>
+          <h1 style={{ margin: 0, fontSize: 24 }}>🎯 Phân tích doanh nghiệp đầu tiên — 15 phút</h1>
+          <p className="muted" style={{ margin: '8px 0 0', fontSize: 14 }}>
+            Quy trình của một nhà phân tích, từng bước nhỏ:
+            <b> mô hình kinh doanh → tăng trưởng → biên lợi nhuận → nợ → dòng tiền → định giá → rủi ro</b>.
+            Không cần biết trước gì — sếp sẽ giao việc và hướng dẫn từng bước.
+          </p>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 14 }}>
+            {nextTask ? (
+              <Link to={`/desk/${nextTask.id}`} className="btn primary">
+                ▶ Bắt đầu: {nextTask.title.split('·')[1]?.trim() || nextTask.title} (+{nextTask.xp} XP)
+              </Link>
+            ) : (
+              <Link to="/desk" className="btn primary">▶ Vào Phòng phân tích</Link>
+            )}
+            <Link to="/stock/FPT" className="btn">Xem mẫu: doanh nghiệp FPT 🇻🇳</Link>
+            <Link to="/roadmap" className="btn ghost">🧭 Lộ trình 12 tháng</Link>
+          </div>
+        </div>
+        {progress && (
+          <div style={{ textAlign: 'center', minWidth: 180 }}>
+            <div className="muted" style={{ fontSize: 12 }}>TIẾN ĐỘ CỦA BẠN</div>
+            <div className="big num">{progress.lessonsRead}/{progress.lessonsTotal} bài</div>
+            <div className="muted num" style={{ fontSize: 13 }}>
+              {desk ? `${desk.tasks.filter((t) => t.progress?.done).length}/${desk.tasks.length} task · ${desk.xp} XP · ${desk.rank.name}` : ''}
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Chào mừng + ví */}
       <div className="card" style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>

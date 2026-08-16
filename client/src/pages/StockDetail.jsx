@@ -4,6 +4,7 @@ import { api } from '../api.js'
 import { useApi, useQuoteStream } from '../hooks.js'
 import { fmtCompact, fmtPct, fmtPrice, fmtMoney } from '../format.js'
 import AnalysisCharts from '../components/PriceCharts.jsx'
+import { ErrorBoundary } from '../App.jsx'
 
 const RANGES = [
   { key: '1d', label: '1 ngày' },
@@ -270,15 +271,17 @@ export default function StockDetail() {
             </div>
           </div>
           {data?.candles?.length ? (
-            <AnalysisCharts
-              candles={data.candles}
-              series={data.series}
-              toggles={toggles}
-              ranges={{ intraday: range === '1d' }}
-              symbol={symbol.toUpperCase()}
-              market={data.market}
-              currency={currency}
-            />
+            <ErrorBoundary>
+              <AnalysisCharts
+                candles={data.candles}
+                series={data.series}
+                toggles={toggles}
+                ranges={{ intraday: range === '1d' }}
+                symbol={symbol.toUpperCase()}
+                market={data.market}
+                currency={currency}
+              />
+            </ErrorBoundary>
           ) : (
             <div className="empty">Không có dữ liệu nến.</div>
           )}

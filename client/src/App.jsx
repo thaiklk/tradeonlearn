@@ -14,7 +14,7 @@ import TaskDetail from './pages/TaskDetail.jsx'
 import Roadmap from './pages/Roadmap.jsx'
 
 // Lưới an toàn: nếu 1 component lỗi, hiện thông báo dễ đọc thay vì màn hình đen
-class ErrorBoundary extends Component {
+export class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
     this.state = { error: null }
