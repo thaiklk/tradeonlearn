@@ -81,7 +81,14 @@ function StatsCard({ data }) {
 function FinancialsCard({ symbol }) {
   const { data: fin } = useApi(() => api.get(`/stocks/${encodeURIComponent(symbol)}/financials`), [symbol])
   const [basic, setBasic] = useState(true) // Phase 3: Cơ bản (5 chỉ số + câu hỏi) / Nâng cao (đủ bảng)
-  if (!fin || fin.status === 'no-data' || !fin.years?.length) return null
+  if (!fin || fin.status === 'no-data' || !fin.years?.length)
+    return (
+      <div className="card">
+        <div className="card-title"><span>📗 Báo cáo tài chính</span><span className="badge gray">CHƯA CÓ DỮ LIỆU</span></div>
+        <div className="muted" style={{ fontSize: 13 }}>Mã này chưa có bộ BCTC trên web. Bạn có thể tự nhập số liệu từ báo cáo đã kiểm toán (cafef/vietstock) — sẽ được gắn nhãn "dữ liệu người học nhập", tách biệt với dữ liệu live.</div>
+        <Link to={`/manual/${symbol}`} className="btn sm" style={{ marginTop: 10 }}>✍️ Nhập tay BCTC cho {symbol}</Link>
+      </div>
+    )
   const isDemo = fin.status === 'demo'
   const fmt = (v) => (v == null ? '—' : Number.isFinite(v) ? v.toLocaleString('vi-VN') : '—')
   const rRows = [

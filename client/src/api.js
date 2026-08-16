@@ -68,4 +68,10 @@ export const api = {
   researchSave: (symbol, fields) =>
     request(`/research/${encodeURIComponent(symbol)}`, { method: 'PUT', body: JSON.stringify(fields) }),
   researchDelete: (symbol) => request(`/research/${encodeURIComponent(symbol)}`, { method: 'DELETE' }),
+
+  // Nhập tay BCTC VN (Phase 7)
+  manualGet: (symbol) => request(`/manual/${encodeURIComponent(symbol)}`),
+  manualPost: (symbol, body) =>
+    request(`/manual/${encodeURIComponent(symbol)}`, { method: 'POST', body: JSON.stringify(body) }),
+  manualDelete: (id) => request(`/manual/entry/${id}`, { method: 'DELETE' }),
 }

@@ -75,6 +75,17 @@ export function initDb() {
       risks TEXT, invalidation TEXT, sources TEXT, checklist TEXT,
       updated_at TEXT DEFAULT (datetime('now'))
     );
+
+    -- Phase 7: BCTC do người học tự nhập (tách biệt hoàn toàn khỏi dữ liệu live)
+    CREATE TABLE IF NOT EXISTS manual_financials (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      symbol TEXT NOT NULL,
+      period TEXT NOT NULL,
+      source TEXT DEFAULT '',
+      currency TEXT DEFAULT 'VND',
+      data TEXT NOT NULL,
+      created_at TEXT DEFAULT (datetime('now'))
+    );
   `)
   db.prepare('INSERT OR IGNORE INTO account (id) VALUES (1)').run()
 }
