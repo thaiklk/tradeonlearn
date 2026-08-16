@@ -78,6 +78,54 @@ function StatsCard({ data }) {
   )
 }
 
+function FinancialsCard({ symbol }) {
+  const { data: fin } = useApi(() => api.get(`/stocks/${encodeURIComponent(symbol)}/financials`), [symbol])
+  if (!fin || fin.status === 'no-data' || !fin.years?.length) return null
+  const isDemo = fin.status === 'demo'
+  const fmt = (v) => (v == null ? '—' : Number.isFinite(v) ? v.toLocaleString('vi-VN') : '—')
+  const rRows = [
+    ['Doanh thu', fin.rows.revenue], ['LN gộp', fin.rows.grossProfit], ['LN hoạt động', fin.rows.operatingIncome],
+    ['LN ròng', fin.rows.netIncome], ['EPS', fin.rows.eps], ['Tài sản', fin.rows.totalAssets],
+    ['Nợ phải trả', fin.rows.totalLiabilities], ['Vốn chủ', fin.rows.equity], ['OCF', fin.rows.ocf],
+    ['CAPEX', fin.rows.capex], ['FCF', fin.rows.fcf],
+  ]
+  const qRows = [
+    ['Tăng trưởng DT %', fin.ratios.revenueGrowth], ['Tăng trưởng LN %', fin.ratios.netIncomeGrowth],
+    ['Biên gộp %', fin.ratios.grossMargin], ['Biên hoạt động %', fin.ratios.operatingMargin], ['Biên ròng %', fin.ratios.netMargin],
+    ['ROE %', fin.ratios.roe], ['ROA %', fin.ratios.roa], ['Nợ/Vốn %', fin.ratios.debtToEquity], ['OCF/LN %', fin.ratios.ocfToNi],
+  ]
+  return (
+    <div className="card">
+      <div className="card-title">
+        <span>📗 Báo cáo tài chính 4 năm (chuẩn hóa)</span>
+        <span className={`badge ${isDemo ? 'demo' : 'green'}`}>{isDemo ? 'DEMO DATA' : 'LIVE'}</span>
+      </div>
+      <div className="muted" style={{ fontSize: 12, marginBottom: 10 }}>
+        Nguồn: {fin.source} · Kỳ: {fin.periodEnd} · Đơn vị: {fin.unit} · Cập nhật: {new Date(fin.fetchedAt).toLocaleString('vi-VN')} —{' '}
+        <Link to="/learn/bao-cao-tai-chinh-1-can-doi">học cách đọc ở Bài 9-11</Link>
+      </div>
+      <div style={{ overflowX: 'auto' }}>
+        <table className="table" style={{ minWidth: 560 }}>
+          <thead><tr><th>Chỉ số</th>{fin.years.map((y) => <th key={y} className="right">{y}</th>)}</tr></thead>
+          <tbody>
+            {rRows.map(([n, arr]) => (
+              <tr key={n}><td className="muted">{n}</td>{(arr || []).map((v, i) => <td key={i} className="right num">{fmt(v)}</td>)}</tr>
+            ))}
+            {qRows.map(([n, arr]) => (
+              <tr key={n} style={{ borderTop: '2px solid var(--border)' }}><td className="muted">{n}</td>{(arr || []).map((v, i) => (
+                <td key={i} className={`right num ${v != null && n.includes('Tăng trưởng') || n.includes('ROE') || n.includes('OCF') ? (v >= 0 ? 'up' : 'down') : ''}`}>{fmt(v)}</td>
+              ))}</tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="muted" style={{ fontSize: 12, marginTop: 8 }}>
+        💡 Câu hỏi phân tích: doanh thu &amp; LN cùng chiều không? Biên ổn định không? OCF/LN ≥ 80% không? Nợ/Vốn xu hướng gì? — trả lời được là bạn vừa "health-check" xong 1 doanh nghiệp.
+      </div>
+    </div>
+  )
+}
+
 function Fundamentals({ symbol, market }) {
   const { data: fund } = useApi(() => api.fundamentals(symbol), [symbol])
 
@@ -287,6 +335,9 @@ export default function StockDetail() {
           )}
         </div>
 
+        <div style={{ marginTop: 16 }}>
+          <FinancialsCard symbol={symbol} />
+        </div>
         <div style={{ marginTop: 16 }}>
           <Fundamentals symbol={symbol} market={data?.market} />
         </div>
