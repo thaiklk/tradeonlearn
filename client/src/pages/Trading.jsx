@@ -124,7 +124,7 @@ function OrderForm({ prefillSymbol, prefillSide, account, onDone }) {
                     {quoteUpdatedAt && <span className="badge green trading-order-live">● {quoteUpdatedAt.toLocaleTimeString('vi-VN')}</span>}
                   </>
                 )}
-                {!quote && (
+                {!currentQuote && (
                   <button className="btn sm" style={{ marginLeft: 8 }} onClick={() => loadQuote(symbol)}>
                     Lấy giá
                   </button>
@@ -335,43 +335,45 @@ export default function Trading() {
             <Link to="/learn/quan-tri-rui-ro">Bài 14</Link>!
           </div>
         ) : (
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Mã</th>
-                <th className="right">SL</th>
-                <th className="right">Giá mua TB</th>
-                <th className="right">Giá hiện tại</th>
-                <th className="right">Giá trị</th>
-                <th className="right">Lãi/lỗ</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {livePositions.map((p) => (
-                <tr key={p.symbol}>
-                  <td>
-                    <Link to={`/stock/${p.symbol}`}>
-                      <b>{p.symbol}</b>
-                    </Link>{' '}
-                    <span className={`badge ${p.market === 'VN' ? 'vn' : 'us'}`}>{p.market}</span>
-                  </td>
-                  <td className="right num"><ExplainableValue metricKey="quantity" value={p.qty.toLocaleString('vi-VN')} ctx={{ symbol: p.symbol }} /></td>
-                  <td className="right num"><ExplainableValue metricKey="averageCost" value={fmtPrice(p.avg_price, p.currency)} ctx={{ symbol: p.symbol, unit: p.currency }} /></td>
-                  <td className="right num"><ExplainableValue metricKey="price" value={fmtPrice(p.currentPrice, p.currency)} ctx={{ symbol: p.symbol, unit: p.currency }} /></td>
-                  <td className="right num"><ExplainableValue metricKey="marketValue" value={fmtMoney(p.marketValue, p.currency)} ctx={{ symbol: p.symbol, unit: p.currency, calc: `${fmtPrice(p.currentPrice, p.currency)} × ${p.qty.toLocaleString('vi-VN')} cổ phiếu` }} /></td>
-                  <td className={`right num ${p.profit >= 0 ? 'up' : 'down'}`}>
-                    <ExplainableValue metricKey="pnl" value={`${fmtMoney(p.profit, p.currency)} (${fmtPct(p.profitPercent)})`} ctx={{ symbol: p.symbol, unit: p.currency }} />
-                  </td>
-                  <td className="right">
-                    <button className="btn sm sell" onClick={() => sellAll(p)}>
-                      Bán hết
-                    </button>
-                  </td>
+          <div className="trading-table-scroll">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Mã</th>
+                  <th className="right">SL</th>
+                  <th className="right">Giá mua TB</th>
+                  <th className="right">Giá hiện tại</th>
+                  <th className="right">Giá trị</th>
+                  <th className="right">Lãi/lỗ</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {livePositions.map((p) => (
+                  <tr key={p.symbol}>
+                    <td>
+                      <Link to={`/stock/${p.symbol}`}>
+                        <b>{p.symbol}</b>
+                      </Link>{' '}
+                      <span className={`badge ${p.market === 'VN' ? 'vn' : 'us'}`}>{p.market}</span>
+                    </td>
+                    <td className="right num"><ExplainableValue metricKey="quantity" value={p.qty.toLocaleString('vi-VN')} ctx={{ symbol: p.symbol }} /></td>
+                    <td className="right num"><ExplainableValue metricKey="averageCost" value={fmtPrice(p.avg_price, p.currency)} ctx={{ symbol: p.symbol, unit: p.currency }} /></td>
+                    <td className="right num"><ExplainableValue metricKey="price" value={fmtPrice(p.currentPrice, p.currency)} ctx={{ symbol: p.symbol, unit: p.currency }} /></td>
+                    <td className="right num"><ExplainableValue metricKey="marketValue" value={fmtMoney(p.marketValue, p.currency)} ctx={{ symbol: p.symbol, unit: p.currency, calc: `${fmtPrice(p.currentPrice, p.currency)} × ${p.qty.toLocaleString('vi-VN')} cổ phiếu` }} /></td>
+                    <td className={`right num ${p.profit >= 0 ? 'up' : 'down'}`}>
+                      <ExplainableValue metricKey="pnl" value={`${fmtMoney(p.profit, p.currency)} (${fmtPct(p.profitPercent)})`} ctx={{ symbol: p.symbol, unit: p.currency }} />
+                    </td>
+                    <td className="right">
+                      <button className="btn sm sell" onClick={() => sellAll(p)}>
+                        Bán hết
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 
@@ -385,36 +387,38 @@ export default function Trading() {
         {!history || history.length === 0 ? (
           <div className="empty">Chưa có lệnh nào.</div>
         ) : (
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Thời điểm</th>
-                <th>Lệnh</th>
-                <th>Mã</th>
-                <th className="right">SL</th>
-                <th className="right">Giá</th>
-                <th className="right">Tổng</th>
-              </tr>
-            </thead>
-            <tbody>
-              {history.map((t) => (
-                <tr key={t.id}>
-                  <td className="muted num" style={{ fontSize: 13 }}>{t.ts}</td>
-                  <td>
-                    <span className={`badge ${t.side === 'BUY' ? 'green' : 'red'}`}>{t.side === 'BUY' ? 'MUA' : 'BÁN'}</span>
-                  </td>
-                  <td>
-                    <b>{t.symbol}</b> <span className={`badge ${t.market === 'VN' ? 'vn' : 'us'}`}>{t.market}</span>
-                  </td>
-                  <td className="right num"><ExplainableValue metricKey="quantity" value={t.qty.toLocaleString('vi-VN')} ctx={{ symbol: t.symbol }} /></td>
-                  <td className="right num"><ExplainableValue metricKey="price" value={fmtPrice(t.price, t.market === 'VN' ? 'VND' : 'USD')} ctx={{ symbol: t.symbol, unit: t.market === 'VN' ? 'VND' : 'USD' }} /></td>
-                  <td className="right num" style={{ fontWeight: 700 }}>
-                    <ExplainableValue metricKey="orderValue" value={fmtMoney(t.total, t.market === 'VN' ? 'VND' : 'USD')} ctx={{ symbol: t.symbol, unit: t.market === 'VN' ? 'VND' : 'USD', calc: `${fmtPrice(t.price, t.market === 'VN' ? 'VND' : 'USD')} × ${t.qty.toLocaleString('vi-VN')} cổ phiếu` }} />
-                  </td>
+          <div className="trading-table-scroll">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Thời điểm</th>
+                  <th>Lệnh</th>
+                  <th>Mã</th>
+                  <th className="right">SL</th>
+                  <th className="right">Giá</th>
+                  <th className="right">Tổng</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {history.map((t) => (
+                  <tr key={t.id}>
+                    <td className="muted num" style={{ fontSize: 13 }}>{t.ts}</td>
+                    <td>
+                      <span className={`badge ${t.side === 'BUY' ? 'green' : 'red'}`}>{t.side === 'BUY' ? 'MUA' : 'BÁN'}</span>
+                    </td>
+                    <td>
+                      <b>{t.symbol}</b> <span className={`badge ${t.market === 'VN' ? 'vn' : 'us'}`}>{t.market}</span>
+                    </td>
+                    <td className="right num"><ExplainableValue metricKey="quantity" value={t.qty.toLocaleString('vi-VN')} ctx={{ symbol: t.symbol }} /></td>
+                    <td className="right num"><ExplainableValue metricKey="price" value={fmtPrice(t.price, t.market === 'VN' ? 'VND' : 'USD')} ctx={{ symbol: t.symbol, unit: t.market === 'VN' ? 'VND' : 'USD' }} /></td>
+                    <td className="right num" style={{ fontWeight: 700 }}>
+                      <ExplainableValue metricKey="orderValue" value={fmtMoney(t.total, t.market === 'VN' ? 'VND' : 'USD')} ctx={{ symbol: t.symbol, unit: t.market === 'VN' ? 'VND' : 'USD', calc: `${fmtPrice(t.price, t.market === 'VN' ? 'VND' : 'USD')} × ${t.qty.toLocaleString('vi-VN')} cổ phiếu` }} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>
