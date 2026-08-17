@@ -183,6 +183,7 @@ a:hover { text-decoration: underline; }
   position: absolute; right: 0; top: calc(100% + 8px); z-index: 70; min-width: 216px; padding: 6px;
   background: #111a2b; border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow);
 }
+.nav-more:not([open]) .nav-more-menu { display: none; }
 .nav-more-menu a { display: block; padding: 8px 10px; border-radius: 7px; }
 
 @media (max-width: 1180px) {
@@ -924,7 +925,9 @@ body { background: var(--bg); }
   .dashboard-hero-actions .dashboard-sample-link { grid-column: 1 / -1; justify-self: start; width: auto; }
   .dashboard-hero-progress { padding: 14px; }
   .dashboard-wallet-card { padding: 18px; }
-  .dashboard-wallets { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .dashboard-wallet-stat { padding-left: 10px; }
+  .dashboard-wallets { grid-template-columns: 1fr; gap: 12px; }
+  .dashboard-wallet-stat,
+  .dashboard-wallet-stat:first-child { padding: 12px 0 0; border-top: 1px solid #2a3c43; border-left: 0; }
+  .dashboard-wallet-stat:first-child { padding-top: 0; border-top: 0; }
   .dashboard-wallet-action { grid-column: 1 / -1; width: 100%; min-height: 42px; }
 }
