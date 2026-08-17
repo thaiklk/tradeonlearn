@@ -1,6 +1,6 @@
 # 📈 TradeLearn — Web học tài chính & chứng khoán (Mỹ + Việt Nam)
 
-Web ứng dụng **học đầu tư chứng khoán từ con số 0**, theo dõi dữ liệu giá **gần thời gian thực** của thị trường
+Web ứng dụng **học tài chính doanh nghiệp từ con số 0 để đi làm**, rồi dùng dữ liệu đầu tư để luyện phân tích; theo dõi dữ liệu giá **gần thời gian thực** của thị trường
 Mỹ & Việt Nam, kèm **biểu đồ nến + chỉ báo kỹ thuật**, **gợi ý phân tích có giải thích**, **phân tích cơ bản doanh
 nghiệp**, **ví giao dịch giả lập (paper trading)** và **lộ trình 49 bài tài chính doanh nghiệp cho người mới bắt đầu** — trọng tâm là
 **phân tích tài chính để tự ra quyết định đầu tư**.
