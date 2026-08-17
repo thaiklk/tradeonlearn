@@ -296,10 +296,10 @@ export default function Dashboard() {
       {/* Chào mừng + ví */}
       <div className="card" style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: 24 }}>Xin chào người học đầu tư 👋</h1>
+          <h1 style={{ margin: 0, fontSize: 24 }}>Xin chào người học tài chính 👋</h1>
           <p className="muted" style={{ margin: '6px 0 0', maxWidth: 640 }}>
-            Chào mừng đến <b>TradeLearn</b> — nơi bạn học phân tích tài chính bằng dữ liệu gần thời gian thực của thị
-            trường Mỹ & Việt Nam, luyện tay bằng ví tiền ảo. Mới bắt đầu? Mở <Link to="/guide">📖 Hướng dẫn sử dụng</Link> hoặc vào <Link to="/learn">Khóa học 15 bài</Link> ngay.
+            Chào mừng đến <b>TradeLearn</b> — nơi bạn học tài chính doanh nghiệp theo lộ trình đi làm, rồi dùng dữ liệu gần thời gian thực của thị
+            trường Mỹ & Việt Nam để luyện phân tích. Mới bắt đầu? Mở <Link to="/guide">📖 Hướng dẫn sử dụng</Link> hoặc vào <Link to="/learn">lộ trình bài học</Link> ngay.
           </p>
         </div>
         <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap' }}>

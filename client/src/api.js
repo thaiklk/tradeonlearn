@@ -31,7 +31,11 @@ async function request(path, options = {}) {
   } catch {
     data = null
   }
-  if (!res.ok) throw new Error(data?.error || `Lỗi HTTP ${res.status}`)
+  if (!res.ok) {
+    const error = new Error(data?.error || `Lỗi HTTP ${res.status}`)
+    error.payload = data
+    throw error
+  }
   return data
 }
 
@@ -62,7 +66,7 @@ export const api = {
   tradingHistory: () => request('/trading/history'),
   resetAccount: () => request('/trading/reset', { method: 'POST' }),
 
-  // Học tập
+  // Học tập: bài đọc và workpaper tự luận (không còn quiz chọn A/B/C).
   lessons: () => request('/lessons'),
   lesson: (id) => request(`/lessons/${id}`),
   saveLessonPractice: (id, answers, submit = false) =>

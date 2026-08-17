@@ -36,7 +36,7 @@ export default function Guide() {
           <Link to="/corporate-finance">💼 Track tài chính doanh nghiệp</Link>
           <a href="#pages">🖥️ Hướng dẫn từng trang</a>
           <a href="#signals">💡 Dùng "Gợi ý đầu tư" đúng cách</a>
-          <a href="#roadmap">🗺️ Lộ trình học 8 tuần</a>
+          <a href="#roadmap">🗺️ Lộ trình tài chính doanh nghiệp</a>
           <a href="#workflow">🔄 Quy trình 1 lệnh mua mẫu</a>
           <a href="#data">🗄️ Dữ liệu & những điều cần biết</a>
           <a href="#faq">❓ Câu hỏi thường gặp</a>
@@ -56,9 +56,9 @@ export default function Guide() {
           Vào <Link to="/trading">Giao dịch giả lập</Link> — bạn có sẵn <b>100.000$ + 500 triệu ₫</b>. Chọn mã, số lượng,
           bấm MUA. Không lo lỗ thật: đây là ví luyện tay.
         </Step>
-        <Step n={4} title="Bắt đầu khóa học">
-          Vào <Link to="/learn">Học tập</Link>, đọc <Link to="/learn/co-phieu-la-gi">Bài 1</Link> và nộp đầu ra thực hành.
-          Mỗi bài có tình huống, các ô ghi nhận xét, rubric tự đối chiếu và liên kết đến công cụ trên web.
+        <Step n={4} title="Bắt đầu lộ trình tài chính doanh nghiệp">
+          Vào <Link to="/learn">Học tập</Link>, mở <Link to="/learn/tcdn-tai-chinh-doanh-nghiep-la-gi">bài đầu tiên</Link> và nộp workpaper ngắn.
+          Lộ trình có 49 bài theo 16 chương; mỗi bài có tình huống, các ô tự luận, bản nháp, rubric tự đối chiếu và liên kết đến công cụ trên web.
         </Step>
         <Step n={5} title="Đọc hết trang này">
           Phần "Quy trình 1 lệnh mua mẫu" bên dưới là cách dùng web như một nhà đầu tư thật sự — đừng bỏ qua.
@@ -98,7 +98,7 @@ export default function Guide() {
         </ul>
         <h3 style={{ color: '#cfe0ff' }}>5. Học tập · Từ điển · Tin tức</h3>
         <ul className="muted">
-          <li><b>Học tập</b>: 15 bài chia 3 cấp độ. Mỗi bài có đầu ra thực hành, bản nháp và bài nộp được lưu theo workspace của bạn.</li>
+          <li><b>Học tập</b>: lộ trình 49 bài theo 16 chương tài chính doanh nghiệp, kèm nhánh đầu tư để luyện dữ liệu. Mỗi bài có đầu ra tự luận, bản nháp và bài nộp được lưu theo workspace của bạn.</li>
           <li><b>Từ điển</b>: 85 thuật ngữ có thể tìm bằng tiếng Anh lẫn tiếng Việt, lọc theo chủ đề.</li>
           <li><b>Tin tức</b>: tin 2 ngày qua theo 2 thị trường. Quy tắc: đọc để hiểu bối cảnh, không mua theo tít (Bài 15).</li>
         </ul>
@@ -110,7 +110,7 @@ export default function Guide() {
           theo đúng cách các bài 4–8 dạy, rồi cho bạn thấy kết luận sẽ trông thế nào. Ba nguyên tắc sử dụng:
         </p>
         <ol className="muted">
-          <li><b>Đọc lý do, không chép kết luận.</b> Mỗi tín hiệu có giải thích + bài học liên quan — mục tiêu là sau 15 bài bạn tự viết được những phân tích đó.</li>
+          <li><b>Đọc lý do, không chép kết luận.</b> Mỗi tín hiệu có giải thích + bài học liên quan — mục tiêu là sau khi học phần nền tảng, bạn tự viết được những phân tích đó.</li>
           <li><b>Kết hợp với phân tích cơ bản.</b> Tín hiệu kỹ thuật chỉ là "khi nào mua"; "có đáng mua không" phụ thuộc doanh nghiệp (Bài 9–12) và giá có biên an toàn không.</li>
           <li><b>Không phải lời khuyên đầu tư.</b> Máy không biết mục tiêu, tài chính và khẩu vị rủi ro của bạn. Nó còn non hơn nhiều so với thị trường thật.</li>
         </ol>
@@ -120,26 +120,24 @@ export default function Guide() {
         </div>
       </Section>
 
-      <Section id="roadmap" title="🗺️ Lộ trình học 8 tuần (mỗi tuần ~2 bài, 2-3 giờ)">
-        <Step n={1} title="Tuần 1–2 · Nền tảng (Bài 1–4)">
-          Hoàn thành đầu ra thực hành của từng bài. Thực hành: thêm 5 mã vào watchlist; mỗi ngày 5 phút nhìn biểu đồ và mô tả nến
-          hôm nay bằng ngôn ngữ bài 3–4.
+      <Section id="roadmap" title="🗺️ Lộ trình tài chính doanh nghiệp 16 tuần (3-4 giờ/tuần)">
+        <Step n={1} title="Tuần 1–2 · Vai trò finance và mục tiêu giá trị (Chương 1)">
+          Học doanh nghiệp tạo tiền thế nào, ba quyết định đầu tư - tài trợ - vận hành tiền, và cách ghi một nhận định có dữ kiện thay vì chỉ kể lại số liệu.
         </Step>
-        <Step n={2} title="Tuần 3–4 · Chỉ báo (Bài 5–8)">
-          Thực hành: trên 1 mã bất kỳ, lần lượt bật MA → RSI → MACD → Bollinger và viết 1 câu nhận xét cho từng bảng.
-          So sánh với mục Gợi ý của web.
+        <Step n={2} title="Tuần 3–5 · Báo cáo tài chính và tài sản (Chương 2–3)">
+          Đọc Báo cáo kết quả kinh doanh, Bảng cân đối kế toán và Báo cáo lưu chuyển tiền tệ; sau mỗi bài, viết một workpaper tách rõ lợi nhuận, tiền và vốn lưu động.
         </Step>
-        <Step n={3} title="Tuần 5–6 · Phân tích tài chính (Bài 9–12) — trọng tâm">
-          Thực hành: chọn 2 mã Mỹ, ghi chép đầy đủ P/E, ROE, biên lợi nhuận, Nợ/Vốn từ thẻ Phân tích cơ bản; với mã
-          Việt, tự tra cafef/vietstock bảng cân đối & P&L gần nhất và tính biên gộp, biên ròng. Làm hết ví dụ số trong bài.
+        <Step n={3} title="Tuần 6–7 · Phân tích và giá trị thời gian của tiền (Chương 4–5)">
+          Tính tỷ số có đơn vị đúng, thực hành PV/FV và kiểm tra kỳ tính lãi. Đừng chuyển chương khi chưa giải thích được kết quả bằng lời của mình.
         </Step>
-        <Step n={4} title="Tuần 7 · Quy trình & rủi ro (Bài 13–14)">
-          Thực hành: chạy đủ 7 bước cho 1 mã — viết 3 dòng luận điểm + điều kiện "tôi sẽ sai nếu" + giá stop, rồi đặt
-          lệnh giả lập đúng cỡ vị thế 1–2%.
+        <Step n={4} title="Tuần 8–10 · Định giá và dự án đầu tư (Chương 6–8)">
+          Học trái phiếu, cổ phiếu, dòng tiền tăng thêm, NPV/IRR, vốn lưu động và giá trị cuối. Hoàn thành workpaper trước, sau đó dùng lab NPV để đối chiếu phép tính.
         </Step>
-        <Step n={5} title="Tuần 8 · Tâm lý & tổng duyệt (Bài 15)">
-          Viết "hiến pháp nhà đầu tư" 10 dòng. Đọc lại nhật ký giao dịch giả lập từ tuần 1: thống kê lệnh đúng quy
-          trình vs lệch quy trình. Sau đó duy trì nhịp: mỗi tuần 1 mã mới qua đủ 7 bước.
+        <Step n={5} title="Tuần 11–13 · Rủi ro, huy động vốn và chi phí vốn (Chương 9–13)">
+          Phân biệt lợi tức với rủi ro, đọc nguồn vốn, tính WACC và nhìn cơ cấu vốn cùng với khả năng trả nợ chứ không chỉ một tỷ lệ đẹp.
+        </Step>
+        <Step n={6} title="Tuần 14–16 · Cổ tức, vốn lưu động và treasury (Chương 14–16)">
+          Lập kế hoạch tiền, theo dõi CCC, tồn kho và khoản phải thu. Kết thúc bằng một memo ngắn: vấn đề, số liệu, khuyến nghị, rủi ro và bước kiểm chứng tiếp theo.
         </Step>
       </Section>
 

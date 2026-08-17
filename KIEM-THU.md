@@ -1,7 +1,7 @@
 # 🧪 HƯỚNG DẪN KIỂM THỬ TRADELEARN (dành cho AI/model kiểm thử)
 
 ## Sản phẩm
-Web học **phân tích tài chính doanh nghiệp** cho sinh viên từ số 0: 15 bài học, 13 task analyst kiểu đi làm thật (email sếp + hướng dẫn từng bước + chấm điểm live + XP), Health Check 6 bước, so sánh ngang hàng + 7 red-flags, research workspace xuất memo, nhập tay BCTC VN, ví giao dịch giả lập $100k + 500tr₫, biểu đồ nến/RSI/MACD **cập nhật realtime ~5s** (SSE).
+Web học **phân tích tài chính doanh nghiệp** cho sinh viên từ số 0: 49 bài theo 16 chương với workpaper tự luận, 13 task analyst kiểu đi làm thật (email sếp + hướng dẫn từng bước + chấm điểm live + XP), Health Check 6 bước, so sánh ngang hàng + 7 red-flags, research workspace xuất memo, nhập tay BCTC VN, ví giao dịch giả lập $100k + 500tr₫, biểu đồ nến/RSI/MACD **cập nhật realtime ~5s** (SSE).
 
 - Repo: https://github.com/thaiklk/tradeonlearn (branch main)
 - Bản online: https://tradeonlearn.onrender.com

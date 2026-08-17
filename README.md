@@ -2,7 +2,7 @@
 
 Web ứng dụng **học đầu tư chứng khoán từ con số 0**, theo dõi dữ liệu giá **gần thời gian thực** của thị trường
 Mỹ & Việt Nam, kèm **biểu đồ nến + chỉ báo kỹ thuật**, **gợi ý phân tích có giải thích**, **phân tích cơ bản doanh
-nghiệp**, **ví giao dịch giả lập (paper trading)** và **khóa học 15 bài cho người mới bắt đầu** — trọng tâm là
+nghiệp**, **ví giao dịch giả lập (paper trading)** và **lộ trình 49 bài tài chính doanh nghiệp cho người mới bắt đầu** — trọng tâm là
 **phân tích tài chính để tự ra quyết định đầu tư**.
 
 > ⚠️ **Miễn trách nhiệm**: Mọi "gợi ý đầu tư" trên web được sinh tự động từ chỉ báo kỹ thuật, chỉ phục vụ mục đích
@@ -19,10 +19,10 @@ nghiệp**, **ví giao dịch giả lập (paper trading)** và **khóa học 15
 | 💡 **Gợi ý đầu tư (học tập)** | Tổng hợp RSI + MA cross + MACD + Bollinger + khối lượng thành kết luận MUA/BÁN/TRUNG TÍNH, **mỗi tín hiệu kèm giải thích + bài học liên quan** |
 | 🏦 **Phân tích cơ bản** | P/E, forward P/E, P/B, EPS, ROE, ROA, biên lợi nhuận, tăng trưởng, Nợ/Vốn, FCF, cổ tức... kèm **chú thích "cách đọc" cho người mới** (Bài 9–12) |
 | 💵 **Giao dịch giả lập** | Ví 100.000$ (thị trường Mỹ) + 500 triệu ₫ (thị trường VN), khớp lệnh theo giá hiện tại, vị thế tự tính lãi/lỗ, lịch sử lệnh |
-| 🎓 **Khóa học 15 bài** | Nền tảng → kỹ thuật → **đọc 3 báo cáo tài chính** → định giá (P/E, P/B, ROE) → **quy trình 7 bước ra quyết định** → quản trị rủi ro → tâm lý. 62 câu trắc nghiệm chấm tự động, lưu tiến độ |
+| 🎓 **Lộ trình 49 bài tài chính doanh nghiệp** | 16 chương từ nhập môn, báo cáo tài chính, giá trị thời gian của tiền, dự án đầu tư, rủi ro, chi phí vốn đến treasury/vốn lưu động. Mỗi bài có ví dụ số, lỗi thường gặp, nguồn học thuật và workpaper tự luận lưu tiến độ. |
 | 📚 **Từ điển** | 85 thuật ngữ Anh–Việt, tìm kiếm & lọc theo chủ đề |
 | 📰 **Tin tức** | Tin 2 ngày qua theo 2 thị trường (Google News) |
-| 📖 **Hướng dẫn sử dụng** | Trang hướng dẫn chi tiết trong web: bắt đầu nhanh, từng trang, lộ trình học 8 tuần, quy trình 1 lệnh mẫu, FAQ |
+| 📖 **Hướng dẫn sử dụng** | Trang hướng dẫn chi tiết trong web: bắt đầu nhanh, từng trang, lộ trình tài chính doanh nghiệp 16 tuần, quy trình 1 lệnh mẫu, FAQ |
 
 ## 🚀 Chạy dự án
 
@@ -76,7 +76,7 @@ project web tai chinh/
 │   │   │   ├── indicators.js# SMA, EMA, RSI, MACD, Bollinger
 │   │   │   ├── signals.js   # Engine gợi ý đầu tư (rule-based, có giải thích)
 │   │   │   └── marketService.js  # Facade US/VN/demo + cache
-│   │   └── content/         # 15 bài học + từ điển (JSON tiếng Việt)
+│   │   └── content/         # Curriculum 49 bài + từ điển (nội dung tiếng Việt)
 │   └── data/app.db          # Dữ liệu của bạn (tự tạo)
 └── client/                  # Frontend React + Vite
     └── src/
@@ -91,8 +91,8 @@ project web tai chinh/
   giá đóng cửa gần nhất (có nhãn riêng).
 - **Chế độ mô phỏng**: nếu máy không gọi được nguồn dữ liệu ngoài, web **tự chuyển sang dữ liệu mô phỏng** (nhãn vàng
   "DỮ LIỆU MÔ PHỎNG") để mọi chức năng vẫn dùng được khi học.
-- **Dữ liệu cá nhân** (watchlist, ví giả lập, tiến độ học) lưu trong `server/data/app.db` trên máy bạn — không gửi đi
-  đâu. Muốn làm mới hoàn toàn: xóa file này và khởi động lại server.
+- **Dữ liệu cá nhân** (watchlist, ví giả lập, tiến độ học, workpaper) lưu trong `server/data/app.db` khi chạy local. Bản
+  online đồng bộ snapshot workspace ẩn danh sang Cloudflare D1 qua Worker; không đưa khóa đồng bộ hoặc dữ liệu cá nhân vào frontend.
 
 ## 🛠️ Công nghệ
 

@@ -79,7 +79,7 @@ export default function Desk() {
           <li>Làm ĐÚNG THỨ TỰ 1→7 — mỗi task dùng kỹ năng của các task trước.</li>
           <li>Đọc email sếp kỹ → làm theo từng bước hướng dẫn (có giải thích vì sao) → tự điền số liệu thật vào form.</li>
           <li>Nộp xong mentor chấm bằng dữ liệu live: mục nào sai sẽ hiện số đúng để em học — sửa rồi nộp lại lấy điểm cao hơn.</li>
-          <li>Kết hợp song song <Link to="/learn">Khóa học 15 bài</Link>: task áp dụng, bài học giải thích gốc rễ.</li>
+          <li>Kết hợp song song <Link to="/learn">lộ trình 49 bài tài chính doanh nghiệp</Link>: task áp dụng, bài học giải thích gốc rễ.</li>
         </ul>
       </div>
     </div>
