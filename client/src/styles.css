@@ -188,6 +188,8 @@ a:hover { text-decoration: underline; }
 
 @media (max-width: 1180px) {
   .navbar-inner { grid-template-columns: auto minmax(0, 1fr); }
+  .nav-links { overflow-x: auto; scrollbar-width: none; }
+  .nav-links::-webkit-scrollbar { display: none; }
   .nav-search { grid-column: 1 / -1; width: min(100%, 380px); justify-self: end; }
 }
 
