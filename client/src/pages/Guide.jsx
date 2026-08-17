@@ -100,7 +100,7 @@ export default function Guide() {
         <ul className="muted">
           <li><b>Học tập</b>: lộ trình 49 bài theo 16 chương tài chính doanh nghiệp, kèm nhánh đầu tư để luyện dữ liệu. Mỗi bài có đầu ra tự luận, bản nháp và bài nộp được lưu theo workspace của bạn.</li>
           <li><b>Từ điển</b>: 85 thuật ngữ có thể tìm bằng tiếng Anh lẫn tiếng Việt, lọc theo chủ đề.</li>
-          <li><b>Tin tức</b>: tin 2 ngày qua theo 2 thị trường. Quy tắc: đọc để hiểu bối cảnh, không mua theo tít (Bài 15).</li>
+          <li><b>Tin tức</b>: tin 2 ngày qua theo 2 thị trường. Quy tắc: đọc để hiểu bối cảnh, không mua theo tít; hãy ghi lại dữ kiện cần kiểm chứng trong workpaper.</li>
         </ul>
       </Section>
 

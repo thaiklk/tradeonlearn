@@ -65,13 +65,26 @@ function formulas(lesson) {
       ...asText(section.formula),
       ...sectionText(section).filter((item) => /công thức|khung tính|^fv\s*=|^pv\s*=|^npv\s*=|^wacc\s*=|^ccc\s*=/i.test(item)),
     ])
-  return unique([...direct, ...fromSections])
+  const seen = new Set()
+  return [...direct, ...fromSections].filter((item) => {
+    const key = item.toLocaleLowerCase('vi').replace(/^công thức(?: hoặc)? khung tính:\s*/i, '').trim()
+    if (!key || seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
 }
 
 function examples(lesson) {
   const direct = [...asText(lesson?.example), ...asText(lesson?.examples), ...asText(lesson?.workedExample)]
   const fromSections = sectionsMatching(lesson, /ví dụ|example/i)
-    .flatMap((section) => [...asText(section.example), ...asText(section.examples), ...sectionText(section).filter((item) => /ví dụ|example/i.test(item))])
+    .flatMap((section) => {
+      const paragraphs = sectionText(section)
+      return [
+        ...asText(section.example),
+        ...asText(section.examples),
+        ...paragraphs.filter((item, index) => /ví dụ|example/i.test(item) || (index > 0 && !/^công thức(?: hoặc)? khung tính:/i.test(item))),
+      ]
+    })
   return unique([...direct, ...fromSections])
 }
 
