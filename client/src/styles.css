@@ -840,3 +840,91 @@ label.field span, .field > span { display: block; font-size: 12px; font-weight: 
   .practice-actions .btn { flex: 1 1 150px; }
   .lesson-navigation { margin-top: 20px; }
 }
+
+/* ---------- Dashboard refresh: quieter palette, clearer actions ---------- */
+:root {
+  --bg: #0b1117;
+  --bg-soft: #101920;
+  --panel: #141e26;
+  --panel-2: #1b2a31;
+  --border: #2a3a42;
+  --border-soft: #223139;
+  --text: #edf5f2;
+  --muted: #9aabb0;
+  --muted-2: #718187;
+  --accent: #39c5ae;
+  --accent-soft: #39c5ae20;
+  --green: #35d399;
+  --green-soft: #35d3991d;
+  --purple: #f0a35b;
+  --purple-soft: #f0a35b1d;
+  --radius: 10px;
+  --radius-sm: 7px;
+  --shadow: 0 12px 30px rgba(0, 0, 0, .28);
+}
+
+body { background: var(--bg); }
+#root::before { display: none; }
+.navbar { background: rgba(11, 17, 23, .97); border-bottom-color: #22353c; box-shadow: 0 6px 22px rgba(0, 0, 0, .24); }
+.nav-links a.active { background: #183a38; border-color: #2b746c; box-shadow: none; }
+.card { background: #141e26; border-color: #25363e; box-shadow: 0 12px 30px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .025); }
+.card:hover { border-color: #35505a; box-shadow: 0 16px 34px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .035); }
+.btn.primary { background: #39c5ae; color: #071613; box-shadow: 0 5px 16px rgba(57, 197, 174, .22); }
+.btn.primary:hover { background: #55d7c1; box-shadow: 0 8px 22px rgba(57, 197, 174, .28); filter: none; }
+.course-eyebrow { color: #68d9c5; }
+.course-track-tab.active { border-color: #3a988b; background: #173c39; color: #e3faf4; }
+.course-lesson-state.read { border-color: #367c76; background: #173c39; color: #a8e9dc; }
+.lesson-header-meta { color: #83d9ca; }
+
+.dashboard-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  gap: 30px;
+  align-items: center;
+  padding: 24px 26px;
+  border-color: #2a4b4c !important;
+  background: #14242a;
+}
+.dashboard-hero-copy { min-width: 0; }
+.dashboard-kicker { display: block; color: #68d9c5; font-size: 11px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; }
+.dashboard-hero h1 { margin: 5px 0 8px; color: #eef8f5; font-size: 26px; line-height: 1.22; background: none; -webkit-text-fill-color: initial; }
+.dashboard-hero-copy p { max-width: 760px; margin: 0; font-size: 14px; line-height: 1.65; }
+.dashboard-hero-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.dashboard-hero-actions .btn { min-height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; line-height: 1.25; }
+.dashboard-hero-actions small { color: inherit; font-size: 11px; font-weight: 700; opacity: .72; }
+.dashboard-hero-progress { padding: 16px; border: 1px solid #2d5355; border-radius: 8px; background: #102025; }
+.dashboard-hero-progress-number { display: flex; align-items: baseline; gap: 4px; margin-top: 4px; color: #eef8f5; }
+.dashboard-hero-progress-number b { font-size: 34px; line-height: 1; font-variant-numeric: tabular-nums; }
+.dashboard-hero-progress-number span { color: var(--muted); font-size: 13px; }
+.dashboard-progress-bar { height: 7px; overflow: hidden; margin: 12px 0 9px; border-radius: 99px; background: #21363a; }
+.dashboard-progress-bar span { display: block; height: 100%; border-radius: inherit; background: #39c5ae; transition: width .3s ease; }
+.dashboard-hero-progress-meta { min-height: 18px; font-size: 12px; }
+
+.dashboard-wallet-card { display: grid; grid-template-columns: minmax(260px, 1.05fr) minmax(0, 1fr); gap: 26px; align-items: center; }
+.dashboard-wallet-intro h2 { margin: 5px 0 6px; font-size: 22px; line-height: 1.25; }
+.dashboard-wallet-intro p { max-width: 650px; margin: 0; line-height: 1.6; }
+.dashboard-wallets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)) auto; gap: 14px; align-items: end; }
+.dashboard-wallet-stat { min-width: 0; padding-left: 14px; border-left: 1px solid #2a3c43; }
+.dashboard-wallet-stat:first-child { border-left: 0; padding-left: 0; }
+.dashboard-stat-label { color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .55px; text-transform: uppercase; }
+.dashboard-wallet-note { margin-top: 3px; font-size: 11px; }
+.dashboard-wallet-action { align-self: center; white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .dashboard-hero { grid-template-columns: 1fr; gap: 20px; }
+  .dashboard-hero-progress { border-top: 1px solid #2d5355; }
+  .dashboard-wallet-card { grid-template-columns: 1fr; gap: 18px; }
+}
+@media (max-width: 640px) {
+  .dashboard-hero { padding: 20px 18px; gap: 18px; }
+  .dashboard-hero h1 { font-size: 24px; }
+  .dashboard-hero-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .dashboard-hero-actions .btn { width: 100%; min-width: 0; padding-inline: 10px; }
+  .dashboard-hero-actions .btn.primary { grid-column: 1 / -1; }
+  .dashboard-hero-actions .dashboard-sample-link { grid-column: 1 / -1; justify-self: start; width: auto; }
+  .dashboard-hero-progress { padding: 14px; }
+  .dashboard-wallet-card { padding: 18px; }
+  .dashboard-wallets { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .dashboard-wallet-stat { padding-left: 10px; }
+  .dashboard-wallet-action { grid-column: 1 / -1; width: 100%; min-height: 42px; }
+}

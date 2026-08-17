@@ -261,32 +261,36 @@ export default function Dashboard() {
   return (
     <div className="grid" style={{ gap: 16 }}>
       {/* 🎯 HERO: định hướng người mới — phân tích doanh nghiệp TRƯỚC, thị trường sau */}
-      <div className="card hero-card" style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', border: '1px solid #4f8cff44' }}>
-        <div style={{ flex: 2, minWidth: 280 }}>
-          <h1 style={{ margin: 0, fontSize: 24 }}>🎯 Phân tích doanh nghiệp đầu tiên — 15 phút</h1>
-          <p className="muted" style={{ margin: '8px 0 0', fontSize: 14 }}>
+      <div className="card hero-card dashboard-hero">
+        <div className="dashboard-hero-copy">
+          <span className="dashboard-kicker">Bắt đầu từ công việc thật</span>
+          <h1>🎯 Phân tích doanh nghiệp đầu tiên</h1>
+          <p className="muted">
             Quy trình của một nhà phân tích, từng bước nhỏ:
             <b> mô hình kinh doanh → tăng trưởng → biên lợi nhuận → nợ → dòng tiền → định giá → rủi ro</b>.
             Không cần biết trước gì — sếp sẽ giao việc và hướng dẫn từng bước.
           </p>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 14 }}>
-            <Link to="/start" className="btn primary">▶ Bắt đầu phân tích doanh nghiệp (15 phút)</Link>
-            <Link to="/corporate-finance" className="btn">💼 Học tài chính doanh nghiệp để đi làm</Link>
+          <div className="dashboard-hero-actions">
+            <Link to="/start" className="btn primary">▶ Bắt đầu phân tích <small>15 phút</small></Link>
+            <Link to="/corporate-finance" className="btn">💼 Học tài chính DN</Link>
             {nextTask ? (
-              <Link to={`/desk/${nextTask.id}`} className="btn">
-                Task tiếp: {nextTask.title.split('·')[1]?.trim() || nextTask.title} (+{nextTask.xp} XP)
+              <Link to={`/desk/${nextTask.id}`} className="btn dashboard-task-link" title={nextTask.title}>
+                Làm task tiếp theo <small>+{nextTask.xp} XP</small>
               </Link>
             ) : (
-              <Link to="/desk" className="btn">💼 Phòng phân tích</Link>
+              <Link to="/desk" className="btn">💼 Vào phòng phân tích</Link>
             )}
-            <Link to="/stock/FPT" className="btn ghost">Xem mẫu: doanh nghiệp FPT 🇻🇳</Link>
+            <Link to="/stock/FPT" className="btn ghost dashboard-sample-link">Xem mẫu FPT 🇻🇳</Link>
           </div>
         </div>
         {progress && (
-          <div style={{ textAlign: 'center', minWidth: 180 }}>
-            <div className="muted" style={{ fontSize: 12 }}>TIẾN ĐỘ CỦA BẠN</div>
-            <div className="big num">{progress.lessonsRead}/{progress.lessonsTotal} bài</div>
-            <div className="muted num" style={{ fontSize: 13 }}>
+          <div className="dashboard-hero-progress">
+            <div className="dashboard-kicker">Tiến độ lộ trình</div>
+            <div className="dashboard-hero-progress-number"><b>{progress.lessonsRead}</b><span>/{progress.lessonsTotal} bài</span></div>
+            <div className="dashboard-progress-bar" aria-label={`${progress.lessonsRead} trên ${progress.lessonsTotal} bài đã đọc`}>
+              <span style={{ width: `${Math.min(100, (progress.lessonsRead / Math.max(1, progress.lessonsTotal)) * 100)}%` }} />
+            </div>
+            <div className="muted num dashboard-hero-progress-meta">
               {desk ? `${desk.tasks.filter((t) => t.progress?.done).length}/${desk.tasks.length} task · ${desk.xp} XP · ${desk.rank.name}` : ''}
             </div>
           </div>
@@ -294,31 +298,32 @@ export default function Dashboard() {
       </div>
 
       {/* Chào mừng + ví */}
-      <div className="card" style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div>
-          <h1 style={{ margin: 0, fontSize: 24 }}>Xin chào người học tài chính 👋</h1>
-          <p className="muted" style={{ margin: '6px 0 0', maxWidth: 640 }}>
+      <div className="card dashboard-wallet-card">
+        <div className="dashboard-wallet-intro">
+          <span className="dashboard-kicker">Không gian luyện tập</span>
+          <h2>Xin chào người học tài chính 👋</h2>
+          <p className="muted">
             Chào mừng đến <b>TradeLearn</b> — nơi bạn học tài chính doanh nghiệp theo lộ trình đi làm, rồi dùng dữ liệu gần thời gian thực của thị
             trường Mỹ & Việt Nam để luyện phân tích. Mới bắt đầu? Mở <Link to="/guide">📖 Hướng dẫn sử dụng</Link> hoặc vào <Link to="/learn">lộ trình bài học</Link> ngay.
           </p>
         </div>
-        <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap' }}>
-          <div>
-            <div className="muted" style={{ fontSize: 12, fontWeight: 700 }}>VÍ GIẢ LẬP USD</div>
+        <div className="dashboard-wallets">
+          <div className="dashboard-wallet-stat">
+            <div className="dashboard-stat-label">Ví giả lập USD</div>
             <div className="big num">{account ? <ExplainableValue metricKey="portfolioValue" value={fmtMoney(account.totalUsd)} ctx={{ source: 'Ví giả lập', currency: 'USD' }} /> : '...'}</div>
             <div className={`num ${account?.profitUsd >= 0 ? 'up' : 'down'}`} style={{ fontSize: 13 }}>
               {account ? <><ExplainableValue metricKey="pnl" value={fmtMoney(account.profitUsd)} ctx={{ source: 'Ví giả lập', currency: 'USD' }} /> ({fmtPct(account.profitUsdPercent)})</> : ''}
             </div>
-            <div className="muted" style={{ fontSize: 11, marginTop: 2 }}>💵 Tiền ẢO để luyện — không phải tiền thật</div>
+            <div className="muted dashboard-wallet-note">Tiền ảo để luyện</div>
           </div>
-          <div>
-            <div className="muted" style={{ fontSize: 12, fontWeight: 700 }}>VÍ GIẢ LẬP VND</div>
+          <div className="dashboard-wallet-stat">
+            <div className="dashboard-stat-label">Ví giả lập VND</div>
             <div className="big num">{account ? <ExplainableValue metricKey="portfolioValue" value={fmtMoney(account.totalVnd, 'VND')} ctx={{ source: 'Ví giả lập', currency: 'VND' }} /> : '...'}</div>
             <div className={`num ${account?.profitVnd >= 0 ? 'up' : 'down'}`} style={{ fontSize: 13 }}>
               {account ? <><ExplainableValue metricKey="pnl" value={fmtMoney(account.profitVnd, 'VND')} ctx={{ source: 'Ví giả lập', currency: 'VND' }} /> ({fmtPct(account.profitVndPercent)})</> : ''}
             </div>
           </div>
-          <Link to="/trading" className="btn primary">Mua/Bán giả lập →</Link>
+          <Link to="/trading" className="btn primary dashboard-wallet-action">Mua/Bán giả lập <span aria-hidden="true">→</span></Link>
         </div>
       </div>
 
