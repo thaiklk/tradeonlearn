@@ -1,21 +1,46 @@
 import { useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { api } from '../api.js'
-import { usePolling } from '../hooks.js'
+import { usePolling, useQuoteStream } from '../hooks.js'
 import { fmtMoney, fmtPct, fmtPrice, fmtCompact } from '../format.js'
 import StockSearch from '../components/StockSearch.jsx'
 import ExplainableValue from '../components/ExplainableValue.jsx'
 
-function WalletCard({ title, emoji, cash, total, profit, profitPct, currency }) {
-  const cls = profit >= 0 ? 'up' : 'down'
+function markPositionToMarket(position, quote) {
+  const price = Number.isFinite(quote?.price) ? quote.price : position.currentPrice
+  if (!Number.isFinite(price)) return position
+  const qty = Number(position.qty) || 0
+  const avgPrice = Number(position.avg_price) || 0
+  const marketValue = price * qty
+  const cost = avgPrice * qty
+  const profit = marketValue - cost
+  return {
+    ...position,
+    currentPrice: price,
+    changePercent: quote?.changePercent ?? position.changePercent,
+    marketValue,
+    cost,
+    profit,
+    profitPercent: cost ? (profit / cost) * 100 : 0,
+  }
+}
+
+function WalletCard({ title, emoji, cash, total, profit, profitPct, openProfit, currency, live, updatedAt }) {
+  const hasProfit = Number.isFinite(profit)
+  const cls = !hasProfit ? 'muted' : profit >= 0 ? 'up' : 'down'
   return (
-    <div className="card">
-      <div className="card-title">{emoji} {title}</div>
+    <div className="card trading-wallet-card">
+      <div className="card-title trading-wallet-title">
+        <span>{emoji} {title}</span>
+        {updatedAt && <span className={`badge ${live ? 'green' : 'gray'} trading-live-badge`}>● {live ? 'LIVE' : 'TỰ ĐỘNG'} {updatedAt.toLocaleTimeString('vi-VN')}</span>}
+      </div>
       <div className="muted" style={{ fontSize: 12 }}>Tổng tài sản</div>
       <div className="big num"><ExplainableValue metricKey="portfolioValue" value={fmtMoney(total, currency)} ctx={{ symbol: title.includes('USD') ? 'ví USD' : 'ví VND', unit: currency }} /></div>
-      <div className={`num ${cls}`} style={{ fontSize: 13.5 }}>
-        Lãi/lỗ: <ExplainableValue metricKey="pnl" value={`${fmtMoney(profit, currency)} (${fmtPct(profitPct)})`} ctx={{ unit: currency }} />
+      <div className={`trading-wallet-pnl num ${cls}`}>
+        <span className="muted">Lãi/lỗ tổng</span>
+        <b>{hasProfit ? <ExplainableValue metricKey="pnl" value={`${fmtMoney(profit, currency)} (${fmtPct(profitPct)})`} ctx={{ unit: currency }} /> : '—'}</b>
       </div>
+      {Number.isFinite(openProfit) && <div className={`trading-wallet-open-pnl num ${openProfit >= 0 ? 'up' : 'down'}`}>Đang mở: {fmtMoney(openProfit, currency)}</div>}
       <div className="muted num" style={{ fontSize: 12.5, marginTop: 4 }}>Tiền mặt: <ExplainableValue metricKey="cash" value={fmtMoney(cash, currency)} ctx={{ unit: currency }} /></div>
     </div>
   )
@@ -183,6 +208,32 @@ export default function Trading() {
   const { data: history } = usePolling(() => api.tradingHistory(), 30000, [version])
 
   const positions = account?.positions || []
+  const positionSymbols = useMemo(() => [...new Set(positions.map((position) => position.symbol).filter(Boolean))], [positions])
+  const { quotes, updatedAt, live } = useQuoteStream(positionSymbols)
+  const livePositions = useMemo(() => positions.map((position) => markPositionToMarket(position, quotes[position.symbol?.toUpperCase()])), [positions, quotes])
+  const liveAccount = useMemo(() => {
+    if (!account) return null
+    const usdValue = livePositions.filter((position) => position.market === 'US').reduce((sum, position) => sum + (position.marketValue || 0), 0)
+    const vndValue = livePositions.filter((position) => position.market === 'VN').reduce((sum, position) => sum + (position.marketValue || 0), 0)
+    const usdProfit = livePositions.filter((position) => position.market === 'US').reduce((sum, position) => sum + (position.profit || 0), 0)
+    const vndProfit = livePositions.filter((position) => position.market === 'VN').reduce((sum, position) => sum + (position.profit || 0), 0)
+    const totalUsd = account.cashUsd + usdValue
+    const totalVnd = account.cashVnd + vndValue
+    return {
+      ...account,
+      positions: livePositions,
+      investedUsdValue: usdValue,
+      investedVndValue: vndValue,
+      totalUsd,
+      totalVnd,
+      profitUsd: totalUsd - account.startingUsd,
+      profitVnd: totalVnd - account.startingVnd,
+      profitUsdPercent: account.startingUsd ? ((totalUsd - account.startingUsd) / account.startingUsd) * 100 : 0,
+      profitVndPercent: account.startingVnd ? ((totalVnd - account.startingVnd) / account.startingVnd) * 100 : 0,
+      openProfitUsd: usdProfit,
+      openProfitVnd: vndProfit,
+    }
+  }, [account, livePositions])
   const refresh = () => setVersion((v) => v + 1)
 
   const sellAll = async (p) => {
@@ -202,12 +253,12 @@ export default function Trading() {
   }
 
   const totalUsdPositions = useMemo(
-    () => positions.filter((p) => p.market === 'US').reduce((s, p) => s + p.marketValue, 0),
-    [positions]
+    () => livePositions.filter((p) => p.market === 'US').reduce((s, p) => s + p.marketValue, 0),
+    [livePositions]
   )
   const totalVndPositions = useMemo(
-    () => positions.filter((p) => p.market === 'VN').reduce((s, p) => s + p.marketValue, 0),
-    [positions]
+    () => livePositions.filter((p) => p.market === 'VN').reduce((s, p) => s + p.marketValue, 0),
+    [livePositions]
   )
 
   return (
@@ -223,38 +274,53 @@ export default function Trading() {
         <WalletCard
           title="VÍ USD — Thị trường Mỹ"
           emoji="🇺🇸"
-          cash={account?.cashUsd}
-          total={account?.totalUsd}
-          profit={account?.profitUsd}
-          profitPct={account?.profitUsdPercent}
+          cash={liveAccount?.cashUsd}
+          total={liveAccount?.totalUsd}
+          profit={liveAccount?.profitUsd}
+          profitPct={liveAccount?.profitUsdPercent}
+          openProfit={liveAccount?.openProfitUsd}
           currency="USD"
+          live={live}
+          updatedAt={updatedAt}
         />
         <WalletCard
           title="VÍ VND — Thị trường Việt Nam"
           emoji="🇻🇳"
-          cash={account?.cashVnd}
-          total={account?.totalVnd}
-          profit={account?.profitVnd}
-          profitPct={account?.profitVndPercent}
+          cash={liveAccount?.cashVnd}
+          total={liveAccount?.totalVnd}
+          profit={liveAccount?.profitVnd}
+          profitPct={liveAccount?.profitVndPercent}
+          openProfit={liveAccount?.openProfitVnd}
           currency="VND"
+          live={live}
+          updatedAt={updatedAt}
         />
+      </div>
+
+      <div className="trading-live-bar" role="status" aria-live="polite">
+        <span className={`trading-live-dot ${live ? 'on' : updatedAt ? 'fallback' : ''}`} aria-hidden="true" />
+        <div>
+          <b>{live ? 'Giá đang cập nhật trực tiếp' : updatedAt ? 'Giá đang tự động cập nhật' : 'Đang kết nối dữ liệu giá'}</b>
+          <span className="muted">{updatedAt ? `Lần gần nhất ${updatedAt.toLocaleTimeString('vi-VN')}` : 'Danh mục sẽ tự tính lại ngay khi có vị thế.'}</span>
+        </div>
+        <span className="muted trading-live-summary">{positionSymbols.length ? `${positionSymbols.length} mã trong danh mục · khoảng 5 giây/lần` : 'Chưa có mã để theo dõi'}</span>
       </div>
 
       <OrderForm
         prefillSymbol={searchParams.get('symbol')}
         prefillSide={searchParams.get('side')}
-        account={account}
+        account={liveAccount}
         onDone={refresh}
       />
 
       <div className="card">
         <div className="card-title">
-          <span>📦 Vị thế đang nắm giữ ({positions.length})</span>
+          <span>📦 Vị thế đang nắm giữ ({livePositions.length})</span>
           <span className="muted" style={{ fontSize: 11, textTransform: 'none' }}>
             USD đang đầu tư: <ExplainableValue metricKey="investedValue" value={fmtMoney(totalUsdPositions)} ctx={{ unit: 'USD' }} /> · VND: <ExplainableValue metricKey="investedValue" value={fmtMoney(totalVndPositions, 'VND')} ctx={{ unit: 'VND' }} />
           </span>
         </div>
-        {positions.length === 0 ? (
+        {livePositions.length === 0 ? (
           <div className="empty">
             Chưa có vị thế nào. Đặt lệnh đầu tiên của bạn ở trên — nhớ quy tắc rủi ro của{' '}
             <Link to="/learn/quan-tri-rui-ro">Bài 14</Link>!
@@ -273,7 +339,7 @@ export default function Trading() {
               </tr>
             </thead>
             <tbody>
-              {positions.map((p) => (
+              {livePositions.map((p) => (
                 <tr key={p.symbol}>
                   <td>
                     <Link to={`/stock/${p.symbol}`}>

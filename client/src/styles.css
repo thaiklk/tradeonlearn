@@ -815,6 +815,25 @@ label.field span, .field > span { display: block; font-size: 12px; font-weight: 
 .practice-review ul { margin: 9px 0 0; padding-left: 19px; }
 .lesson-navigation { display: flex; justify-content: space-between; gap: 10px; margin: 26px 0 0 239px; }
 
+/* ---------- Paper trading live portfolio ---------- */
+.trading-wallet-title { align-items: flex-start; }
+.trading-live-badge { flex: 0 0 auto; font-size: 10px; letter-spacing: 0; text-transform: none; white-space: nowrap; }
+.trading-wallet-pnl { display: flex; align-items: baseline; gap: 8px; margin-top: 5px; }
+.trading-wallet-pnl > span { font-size: 12px; }
+.trading-wallet-pnl > b { font-size: 14px; }
+.trading-wallet-open-pnl { margin-top: 3px; font-size: 11.5px; }
+.trading-live-bar {
+  display: flex; align-items: center; gap: 10px; min-width: 0; padding: 10px 14px;
+  border: 1px solid var(--border-soft); border-radius: var(--radius-sm); background: #0e1820;
+}
+.trading-live-dot { flex: 0 0 auto; width: 9px; height: 9px; border-radius: 50%; background: var(--muted-2); }
+.trading-live-dot.on { background: var(--green); box-shadow: 0 0 0 4px var(--green-soft); }
+.trading-live-dot.fallback { background: var(--amber); box-shadow: 0 0 0 4px var(--amber-soft); }
+.trading-live-bar > div { display: grid; min-width: 0; gap: 1px; }
+.trading-live-bar b { font-size: 12.5px; line-height: 1.3; }
+.trading-live-bar > div .muted { font-size: 11.5px; line-height: 1.35; }
+.trading-live-summary { margin-left: auto; font-size: 11.5px; text-align: right; }
+
 @media (max-width: 900px) {
   .course-hero { grid-template-columns: 1fr; gap: 18px; }
   .course-progress { max-width: 600px; }
@@ -842,6 +861,10 @@ label.field span, .field > span { display: block; font-size: 12px; font-weight: 
   .practice-actions { justify-content: stretch; }
   .practice-actions .btn { flex: 1 1 150px; }
   .lesson-navigation { margin-top: 20px; }
+  .trading-wallet-title { gap: 8px; }
+  .trading-live-badge { max-width: 48%; overflow: hidden; text-overflow: ellipsis; }
+  .trading-live-bar { align-items: flex-start; flex-wrap: wrap; }
+  .trading-live-summary { flex-basis: 100%; margin-left: 19px; text-align: left; }
 }
 
 /* ---------- Dashboard refresh: quieter palette, clearer actions ---------- */
