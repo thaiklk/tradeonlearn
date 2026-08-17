@@ -25,7 +25,7 @@ function markPositionToMarket(position, quote) {
   }
 }
 
-function WalletCard({ title, emoji, cash, total, profit, profitPct, openProfit, currency, live, updatedAt }) {
+function WalletCard({ title, emoji, cash, total, profit, profitPct, openProfit, realizedProfit, currency, live, updatedAt }) {
   const hasProfit = Number.isFinite(profit)
   const cls = !hasProfit ? 'muted' : profit >= 0 ? 'up' : 'down'
   return (
@@ -41,6 +41,7 @@ function WalletCard({ title, emoji, cash, total, profit, profitPct, openProfit, 
         <b>{hasProfit ? <ExplainableValue metricKey="pnl" value={`${fmtMoney(profit, currency)} (${fmtPct(profitPct)})`} ctx={{ unit: currency }} /> : '—'}</b>
       </div>
       {Number.isFinite(openProfit) && <div className={`trading-wallet-open-pnl num ${openProfit >= 0 ? 'up' : 'down'}`}>Đang mở: {fmtMoney(openProfit, currency)}</div>}
+      {Number.isFinite(realizedProfit) && <div className={`trading-wallet-realized-pnl num ${realizedProfit >= 0 ? 'up' : 'down'}`}>Đã chốt: {fmtMoney(realizedProfit, currency)}</div>}
       <div className="muted num" style={{ fontSize: 12.5, marginTop: 4 }}>Tiền mặt: <ExplainableValue metricKey="cash" value={fmtMoney(cash, currency)} ctx={{ unit: currency }} /></div>
     </div>
   )
@@ -54,9 +55,12 @@ function OrderForm({ prefillSymbol, prefillSide, account, onDone }) {
   const [msg, setMsg] = useState(null)
   const [busy, setBusy] = useState(false)
 
-  const currency = quote?.market === 'VN' || symbol === 'VNM' ? 'VND' : quote?.currency || 'USD'
+  const { quotes: liveQuotes, updatedAt: quoteUpdatedAt, live: quoteLive } = useQuoteStream(symbol ? [symbol] : [])
+  const liveQuote = liveQuotes[symbol.toUpperCase()]
+  const currentQuote = liveQuote ? { ...quote, ...liveQuote } : quote
+  const currency = currentQuote?.market === 'VN' || symbol === 'VNM' ? 'VND' : currentQuote?.currency || 'USD'
   const qtyNum = Number(qty) || 0
-  const estimate = quote?.price != null && qtyNum > 0 ? quote.price * qtyNum : null
+  const estimate = currentQuote?.price != null && qtyNum > 0 ? currentQuote.price * qtyNum : null
 
   const loadQuote = async (sym) => {
     if (!sym) return setQuote(null)
@@ -113,10 +117,11 @@ function OrderForm({ prefillSymbol, prefillSide, account, onDone }) {
             {symbol ? (
               <>
                 Đang chọn: <b>{symbol}</b>
-                {quote && (
+                {currentQuote && (
                   <>
-                    {' '}· Giá: <b className="num"><ExplainableValue metricKey="price" value={fmtPrice(quote.price, quote.currency)} ctx={{ symbol, source: quote.delayed, status: quote.delayed ? 'delayed' : 'no-data' }} /></b>
-                    {` (${quote.delayed || 'cập nhật theo nguồn'})`}
+                    {' '}· Giá: <b className="num"><ExplainableValue metricKey="price" value={fmtPrice(currentQuote.price, currentQuote.currency)} ctx={{ symbol, source: currentQuote.delayed, status: currentQuote.delayed ? 'delayed' : 'no-data' }} /></b>
+                    {` (${currentQuote.delayed || (quoteLive ? 'đang cập nhật' : 'cập nhật theo nguồn')})`}
+                    {quoteUpdatedAt && <span className="badge green trading-order-live">● {quoteUpdatedAt.toLocaleTimeString('vi-VN')}</span>}
                   </>
                 )}
                 {!quote && (
@@ -172,7 +177,7 @@ function OrderForm({ prefillSymbol, prefillSide, account, onDone }) {
       >
         <span className="muted">Ước tính giá trị lệnh</span>
         <span className="num" style={{ fontWeight: 800, fontSize: 17 }}>
-          {estimate != null ? <ExplainableValue metricKey="orderValue" value={fmtMoney(estimate, currency)} ctx={{ symbol, unit: currency, calc: `${fmtPrice(quote?.price, currency)} × ${qtyNum.toLocaleString('vi-VN')} cổ phiếu` }} /> : '—'}
+          {estimate != null ? <ExplainableValue metricKey="orderValue" value={fmtMoney(estimate, currency)} ctx={{ symbol, unit: currency, calc: `${fmtPrice(currentQuote?.price, currency)} × ${qtyNum.toLocaleString('vi-VN')} cổ phiếu` }} /> : '—'}
         </span>
       </div>
 
@@ -232,6 +237,8 @@ export default function Trading() {
       profitVndPercent: account.startingVnd ? ((totalVnd - account.startingVnd) / account.startingVnd) * 100 : 0,
       openProfitUsd: usdProfit,
       openProfitVnd: vndProfit,
+      realizedProfitUsd: totalUsd - account.startingUsd - usdProfit,
+      realizedProfitVnd: totalVnd - account.startingVnd - vndProfit,
     }
   }, [account, livePositions])
   const refresh = () => setVersion((v) => v + 1)
@@ -279,6 +286,7 @@ export default function Trading() {
           profit={liveAccount?.profitUsd}
           profitPct={liveAccount?.profitUsdPercent}
           openProfit={liveAccount?.openProfitUsd}
+          realizedProfit={liveAccount?.realizedProfitUsd}
           currency="USD"
           live={live}
           updatedAt={updatedAt}
@@ -291,6 +299,7 @@ export default function Trading() {
           profit={liveAccount?.profitVnd}
           profitPct={liveAccount?.profitVndPercent}
           openProfit={liveAccount?.openProfitVnd}
+          realizedProfit={liveAccount?.realizedProfitVnd}
           currency="VND"
           live={live}
           updatedAt={updatedAt}

@@ -73,7 +73,11 @@ export function useQuoteStream(symbols) {
   const [live, setLive] = useState(false)
 
   useEffect(() => {
-    if (!key) return
+    // A symbol change must not briefly show the previous symbol's timestamp or quote.
+    setQuotes({})
+    setUpdatedAt(null)
+    setLive(false)
+    if (!key) return undefined
     let alive = true
     const apply = (list, t) => {
       const m = {}
