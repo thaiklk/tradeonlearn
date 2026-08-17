@@ -148,7 +148,7 @@ a:hover { text-decoration: underline; }
 ::selection { background: var(--accent); color: #fff; }
 
 #root { display: flex; flex-direction: column; min-height: 100vh; }
-.page { flex: 1; width: 100%; max-width: 1280px; margin: 0 auto; padding: 24px 20px 60px; }
+.page { flex: 1; width: 100%; min-width: 0; max-width: 1280px; margin: 0 auto; padding: 24px 20px 60px; }
 
 /* ---------- Navbar ---------- */
 .navbar {
@@ -205,7 +205,7 @@ a:hover { text-decoration: underline; }
 .card {
   background: linear-gradient(180deg, var(--panel) 0%, #101726 100%);
   border: 1px solid var(--border-soft);
-  border-radius: var(--radius);
+  border-radius: var(--radius); min-width: 0;
   padding: 18px 20px;
   box-shadow: var(--shadow);
 }
@@ -215,7 +215,7 @@ a:hover { text-decoration: underline; }
   font-size: 13px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
   color: var(--muted); margin: 0 0 14px;
 }
-.grid { display: grid; gap: 16px; }
+.grid { display: grid; min-width: 0; gap: 16px; }
 .grid.cols-2 { grid-template-columns: 1fr 1fr; }
 .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
 .grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
@@ -835,6 +835,8 @@ label.field span, .field > span { display: block; font-size: 12px; font-weight: 
 .trading-live-bar b { font-size: 12.5px; line-height: 1.3; }
 .trading-live-bar > div .muted { font-size: 11.5px; line-height: 1.35; }
 .trading-live-summary { margin-left: auto; font-size: 11.5px; text-align: right; }
+.trading-table-scroll { width: 100%; min-width: 0; overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
+.trading-table-scroll .table { min-width: 680px; }
 
 @media (max-width: 900px) {
   .course-hero { grid-template-columns: 1fr; gap: 18px; }
